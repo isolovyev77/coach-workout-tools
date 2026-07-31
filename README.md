@@ -97,6 +97,21 @@ btwb-pp-cli wod plan --date YYYY-MM-DD --track "Personal" \
 `webwidgets widget-wods`, `webwidgets widget-activities` и
 `webwidgets widget-leaderboard`, которым не нужна личная сессия тренера.
 
+#### Как действовать безопасно
+
+- **Права администратора не нужно пересылать.** Держатель подписки назначает
+  их обычному BTWB-аккаунту нужного тренера. Затем тренер входит в CLI под
+  своим аккаунтом и запускает `btwb-pp-cli wod tracks`: клубный трек должен
+  появиться в списке.
+- **Ключ Web Widgets не нужно отправлять в общий чат, вам или ИИ-модели.**
+  Администратор настраивает его локально на своём компьютере. Своя модель
+  может объяснить шаги установки, но сам ключ тренер вводит самостоятельно,
+  не вставляя его в переписку. После настройки ключ остаётся только в
+  локальной конфигурации этого тренера.
+- Пароли BTWB, cookies, ключи и данные клиентов никогда не передаются между
+  тренерами. Для включения возможностей достаточно сообщить: «доступ выдан»
+  или «ключ настроен».
+
 ### 📦 Готовые файлы установки
 
 На странице [Releases](../../releases) есть готовые архивы, в которых Go уже
@@ -280,6 +295,20 @@ versions label it **Website Integration**. It is read-only and does not grant
 planning or editing permission. It enables the existing
 `webwidgets widget-wods`, `webwidgets widget-activities`, and
 `webwidgets widget-leaderboard` commands without a coach's personal session.
+
+#### Safe setup
+
+- **Do not send administrator access to anyone.** The subscription holder
+  assigns it to the intended trainer's ordinary BTWB account. That trainer
+  then signs in locally and runs `btwb-pp-cli wod tracks` to confirm the gym
+  track is available.
+- **Do not send a Web Widgets key in a group chat, to a coordinator, or to an
+  AI model.** An administrator configures it locally on their own computer.
+  A model may explain the steps, but the trainer enters the key themselves,
+  outside the conversation. The key remains only in that trainer's local
+  configuration.
+- Never share BTWB passwords, cookies, keys, or client data. To coordinate,
+  it is enough to say that access was granted or the key was configured.
 
 ## 🔄 Update
 
