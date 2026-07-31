@@ -1,6 +1,6 @@
-# Coach Workout Tools
+# 🏋️ Coach Workout Tools
 
-## По-русски
+## 🇷🇺 По-русски
 
 Набор помогает тренеру переносить и составлять тренировки между BTWB и
 Trenda. В него входят две команды и навык для Codex или Claude:
@@ -11,7 +11,7 @@ Trenda. В него входят две команды и навык для Code
 - `populating-trenda-workouts` - помогает перенести тренировку, подготовить
   разминку под движения и проверить сохранённый результат.
 
-### Быстрый старт
+### 🚀 Быстрый старт
 
 1. Установите Go и Node.js.
 2. Склонируйте этот репозиторий и выполните:
@@ -32,7 +32,7 @@ Trenda. В него входят две команды и навык для Code
    новую. Навык найдёт клиента только в вашем аккаунте и перед записью
    уточнит дату и содержание, если они неоднозначны.
 
-### Готовые файлы установки
+### 📦 Готовые файлы установки
 
 На странице [Releases](../../releases) есть готовые архивы, в которых Go уже
 не нужен. Выберите файл по результату `uname -s` и `uname -m`:
@@ -46,20 +46,20 @@ Trenda. В него входят две команды и навык для Code
 `./scripts/install.sh --configure-path`. Node.js всё равно нужен для входа в
 Trenda. На Linux установите его штатным менеджером пакетов дистрибутива.
 
-### Инструкция для ИИ-модели
+### 🤖 Инструкция для ИИ-модели
 
 Попросите Codex, Claude или другую модель прочитать
 [AGENTS.md](AGENTS.md) в корне репозитория. Там есть краткая инструкция, как
 объяснить возможности набора, выбрать архив и безопасно установить его.
 
-### Обновление
+### 🔄 Обновление
 
 В папке репозитория выполните `./scripts/update.sh`. Он получает только
 быстрые обновления, проверяет пакет на случайно попавшие личные данные и
 пересобирает команды. Ваши cookies, авторизация и локальные данные клиентов
 при обновлении не копируются и не перезаписываются.
 
-### Конфиденциальность
+### 🔒 Конфиденциальность
 
 В репозитории нет клиентов, номеров клиентов, паролей, cookies, токенов,
 скриншотов или истории тренировок. Каждый тренер проходит авторизацию сам и
@@ -78,7 +78,7 @@ This repository contains source code and generic examples only. It deliberately
 does not contain client data, coaching accounts, cookies, passwords, personal
 names, session exports, or preconfigured client IDs.
 
-## What the workout skill does
+## 🎯 What the workout skill does
 
 `populating-trenda-workouts` guides Codex or Claude through a safe coaching
 workflow:
@@ -95,14 +95,14 @@ to their own services and identifies the client inside their own Trenda account
 at the time of the task. Writes to Trenda are intentional, narrow and checked
 afterwards.
 
-## Requirements
+## 🧰 Requirements
 
 - macOS or Linux on Intel/AMD (`amd64`) or ARM (`arm64`)
 - Node.js, required for Trenda sign-in and automatic session refresh
 - Go 1.26.3 or newer, required only when building from source
 - a separate BTWB and Trenda account for each coach
 
-## Install
+## ⚙️ Install
 
 ```bash
 git clone https://github.com/<account>/coach-workout-tools.git
@@ -119,7 +119,7 @@ backup. `--configure-path` adds the selected directory to the user's
 commands. Without that option the installer prints the exact next step and
 does not edit shell configuration.
 
-### Install from a ready-made release archive
+### 📦 Install from a ready-made release archive
 
 Ready-made macOS and Linux archives are available from
 [Releases](../../releases). Extract the archive for the operating system and
@@ -133,7 +133,7 @@ CPU architecture, then run:
 The archive includes prebuilt CLI binaries, so Go is not required. Node.js is
 still required for Trenda sign-in.
 
-### Build from source
+### 🛠️ Build from source
 
 For macOS, install dependencies with Homebrew:
 
@@ -155,7 +155,7 @@ trenda-pp-cli doctor
 btwb-pp-cli auth status
 ```
 
-## Update
+## 🔄 Update
 
 Run this from an unmodified clone:
 
@@ -167,7 +167,7 @@ It only accepts fast-forward Git updates, reruns the public-release scanner,
 and rebuilds the local binaries. It never copies another trainer's settings or
 touches session files stored in the user's home directory.
 
-## Codex and Claude
+## 🤖 Codex and Claude
 
 The default installer connects the same skill to both Codex and Claude using
 safe local symbolic links:
@@ -184,7 +184,7 @@ Keep the repository in place after installation, or rerun the installer after
 moving it. You may set `COACH_TOOLS_HOME` to its absolute path when invoking
 the skill manually.
 
-## Security and privacy
+## 🔐 Security and privacy
 
 - Do not commit `.env` files, config files, cookies, client exports, screenshots,
   or chat logs.
@@ -194,7 +194,7 @@ the skill manually.
 - This project is an independent integration. BTWB and Trenda names are used
   only to identify the services the tools interact with.
 
-## License
+## 📜 License
 
 MIT. See [LICENSE](LICENSE).
 
