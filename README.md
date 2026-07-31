@@ -5,8 +5,8 @@
 Набор помогает тренеру переносить и составлять тренировки между BTWB и
 Trenda. В него входят две команды и навык для Codex или Claude:
 
-- `btwb-pp-cli` - читает тренировки и треки в BTWB, а также планирует
-  тренировку на доступный трек;
+- `btwb-pp-cli` - читает программу BTWB, планирует тренировку на доступный
+  трек и безопасно работает в режиме агента;
 - `trenda-pp-cli` и команда `trenda` - работают с аккаунтом тренера в
   Trenda;
 - `populating-trenda-workouts` - помогает перенести тренировку, подготовить
@@ -33,6 +33,25 @@ Trenda. В него входят две команды и навык для Code
    новую. Навык найдёт клиента только в вашем аккаунте и перед записью
    уточнит дату и содержание, если они неоднозначны.
 
+### 🧭 Возможности BTWB CLI
+
+**Чтение программы:** `wod today`, `wod day --date`, `wod week` и
+`wod event <id>` читают whiteboard и полный текст отдельной тренировки.
+Фильтры `--track`, `--track-id`, `--planned-only` и `--details` помогают
+получить только нужные данные. Есть также низкоуровневые команды для треков,
+whiteboard и собственных залогированных результатов.
+
+**Запись:** `wod plan` отдаёт обычный текст тренировки самому BTWB, который
+разбирает его в структурированные движения. CLI не придумывает структуру
+сам. `wod tracks` показывает только доступные для записи треки, а
+`wod unplan <id>` удаляет конкретную запланированную запись.
+
+**Безопасность и интеграции:** `auth login` запрашивает пароль интерактивно и
+сохраняет только cookie с правами владельца файла. Вывод можно получать в
+едином JSON-конверте, а режим `--agent` удобен для Codex и Claude. Вход и
+удаление не показываются агенту через MCP; планирование требует отдельного
+явного `--yes`.
+
 ### 🗓 Планирование в BTWB
 
 Сначала посмотрите только те треки, в которые ваш аккаунт вправе вносить
@@ -53,6 +72,30 @@ btwb-pp-cli wod plan --date YYYY-MM-DD --track "Personal" \
 
 После проверки и явного подтверждения добавьте `--yes`. Команда показывает
 идентификатор созданной записи, по которому её можно проверить в BTWB.
+
+### 🔑 Что дадут дополнительные доступы BTWB
+
+#### 1. Права администратора зала
+
+Их выдаёт держатель подписки в BTWB: **Admin Console -> Members -> Manage**.
+После выдачи прав ничего переустанавливать не нужно: клубные треки появятся в
+`btwb-pp-cli wod tracks`, и в них можно будет планировать тренировку той же
+командой `wod plan`. Для первого запуска на новом треке достаточно сделать
+`--dry-run`, проверить предпросмотр и затем подтвердить запись.
+
+В перспективе эти права позволят расширить CLI функциями инструкций для
+атлетов, заметок тренера, других типов записей, редактирования существующей
+тренировки и пакетного планирования недели. Это направления разработки, а не
+текущие команды.
+
+#### 2. Ключ Web Widgets
+
+Ключ берётся в BTWB в **Admin Console -> Extras -> Webwidgets**. В некоторых
+версиях интерфейса этот раздел называется **Website Integration**. Это ключ
+**только для чтения**: он не даёт права планировать или редактировать
+программу. Зато он включает готовые команды
+`webwidgets widget-wods`, `webwidgets widget-activities` и
+`webwidgets widget-leaderboard`, которым не нужна личная сессия тренера.
 
 ### 📦 Готовые файлы установки
 
@@ -88,7 +131,7 @@ Trenda. На Linux установите его штатным менеджеро
 работает только со своими данными. Перед публикацией или обновлением запускайте
 `./scripts/verify-public-release.py`.
 
-Open macOS toolkit for coaches who use BTWB and Trenda. It includes:
+Open toolkit for coaches who use BTWB and Trenda. It includes:
 
 - `btwb-pp-cli` - read workouts and tracks from BTWB, and plan a workout onto
   a permitted track;
@@ -100,6 +143,25 @@ Open macOS toolkit for coaches who use BTWB and Trenda. It includes:
 This repository contains source code and generic examples only. It deliberately
 does not contain client data, coaching accounts, cookies, passwords, personal
 names, session exports, or preconfigured client IDs.
+
+## 🧭 BTWB CLI capabilities
+
+**Read programming:** `wod today`, `wod day --date`, `wod week`, and
+`wod event <id>` read the whiteboard and full workout text. Use `--track`,
+`--track-id`, `--planned-only`, and `--details` to narrow the result. The
+lower-level commands also expose tracks, whiteboard data, and the coach's own
+logged results.
+
+**Plan workouts:** `wod plan` submits plain workout text to BTWB, which parses
+it into structured movements. The CLI replays BTWB's resulting form instead of
+inventing a workout structure. `wod tracks` lists writable tracks and
+`wod unplan <id>` removes one explicitly identified planned event. A plan is
+previewed with `--dry-run` and writes only with a separate explicit `--yes`.
+
+**Safety and agents:** `auth login` reads the password interactively and saves
+only an owner-readable session cookie. Commands support a consistent JSON
+envelope and `--agent`. Login and deletion are not exposed through MCP;
+planning still needs an explicit `--yes`.
 
 ## 🎯 What the workout skill does
 
@@ -197,6 +259,27 @@ btwb-pp-cli wod plan --date YYYY-MM-DD --track "Personal" \
 
 After checking the preview and receiving the coach's explicit confirmation,
 repeat the command with `--yes` to write it.
+
+### 🔑 Additional BTWB access
+
+#### 1. Gym administrator rights
+
+The BTWB subscription holder grants these in **Admin Console -> Members ->
+Manage**. Once granted, gym tracks automatically appear in
+`btwb-pp-cli wod tracks`; no reinstall is needed. Plan into such a track with
+the same `wod plan` command, beginning with `--dry-run` on the first use.
+
+These rights can also support future work on athlete instructions, coach notes,
+other event types, editing existing workouts, and batch planning. Those are
+roadmap items, not currently shipped commands.
+
+#### 2. Web Widgets key
+
+Find this key at **Admin Console -> Extras -> Webwidgets**; some BTWB UI
+versions label it **Website Integration**. It is read-only and does not grant
+planning or editing permission. It enables the existing
+`webwidgets widget-wods`, `webwidgets widget-activities`, and
+`webwidgets widget-leaderboard` commands without a coach's personal session.
 
 ## 🔄 Update
 
