@@ -59,11 +59,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.ref_name }}
+          REPOSITORY: ${{ github.repository }}
         run: |
           mapfile -t archives < <(find release-assets -type f -name '*.tar.gz' -print)
           test "${#archives[@]}" -eq 4
-          if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" "${archives[@]}" --clobber
+          if gh release view "$TAG" --repo "$REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$TAG" "${archives[@]}" --clobber --repo "$REPOSITORY"
           else
-            gh release create "$TAG" "${archives[@]}" --title "$TAG" --generate-notes
+            gh release create "$TAG" "${archives[@]}" --title "$TAG" --generate-notes --repo "$REPOSITORY"
           fi
