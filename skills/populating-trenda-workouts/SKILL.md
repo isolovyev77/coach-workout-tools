@@ -36,6 +36,7 @@ contains this skill's installed package. Commands below assume these paths:
 - Coach describes the session in words - use **Free-text to Trenda**.
 - Coach asks to add one named exercise - use **Direct exercise addition**.
 - Coach asks for a BTWB workout by date, track, or level - use **BTWB to Trenda**.
+- Coach asks to publish or schedule a workout in BTWB - use **Plan in BTWB**.
 
 Do not guess a BTWB track, a date, a client, or a level. Ask one concise
 clarifying question when one is missing.
@@ -136,6 +137,23 @@ Use this for a request such as "add a split squat on Friday".
 4. Build a movement-specific warm-up from the selected client's history, then
    present the exact planned write to the coach before saving.
 5. Write and verify by re-reading the client day.
+
+## Plan in BTWB
+
+Use this only when the coach explicitly asks to schedule a workout in BTWB,
+not merely to prepare it for Trenda.
+
+1. Check the BTWB session with `btwb-pp-cli auth status`, then list only
+   writable tracks with `btwb-pp-cli wod tracks`. A personal track is normally
+   available; a gym track requires BTWB gym-admin rights and must appear in
+   this list.
+2. Require an unambiguous date, track and workout text. Use
+   `btwb-pp-cli wod plan ... --dry-run` first and show the resulting preview.
+3. Add `--yes` only after the coach explicitly confirms the preview. This is a
+   remote write. Do not infer confirmation from an earlier Trenda write.
+4. Re-read the BTWB day or event after creation and report the returned event
+   ID. Never call `wod unplan` unless the coach explicitly names that event ID
+   and confirms deletion separately.
 
 ## Payload facts
 

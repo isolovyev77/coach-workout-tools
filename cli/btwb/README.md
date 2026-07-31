@@ -8,7 +8,9 @@ Two channels:
    workouts (WODs) per gym track, logged results, subscribed tracks.
    Authenticated with a session cookie obtained by a form login at
    `POST /session`. The upstream serves HTML; this client extracts the
-   structured workout data and emits the JSON documented here.
+   structured workout data and emits the JSON documented here. The CLI can
+   also plan a workout onto tracks that BTWB permits the signed-in account to
+   edit.
 
 2. **Web Widgets (gym key)** - btwb's public widget API at
    `webwidgets.prod.btwb.com`, a real JSON API returning WODs, gym
@@ -95,6 +97,25 @@ btwb-pp-cli tasks mock-value mock-value
 
 Run `btwb-pp-cli --help` for the full command reference and flag list.
 
+### Planning workouts
+
+List the tracks the signed-in account may write to:
+
+```bash
+btwb-pp-cli wod tracks
+```
+
+Without gym-admin rights this normally contains only the account's personal
+track. Preview every write first, then add `--yes` only after the coach has
+confirmed the date, track and workout text:
+
+```bash
+btwb-pp-cli wod plan --date YYYY-MM-DD --track "Personal" \
+  --workout-file wod.txt --dry-run
+```
+
+When BTWB has accepted the planned workout, the command reports its event ID.
+
 ## Commands
 
 ### members
@@ -148,7 +169,9 @@ This CLI is designed for AI agent consumption:
 - **Pipeable** - `--json` output to stdout, errors to stderr
 - **Filterable** - `--select id,name` returns only fields you need
 - **Previewable** - `--dry-run` shows the request without sending
-- **Read-only by default** - this CLI does not create, update, delete, publish, send, or mutate remote resources
+- **Explicit writes only** - `wod plan` first previews by default and writes
+  only with its command-local `--yes` flag; `wod unplan` is hidden from MCP
+  and still requires a separate explicit confirmation
 - **Offline-friendly** - sync/search commands can use the local SQLite store when available
 - **Agent-safe by default** - no colors or formatting unless `--human-friendly` is set
 

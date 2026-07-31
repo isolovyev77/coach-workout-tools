@@ -41,8 +41,8 @@ type wodItem struct {
 func newWodCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "wod",
-		Short: "Read the workouts programmed on your whiteboard",
-		Long: `Read the workouts on your btwb whiteboard.
+		Short: "Read workouts and plan them onto permitted tracks",
+		Long: `Read the workouts on your btwb whiteboard and plan a workout onto a track you may edit.
 
 These commands resolve your member id from the session stored by
 'btwb-pp-cli auth login', so you only pass the date and, if you want, the track.
@@ -55,6 +55,9 @@ result small.`,
 	cmd.AddCommand(newWodDayCmd(flags))
 	cmd.AddCommand(newWodWeekCmd(flags))
 	cmd.AddCommand(newWodEventCmd(flags))
+	cmd.AddCommand(newWodPlanCmd(flags))
+	cmd.AddCommand(newWodTracksCmd(flags))
+	cmd.AddCommand(newWodUnplanCmd(flags))
 	return cmd
 }
 

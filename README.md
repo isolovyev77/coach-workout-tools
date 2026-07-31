@@ -5,7 +5,8 @@
 Набор помогает тренеру переносить и составлять тренировки между BTWB и
 Trenda. В него входят две команды и навык для Codex или Claude:
 
-- `btwb-pp-cli` - читает тренировки и треки в BTWB;
+- `btwb-pp-cli` - читает тренировки и треки в BTWB, а также планирует
+  тренировку на доступный трек;
 - `trenda-pp-cli` и команда `trenda` - работают с аккаунтом тренера в
   Trenda;
 - `populating-trenda-workouts` - помогает перенести тренировку, подготовить
@@ -31,6 +32,27 @@ Trenda. В него входят две команды и навык для Code
 4. Откройте Codex или Claude и попросите перенести тренировку либо составить
    новую. Навык найдёт клиента только в вашем аккаунте и перед записью
    уточнит дату и содержание, если они неоднозначны.
+
+### 🗓 Планирование в BTWB
+
+Сначала посмотрите только те треки, в которые ваш аккаунт вправе вносить
+тренировки:
+
+```bash
+btwb-pp-cli wod tracks
+```
+
+Без прав администратора BTWB обычно разрешает запись лишь в личный трек.
+Трек зала появится в этом списке только после выдачи прав администратором
+зала. Перед записью всегда сделайте просмотр, который ничего не меняет:
+
+```bash
+btwb-pp-cli wod plan --date YYYY-MM-DD --track "Personal" \
+  --workout-file wod.txt --dry-run
+```
+
+После проверки и явного подтверждения добавьте `--yes`. Команда показывает
+идентификатор созданной записи, по которому её можно проверить в BTWB.
 
 ### 📦 Готовые файлы установки
 
@@ -68,7 +90,8 @@ Trenda. На Linux установите его штатным менеджеро
 
 Open macOS toolkit for coaches who use BTWB and Trenda. It includes:
 
-- `btwb-pp-cli` - read workouts and tracks from BTWB;
+- `btwb-pp-cli` - read workouts and tracks from BTWB, and plan a workout onto
+  a permitted track;
 - `trenda-pp-cli` plus the `trenda` session wrapper - work with a coach's own
   Trenda account;
 - `populating-trenda-workouts` - an agent skill for transferring or composing
@@ -154,6 +177,26 @@ trenda-pp-cli auth login
 trenda-pp-cli doctor
 btwb-pp-cli auth status
 ```
+
+### 🗓 Plan a workout in BTWB
+
+List only tracks the signed-in account may modify:
+
+```bash
+btwb-pp-cli wod tracks
+```
+
+Without BTWB gym-admin rights, this is normally the personal track only. A gym
+track appears only after an administrator grants permission. Always preview a
+write first:
+
+```bash
+btwb-pp-cli wod plan --date YYYY-MM-DD --track "Personal" \
+  --workout-file wod.txt --dry-run
+```
+
+After checking the preview and receiving the coach's explicit confirmation,
+repeat the command with `--yes` to write it.
 
 ## 🔄 Update
 

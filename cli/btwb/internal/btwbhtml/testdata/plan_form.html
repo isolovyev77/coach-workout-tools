@@ -1,0 +1,71 @@
+<html>
+<head>
+<meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="SCRUBBED">
+</head>
+<body>
+<!--
+  btwb's planning form, reduced to its fields. Two things about it are load
+  bearing and are reproduced faithfully here:
+
+  1. Most fields live OUTSIDE the <form> and are attached to it by the HTML
+     form="new_track_event" attribute. A serialiser that only walks the form's
+     descendants loses the track, the date and every movement.
+  2. definition[contents][] repeats without indices, so the movements are
+     grouped by ORDER alone. Reordering the fields silently rewrites the
+     workout.
+-->
+
+<select required="required" form="new_track_event" name="track_event[track_id]" id="track_event_track_id">
+  <option value="">Выберите трек</option>
+  <optgroup label="---------------------">
+    <option value="101" selected="selected">Coach Personal Track</option>
+  </optgroup>
+</select>
+
+<input form="new_track_event" type="hidden" value="ru" name="track_event[translations][content_locale]">
+<input form="new_track_event" type="hidden" value="Workout" name="track_event[task_type]">
+<input form="new_track_event" type="date" value="2026-08-06" name="track_event[event_date]">
+<input form="new_track_event" type="text" value="" name="track_event[title]">
+<input form="new_track_event" type="text" value="A5oEd7XEcIHL" name="track_event[group_name]">
+<input form="new_track_event" type="hidden" value="401020" name="planning_generated_workout_id">
+
+<form id="new_track_event" action="/plan/workouts/multiple/rounds_for_time" accept-charset="UTF-8" method="post">
+  <input type="hidden" name="authenticity_token" value="SCRUBBED">
+  <input type="hidden" value="workout" name="definition[type]">
+  <input type="hidden" value="roundsForTime" name="definition[prescription][type]">
+  <input min="2" max="100" step="1" type="number" value="3" name="definition[prescription][rounds]">
+  <input multiple="multiple" value="time" type="hidden" name="definition[prescription][inputs][]">
+  <input type="hidden" value="totalTime" name="definition[prescription][scoring]">
+  <button type="submit" name="commit" value="Запланировать тренировку">Запланировать тренировку</button>
+</form>
+
+<input form="new_track_event" type="hidden" value="movement" name="definition[contents][][type]">
+<input form="new_track_event" type="hidden" value="Row" name="definition[contents][][movementName]">
+<input form="new_track_event" type="hidden" value="6" name="definition[contents][][movementId]">
+<input form="new_track_event" type="hidden" value="500" name="definition[contents][][distance][value]">
+<input form="new_track_event" type="hidden" value="m" name="definition[contents][][distance][unit]">
+
+<input form="new_track_event" type="hidden" value="movement" name="definition[contents][][type]">
+<input form="new_track_event" type="hidden" value="Box Jump" name="definition[contents][][movementName]">
+<input form="new_track_event" type="hidden" value="121" name="definition[contents][][movementId]">
+<input form="new_track_event" type="hidden" value="21" name="definition[contents][][reps][value]">
+<input form="new_track_event" type="hidden" value="reps" name="definition[contents][][reps][unit]">
+<input form="new_track_event" type="hidden" value="24" name="definition[contents][][height][value]">
+<input form="new_track_event" type="hidden" value="20" name="definition[contents][][height][women]">
+<input form="new_track_event" type="hidden" value="in" name="definition[contents][][height][unit]">
+
+<input form="new_track_event" type="hidden" value="movement" name="definition[contents][][type]">
+<input form="new_track_event" type="hidden" value="Burpee" name="definition[contents][][movementName]">
+<input form="new_track_event" type="hidden" value="24" name="definition[contents][][movementId]">
+<input form="new_track_event" type="hidden" value="12" name="definition[contents][][reps][value]">
+<input form="new_track_event" type="hidden" value="reps" name="definition[contents][][reps][unit]">
+
+<!-- A disabled field and a second, unrelated form: neither may leak into the
+     serialised body. -->
+<input form="new_track_event" type="hidden" disabled="disabled" value="nope" name="definition[ignored]">
+<form id="other_form" action="/plan/previews/track_events" method="get">
+  <input type="hidden" name="track_event[track_id]" value="999">
+</form>
+</body>
+</html>
