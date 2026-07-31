@@ -1,0 +1,14 @@
+.DS_Store
+.env
+.env.*
+*.session
+*.cookie
+*.sqlite
+*.sqlite3
+*.db
+*.log
+*.zip
+.build/
+dist/
+__pycache__/
+*.pyc

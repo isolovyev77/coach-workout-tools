@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# Обёртка вокруг trenda-pp-cli: перед каждым вызовом получает актуальную
+# cookie-сессию (с автоматическим refresh) и передаёт её CLI через окружение.
+#
+# Установка алиаса:
+#   alias trenda=/Users/Coach Workout Tools Contributors/Projects/pp-trenda/bin/trenda
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# В переносимом пакете обёртка лежит в apps/trenda, а исходники CLI - в cli/trenda.
+PROJECT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+# Имя переменной, из которой сгенерированный CLI читает значение заголовка
+# Cookie. Задаётся генератором из info.title и имени securityScheme.
+AUTH_ENV="${TRENDA_AUTH_ENV:-TRENDA_SESSION}"
+
+# Бинарь ищется в PATH, затем в GOPATH/bin, затем рядом с проектом.
+find_cli() {
+  if command -v trenda-pp-cli >/dev/null 2>&1; then
+    command -v trenda-pp-cli
+    return 0
+  fi
+  for candidate in "$(go env GOPATH 2>/dev/null)/bin/trenda-pp-cli" "$HOME/go/bin/trenda-pp-cli" "$PROJECT_DIR/cli/trenda/trenda-pp-cli"; do
+    [ -x "$candidate" ] && { echo "$candidate"; return 0; }
+  done
+  return 1
+}
+
+if ! CLI="$(find_cli)"; then
+  echo "trenda: бинарь 'trenda-pp-cli' не найден" >&2
+  echo "  Собрать: cd \"$PROJECT_DIR/cli\" && go build -o trenda-pp-cli ./cmd/trenda-pp-cli" >&2
+  exit 127
+fi
+
+# Готовое значение в окружении используется как есть: это путь для отладки и
+# тестов, когда обращаться к аккаунту не нужно.
+if [ -n "${TRENDA_SESSION:-}" ]; then
+  COOKIE="$TRENDA_SESSION"
+else
+  # Код возврата берём отдельным шагом: внутри `if ! cmd` значение $? уже
+  # инвертировано и всегда равно нулю, из-за чего ошибка сессии превращалась в
+  # успешный выход с пустым выводом.
+  set +e
+  COOKIE="$(node "$SCRIPT_DIR/trenda-cookie.mjs")"
+  rc=$?
+  set -e
+
+  if [ "$rc" -ne 0 ] || [ -z "$COOKIE" ]; then
+    [ "$rc" -eq 0 ] && rc=1
+    echo "trenda: сессия недоступна (код $rc). Проверьте:" >&2
+    echo "  node \"$SCRIPT_DIR/trenda-auth.mjs\" status" >&2
+    echo "  node \"$SCRIPT_DIR/trenda-auth.mjs\" login   # если сессия истекла" >&2
+    exit "$rc"
+  fi
+fi
+
+# exec идёт первым: это встроенная команда оболочки, и передать её как аргумент
+# env нельзя - env будет искать программу с именем "exec" и не найдёт её.
+exec env "$AUTH_ENV=$COOKIE" "$CLI" "$@"

@@ -1,0 +1,3944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","errorBeacon":"bam.nr-data.net","licenseKey":"49e42e8a97","applicationID":"6339","transactionName":"JlgMFUALXFlSQh8WWgxDBwNdBUJRRB9DCV0S","queueTime":2,"applicationTime":1613,"agent":""}</script>
+<script type="text/javascript">(window.NREUM||(NREUM={})).init={ajax:{deny_list:["bam.nr-data.net"]},feature_flags:["soft_nav"]};(window.NREUM||(NREUM={})).loader_config={licenseKey:"49e42e8a97",applicationID:"6339",browserID:"364905"};;/*! For license information please see nr-loader-rum-1.318.0.min.js.LICENSE.txt */
+(()=>{var e={8122(e,t,r){"use strict";r.d(t,{a:()=>i});var n=r(944);function i(e,t){try{if(!e||"object"!=typeof e)return(0,n.R)(3);if(!t||"object"!=typeof t)return(0,n.R)(4);const r=Object.create(Object.getPrototypeOf(t),Object.getOwnPropertyDescriptors(t)),s=0===Object.keys(r).length?e:r;for(let o in s)if(void 0!==e[o])try{if(null===e[o]){r[o]=null;continue}Array.isArray(e[o])&&Array.isArray(t[o])?r[o]=Array.from(new Set([...e[o],...t[o]])):e[o]instanceof Map||e[o]instanceof Set||e[o]instanceof Date||e[o]instanceof RegExp?r[o]=e[o]:"object"==typeof e[o]&&null!==t[o]&&"object"==typeof t[o]?r[o]=i(e[o],t[o]):r[o]=e[o]}catch(e){r[o]||(0,n.R)(1,e)}return r}catch(e){(0,n.R)(2,e)}}},2555(e,t,r){"use strict";r.d(t,{f:()=>o});var n=r(384),i=r(8122);const s={beacon:n.NT.beacon,errorBeacon:n.NT.errorBeacon,licenseKey:void 0,applicationID:void 0,sa:void 0,queueTime:void 0,applicationTime:void 0,ttGuid:void 0,user:void 0,account:void 0,product:void 0,extra:void 0,jsAttributes:{},userAttributes:void 0,atts:void 0,transactionName:void 0,tNamePlain:void 0};function o(e){try{return!!e.licenseKey&&!!e.errorBeacon&&!!e.applicationID}catch(e){return!1}}r.d(t,["D",0,e=>(0,i.a)(e,s)])},7699(e,t,r){"use strict";var n=r(860);const i={[n.K7.logging]:!0,[n.K7.genericEvents]:!0,[n.K7.jserrors]:!0,[n.K7.ajax]:!0};r.d(t,["It",0,1e6,"KC",0,i,"qh",0,"SESSION_ERROR"])},9324(e,t,r){"use strict";r.d(t,["xv",0,"1.318.0"])},981(e,t,r){"use strict";r.d(t,["R",0,{AJAX:"AjaxRequest",PA:"PageAction",UA:"UserAction",BP:"BrowserPerformance",WS:"WebSocket",SPV:"SecurityPolicyViolation",JSE:"JavaScriptError",LOG:"Log",PVE:"PageView",PVT:"PageViewTiming",SR:"SessionReplay",ST:"SessionTrace",BI:"BrowserInteraction"}])},6154(e,t,r){"use strict";var n=r(1863);const i="undefined"!=typeof window&&!!window.document,s="undefined"!=typeof WorkerGlobalScope&&("undefined"!=typeof self&&self instanceof WorkerGlobalScope&&self.navigator instanceof WorkerNavigator||"undefined"!=typeof globalThis&&globalThis instanceof WorkerGlobalScope&&globalThis.navigator instanceof WorkerNavigator),o=i?window:"undefined"!=typeof WorkerGlobalScope&&("undefined"!=typeof self&&self instanceof WorkerGlobalScope&&self||"undefined"!=typeof globalThis&&globalThis instanceof WorkerGlobalScope&&globalThis),a=Boolean("hidden"===o?.document?.visibilityState),c=""+o?.location,u=/iPad|iPhone|iPod/.test(o.navigator?.userAgent),d=u&&"undefined"==typeof SharedWorker,l=((()=>{const e=o.navigator?.userAgent?.match(/Firefox[/\s](\d+\.\d+)/);Array.isArray(e)&&e.length>=2&&e[1]})(),Date.now()-(0,n.t)());r.d(t,["OF",0,u,"RI",0,i,"WN",0,l,"bv",0,s,"gm",0,o,"m",0,c,"mw",0,a,"sb",0,d,"zk",0,()=>{const e=o?.performance?.getEntriesByType?.("navigation")?.[0];if(e&&e.responseStart>0&&e.responseStart<o.performance.now())return e}])},3241(e,t,r){"use strict";r.d(t,{W:()=>i});var n=r(6154);function i(e={}){try{n.gm.dispatchEvent(new CustomEvent("newrelic",{detail:e}))}catch(e){}}},1687(e,t,r){"use strict";r.d(t,{Ak:()=>a,Ze:()=>u,x3:()=>c});var n=r(3241),i=r(3606),s=r(860),o=r(2646);function a(e,t){if(!e)return;const r={staged:!1,priority:s.P3[t]||0};e.runtime.drainRegistry.get(t)||e.runtime.drainRegistry.set(t,r)}function c(e,t){if(!e)return;const r=e.runtime.drainRegistry;r&&(r.get(t)&&r.delete(t),l(e,t,!1),r.size&&d(e))}function u(e,t="feature",r=!1){if(e){if(!e.runtime.drainRegistry.get(t)||r)return l(e,t);e.runtime.drainRegistry.get(t).staged=!0,d(e)}}function d(e){if(!e)return;const t=Array.from(e.runtime.drainRegistry);t.every(([e,t])=>t.staged)&&(t.sort((e,t)=>e[1].priority-t[1].priority),t.forEach(([t])=>{e.runtime.drainRegistry.delete(t),l(e,t)}))}function l(e,t,r=!0){if(!e)return;const s=e.ee,a=i.i.handlers;if(s&&!s.aborted&&s.backlog&&a){if((0,n.W)({type:"lifecycle",name:"drain",feature:t}),r){const e=s.backlog[t],r=a[t];if(r){for(let t=0;e&&t<e.length;++t)f(e[t],r);Object.entries(r).forEach(([e,t])=>{Object.values(t||{}).forEach(t=>{t[0]?.on&&t[0].context()instanceof o.y&&!t[0].listeners(e).includes(t[1])&&t[0].on(e,t[1])})})}}s.isolatedBacklog||delete a[t],s.backlog[t]=null,s.emit("drain-"+t,[])}}function f(e,t){var r=e[1];Object.values(t[r]||{}).forEach(t=>{var r=e[0];if(t[0]===r){var n=t[1],i=e[3],s=e[2];n.apply(i,s)}})}},7836(e,t,r){"use strict";var n=r(384),i=r(8990),s=r(2646),o=r(5607);const a="nr@context:".concat(o.W),c=function e(t,r){var n={},o={},d={},l=!1;try{l=16===r.length&&u.initializedAgents?.[r]?.runtime.isolatedBacklog}catch(e){}var f={on:p,addEventListener:p,removeEventListener:function(e,t){var r=n[e];if(!r)return;for(var i=0;i<r.length;i++)r[i]===t&&r.splice(i,1)},emit:function(e,r,n,i,s){!1!==s&&(s=!0);if(c.aborted&&!i)return;t&&s&&t.emit(e,r,n);var a=g(n);m(e).forEach(e=>{e.apply(a,r)});var u=v()[o[e]];u&&u.push([f,e,r,a]);return a},get:h,listeners:m,context:g,buffer:function(e,t){const r=v();if(t=t||"feature",f.aborted)return;Object.entries(e||{}).forEach(([e,n])=>{o[n]=t,t in r||(r[t]=[])})},abort:function(){f._aborted=!0,Object.keys(f.backlog).forEach(e=>{delete f.backlog[e]})},isBuffering:function(e){return!!v()[o[e]]},debugId:r,backlog:l?{}:t&&"object"==typeof t.backlog?t.backlog:{},isolatedBacklog:l};return Object.defineProperty(f,"aborted",{get:()=>{let e=f._aborted||!1;return e||(t&&(e=t.aborted),e)}}),f;function g(e){return e&&e instanceof s.y?e:e?(0,i.I)(e,a,()=>new s.y(a)):new s.y(a)}function p(e,t){n[e]=m(e).concat(t)}function m(e){return n[e]||[]}function h(t){return d[t]=d[t]||e(f,t)}function v(){return f.backlog}}(void 0,"globalEE"),u=(0,n.Zm)();u.ee||(u.ee=c),r.d(t,["P",0,a,"ee",0,c])},2646(e,t,r){"use strict";r.d(t,{y:()=>n});class n{constructor(e){this.contextId=e}}},9908(e,t,r){"use strict";r.d(t,{d:()=>n,p:()=>i});var n=r(7836).ee.get("handle");function i(e,t,r,i,s){s?(s.buffer([e],i),s.emit(e,t,r)):(n.buffer([e],i),n.emit(e,t,r))}},3606(e,t,r){"use strict";r.d(t,{i:()=>s});var n=r(9908);s.on=o;var i=s.handlers={};function s(e,t,r,s){o(s||n.d,i,e,t,r)}function o(e,t,r,i,s){s||(s="feature"),e||(e=n.d);var o=t[s]=t[s]||{};(o[r]=o[r]||[]).push([e,i])}},3878(e,t,r){"use strict";function n(e,t){return{capture:e,passive:!1,signal:t}}function i(e,t,r=!1,i){window.addEventListener(e,t,n(r,i))}function s(e,t,r=!1,i){document.addEventListener(e,t,n(r,i))}r.d(t,{DD:()=>s,jT:()=>n,sp:()=>i})},5607(e,t,r){"use strict";const n=(0,r(9566).bz)();r.d(t,["W",0,n])},9566(e,t,r){"use strict";r.d(t,{LA:()=>o,bz:()=>s});var n=r(6154);function i(e,t){return e?15&e[t]:16*Math.random()|0}function s(){const e=n.gm?.crypto||n.gm?.msCrypto;let t,r=0;return e&&e.getRandomValues&&(t=e.getRandomValues(new Uint8Array(30))),"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".split("").map(e=>"x"===e?i(t,r++).toString(16):"y"===e?(3&i()|8).toString(16):e).join("")}function o(e){const t=n.gm?.crypto||n.gm?.msCrypto;let r,s=0;t&&t.getRandomValues&&(r=t.getRandomValues(new Uint8Array(e)));const o=[];for(var a=0;a<e;a++)o.push(i(r,s++).toString(16));return o.join("")}},2614(e,t,r){"use strict";r.d(t,["BB",0,18e5,"Wt",0,"NRBA_SESSION::","iL",0,{SAME_TAB:"same-tab",CROSS_TAB:"cross-tab"},"tS",0,{STARTED:"session-started",PAUSE:"session-pause",RESET:"session-reset",RESUME:"session-resume",UPDATE:"session-update"},"wk",0,144e5])},1863(e,t,r){"use strict";function n(){return Math.floor(performance.now())}r.d(t,{t:()=>n})},944(e,t,r){"use strict";r.d(t,{R:()=>i});var n=r(3241);function i(e,t){"function"==typeof console.debug&&(console.debug("New Relic Warning: https://github.com/newrelic/newrelic-browser-agent/blob/main/docs/warning-codes.md#".concat(e),t),(0,n.W)({drained:null,type:"data",name:"warn",feature:"warn",data:{code:e,secondary:t}}))}},8990(e,t,r){"use strict";r.d(t,{I:()=>i});var n=Object.prototype.hasOwnProperty;function i(e,t,r){if(n.call(e,t))return e[t];var i=r();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,t,{value:i,writable:!0,enumerable:!1}),i}catch(e){}return e[t]=i,i}},6389(e,t,r){"use strict";function n(e,t=500,r={}){const n=r?.leading||!1;let i;return(...r)=>{n&&void 0===i&&(e.apply(this,r),i=setTimeout(()=>{i=clearTimeout(i)},t)),n||(clearTimeout(i),i=setTimeout(()=>{e.apply(this,r)},t))}}function i(e){let t=!1;return(...r)=>{t||(t=!0,e.apply(this,r))}}r.d(t,{J:()=>i,s:()=>n})},1910(e,t,r){"use strict";r.d(t,{i:()=>s});var n=r(944);const i=new Map;function s(...e){return e.every(e=>{if(i.has(e))return i.get(e);const t="function"==typeof e?e.toString():"",r=t.includes("[native code]"),s=t.includes("nrWrapper");return r||s||(0,n.R)(64,e?.name||t),i.set(e,r),r})}},5289(e,t,r){"use strict";r.d(t,{GG:()=>o,Qr:()=>c,sB:()=>a});var n=r(3878),i=r(6389);function s(){return"undefined"==typeof document||"complete"===document.readyState}function o(e,t){if(s())return e();const r=(0,i.J)(e),o=setInterval(()=>{s()&&(clearInterval(o),r())},500);(0,n.sp)("load",r,t)}function a(e){if(s())return e();(0,n.DD)("DOMContentLoaded",e)}function c(e){if(s())return e();(0,n.sp)("popstate",e)}},384(e,t,r){"use strict";r.d(t,{Zm:()=>c,bQ:()=>d,dV:()=>u,pV:()=>l});var n=r(6154),i=r(1863),s=r(944),o=r(1910);const a={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net"};function c(){return n.gm.NREUM||(n.gm.NREUM={}),void 0===n.gm.newrelic&&(n.gm.newrelic=n.gm.NREUM),n.gm.NREUM}function u(){let e=c();return e.o||(e.o={ST:n.gm.setTimeout,SI:n.gm.setImmediate||n.gm.setInterval,CT:n.gm.clearTimeout,XHR:n.gm.XMLHttpRequest,REQ:n.gm.Request,EV:n.gm.Event,PR:n.gm.Promise,MO:n.gm.MutationObserver,FETCH:n.gm.fetch,WS:n.gm.WebSocket},(0,o.i)(...Object.values(e.o))),e}function d(e,t){let r=c();r.initializedAgents??={},t.initializedAt={ms:(0,i.t)(),date:new Date},r.initializedAgents[e]=t,2===Object.keys(r.initializedAgents).length&&(0,s.R)(69)}function l(){return function(){let e=c();const t=e.info||{};e.info={beacon:a.beacon,errorBeacon:a.errorBeacon,...t}}(),function(){let e=c();const t=e.init||{};e.init={...t}}(),u(),function(){let e=c();const t=e.loader_config||{};e.loader_config={...t}}(),c()}r.d(t,["NT",0,a])},2843(e,t,r){"use strict";r.d(t,{G:()=>s,u:()=>i});var n=r(3878);function i(e,t=!1,r,i){(0,n.DD)("visibilitychange",function(){if(t)return void("hidden"===document.visibilityState&&e());e(document.visibilityState)},r,i)}function s(e,t,r){(0,n.sp)("pagehide",e,t,r)}},3969(e,t,r){"use strict";const n=r(860).K7.metrics;r.d(t,["TZ",0,n,"XG",0,"storeEventMetrics","xV",0,"storeSupportabilityMetrics"])},6630(e,t,r){"use strict";const n=r(860).K7.pageViewEvent;r.d(t,["T",0,n])},782(e,t,r){"use strict";const n=r(860).K7.pageViewTiming;r.d(t,["T",0,n])},4234(e,t,r){"use strict";r.d(t,{W:()=>i});var n=r(1687);class i{constructor(e,t){this.agentRef=e,this.ee=e?.ee,this.featureName=t,this.blocked=!1}deregisterDrain(){(0,n.x3)(this.agentRef,this.featureName)}}},7767(e,t,r){"use strict";var n=r(6154);r.d(t,["V",0,e=>n.RI&&!0===e?.privacy.cookies_enabled])},8362(e,t,r){"use strict";r.d(t,{d:()=>s});var n=r(9566),i=r(1741);class s extends i.W{agentIdentifier=(0,n.LA)(16)}},1741(e,t,r){"use strict";r.d(t,{W:()=>s});var n=r(944),i=r(4261);class s{#e(e,...t){if(this[e]!==s.prototype[e])return this[e](...t);(0,n.R)(35,e)}addPageAction(e,t){return this.#e(i.hG,e,t)}register(e){return this.#e(i.eY,e)}recordCustomEvent(e,t){return this.#e(i.fF,e,t)}setPageViewName(e,t){return this.#e(i.Fw,e,t)}setCustomAttribute(e,t,r){return this.#e(i.cD,e,t,r)}noticeError(e,t){return this.#e(i.o5,e,t)}setUserId(e,t=!1){return this.#e(i.Dl,e,t)}setApplicationVersion(e){return this.#e(i.nb,e)}setErrorHandler(e){return this.#e(i.bt,e)}addRelease(e,t){return this.#e(i.k6,e,t)}log(e,t){return this.#e("log",e,t)}start(){return this.#e("start")}finished(e){return this.#e(i.BL,e)}recordReplay(){return this.#e(i.CH)}pauseReplay(){return this.#e(i.Tb)}addToTrace(e){return this.#e(i.U2,e)}setCurrentRouteName(e){return this.#e(i.PA,e)}interaction(e){return this.#e(i.dT,e)}wrapLogger(e,t,r){return this.#e(i.Wb,e,t,r)}measure(e,t){return this.#e(i.V1,e,t)}consent(e){return this.#e(i.Pv,e)}}},4261(e,t,r){"use strict";r.d(t,["BL",0,"finished","CH",0,"recordReplay","Dl",0,"setUserId","Fw",0,"setPageViewName","PA",0,"setCurrentRouteName","Pv",0,"consent","Tb",0,"pauseReplay","U2",0,"addToTrace","V1",0,"measure","Wb",0,"wrapLogger","bt",0,"setErrorHandler","cD",0,"setCustomAttribute","dT",0,"interaction","eY",0,"register","fF",0,"recordCustomEvent","hG",0,"addPageAction","k6",0,"addRelease","nb",0,"setApplicationVersion","o5",0,"noticeError"])},1738(e,t,r){"use strict";r.d(t,{U:()=>l,Y:()=>d});var n=r(3241),i=r(9908),s=r(1863),o=r(944),a=r(3969),c=r(8362),u=r(860);function d(e,t,r,s){const d=s||r;!d||d[e]&&d[e]!==c.d.prototype[e]||(d[e]=function(){(0,i.p)(a.xV,["API/"+e+"/called"],void 0,u.K7.metrics,r.ee),(0,n.W)({drained:!!r.runtime?.activatedFeatures,type:"data",name:"api",feature:"api-"+e,data:{}});try{return t.apply(this,arguments)}catch(e){(0,o.R)(23,e)}})}function l(e,t,r,n,o){const a=e.info;null===r?delete a.jsAttributes[t]:a.jsAttributes[t]=r,(o||null===r)&&(0,i.p)("api-"+n,[(0,s.t)(),t,r],void 0,"session",e.ee)}},8374(e,t,r){r.nc=(()=>{try{return document?.currentScript?.nonce}catch(e){}return""})()},860(e,t,r){"use strict";const n="events",i="jserrors",s="browser/blobs",o="browser/logs",a={ajax:"ajax",genericEvents:"generic_events",jserrors:i,logging:"logging",metrics:"metrics",pageAction:"page_action",pageViewEvent:"page_view_event",pageViewTiming:"page_view_timing",sessionReplay:"session_replay",sessionTrace:"session_trace",softNav:"soft_navigations"},c={[a.pageViewEvent]:1,[a.pageViewTiming]:2,[a.metrics]:3,[a.jserrors]:4,[a.softNav]:5,[a.ajax]:6,[a.sessionTrace]:7,[a.sessionReplay]:8,[a.logging]:9,[a.genericEvents]:10},u={[a.pageViewEvent]:"rum",[a.pageViewTiming]:n,[a.ajax]:n,[a.softNav]:n,[a.metrics]:i,[a.jserrors]:i,[a.sessionTrace]:s,[a.sessionReplay]:s,[a.logging]:o,[a.genericEvents]:"ins"};r.d(t,["$J",0,u,"K7",0,a,"P3",0,c,"XX",0,i,"Yy",0,o,"df",0,s])}};const t={};function r(n){const i=t[n];if(void 0!==i)return i.exports;const s=t[n]={exports:{}};return e[n](s,s.exports,r),s.exports}r.m=e,r.d=(e,t)=>{if(Array.isArray(t))for(var n=0;n<t.length;){var i=t[n++],s=t[n++];r.o(e,i)?0===s&&n++:0===s?Object.defineProperty(e,i,{enumerable:!0,value:t[n++]}):Object.defineProperty(e,i,{enumerable:!0,get:s})}else for(var i in t)r.o(t,i)&&!r.o(e,i)&&Object.defineProperty(e,i,{enumerable:!0,get:t[i]})},r.f={},r.e=e=>Promise.all(Object.keys(r.f).reduce((t,n)=>(r.f[n](e,t),t),[])),r.u=e=>"nr-rum-1.318.0.min.js",r.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),(()=>{const e={},t="NRBA-1.318.0.PROD:";r.l=(n,i,s,o)=>{if(e[n])return void e[n].push(i);let a,c;if(void 0!==s){const e=document.getElementsByTagName("script");for(var u=0;u<e.length;u++){const r=e[u];if(r.getAttribute("src")==n||r.getAttribute("data-webpack")==t+s){a=r;break}}}if(!a){c=!0;var d={296:"sha512-l/aSvO0UYzQns1WyMlY2r8pdkmVR0o/Rze4wpZR98a+X8aP+uRfcG9NMVI6fcdpy4uRK5azdx+CgSn8/UKULRw=="};a=document.createElement("script"),a.charset="utf-8",r.nc&&a.setAttribute("nonce",r.nc),a.setAttribute("data-webpack",t+s),a.src=n,0!==a.src.indexOf(window.location.origin+"/")&&(a.crossOrigin="anonymous"),d[o]&&(a.integrity=d[o])}e[n]=[i];const l=(t,r)=>{a.onerror=a.onload=null,clearTimeout(f);const i=e[n];if(delete e[n],a.parentNode?.removeChild(a),i?.forEach(e=>e(r)),t)return t(r)},f=setTimeout(l.bind(null,void 0,{type:"timeout",target:a}),12e4);a.onerror=l.bind(null,a.onerror),a.onload=l.bind(null,a.onload),c&&document.head.appendChild(a)}})(),r.r=e=>{Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.p="https://js-agent.newrelic.com/",(()=>{const e={374:0,840:0};r.f.j=(t,n)=>{let i=r.o(e,t)?e[t]:void 0;if(0!==i)if(i)n.push(i[2]);else{const s=new Promise((r,n)=>i=e[t]=[r,n]);n.push(i[2]=s);const o=r.p+r.u(t),a=new Error,c=n=>{if(r.o(e,t)&&(i=e[t],0!==i&&(e[t]=void 0),i)){const e=n&&("load"===n.type?"missing":n.type),r=n&&n.target&&n.target.src;a.message="Loading chunk "+t+" failed: ("+e+": "+r+")",a.name="ChunkLoadError",a.type=e,a.request=r,i[1](a)}};r.l(o,c,"chunk-"+t,t)}};const t=(t,n)=>{let[i,s,o]=n;var a,c,u=0;if(i.some(t=>0!==e[t])){for(a in s)r.o(s,a)&&(r.m[a]=s[a]);if(o)o(r)}for(t&&t(n);u<i.length;u++)c=i[u],r.o(e,c)&&e[c]&&e[c][0](),e[c]=0},n=self["webpackChunk:NRBA-1.318.0.PROD"]=self["webpackChunk:NRBA-1.318.0.PROD"]||[];n.forEach(t.bind(null,0)),n.push=t.bind(null,n.push.bind(n))})(),(()=>{"use strict";r(8374);var e=r(8362),t=r(860);const n=Object.values(t.K7);var i=r(384),s=r(1741);var o=r(2555),a=r(981);t.K7.genericEvents,a.R.PA,a.R.UA,a.R.BP;const c="experimental.resources",u="register",d=(t.K7.ajax,"none"),l=e=>{if(!e||"string"!=typeof e)return!1;try{document.createDocumentFragment().querySelector(e)}catch{return!1}return!0};var f=r(2614),g=r(944),p=r(8122);const m="[data-nr-mask]",h=e=>(0,p.a)(e,(()=>{const e={feature_flags:[],experimental:{register:!1,resources:!1},mask_selector:"*",block_selector:"[data-nr-block]",mask_input_options:{color:!1,date:!1,"datetime-local":!1,email:!1,month:!1,number:!1,range:!1,search:!1,tel:!1,text:!1,time:!1,url:!1,week:!1,textarea:!1,select:!1,password:!0}};return{ajax:{deny_list:void 0,block_internal:!0,enabled:!0,autoStart:!0,capture_payloads:d},api:{register:{get enabled(){return e.feature_flags.includes(u)||e.experimental.register},set enabled(t){e.experimental.register=t},duplicate_data_to_container:!1}},browser_consent_mode:{enabled:!1},distributed_tracing:{enabled:void 0,exclude_newrelic_header:void 0,cors_use_newrelic_header:void 0,cors_use_tracecontext_headers:void 0,allowed_origins:void 0},get feature_flags(){return e.feature_flags},set feature_flags(t){e.feature_flags=t},generic_events:{enabled:!0,autoStart:!0},harvest:{interval:30},jserrors:{enabled:!0,autoStart:!0},logging:{enabled:!0,autoStart:!0},metrics:{enabled:!0,autoStart:!0},obfuscate:void 0,page_action:{enabled:!0},page_view_event:{enabled:!0,autoStart:!0},page_view_timing:{enabled:!0,autoStart:!0},performance:{capture_marks:!1,capture_measures:!1,capture_detail:!0,resources:{get enabled(){return e.feature_flags.includes(c)||e.experimental.resources},set enabled(t){e.experimental.resources=t},asset_types:[],first_party_domains:[],ignore_newrelic:!0}},privacy:{cookies_enabled:!0},proxy:{assets:void 0,beacon:void 0},session:{expiresMs:f.wk,inactiveMs:f.BB},session_replay:{autoStart:!0,enabled:!1,preload:!1,sampling_rate:10,error_sampling_rate:100,collect_fonts:!1,inline_images:!1,fix_stylesheets:!0,mask_all_inputs:!0,get mask_text_selector(){return e.mask_selector},set mask_text_selector(t){l(t)?e.mask_selector="".concat(t,",").concat(m):""===t||null===t?e.mask_selector=m:(0,g.R)(5,t)},get block_class(){return"nr-block"},get ignore_class(){return"nr-ignore"},get mask_text_class(){return"nr-mask"},get block_selector(){return e.block_selector},set block_selector(t){l(t)?e.block_selector+=",".concat(t):""!==t&&(0,g.R)(6,t)},get mask_input_options(){return e.mask_input_options},set mask_input_options(t){t&&"object"==typeof t?e.mask_input_options={...t,password:!0}:(0,g.R)(7,t)}},session_trace:{enabled:!0,autoStart:!0},soft_navigations:{enabled:!0,autoStart:!0},ssl:void 0,user_actions:{enabled:!0,elementAttributes:["id","className","tagName","type"]},web_sockets:{enabled:!1}}})());var v=r(6154),b=r(9324);let y=0;const _={buildEnv:"PROD",distMethod:"CDN",version:b.xv,originTime:v.WN},w={consented:!1},R={activatedFeatures:void 0,appMetadata:{},configured:!1,get consented(){return this.session?.state?.consent||w.consented},set consented(e){w.consented=e},customTransaction:void 0,denyList:[],disabled:!1,drainRegistry:new Map,harvester:void 0,isolatedBacklog:!1,isRecording:!1,loaderType:void 0,maxBytes:3e4,obfuscator:void 0,onerror:void 0,ptid:void 0,releaseIds:{},session:void 0,timeKeeper:void 0,registeredEntities:[],jsAttributesMetadata:{bytes:0},get harvestCount(){return++y}};var x=r(7836),A=r(3241);const k={accountID:void 0,trustKey:void 0,agentID:void 0,licenseKey:void 0,applicationID:void 0,xpid:void 0};function S(e,t={},n,a){let{init:c,info:u,loader_config:d,runtime:l={},exposed:f=!0}=t;if(!u){const e=(0,i.pV)();c=e.init,u=e.info,d=e.loader_config}var g;e.init=h(c||{}),e.loader_config=(g=d||{},(0,p.a)(g,k)),u.jsAttributes??={},v.bv&&(u.jsAttributes.isWorker=!0),e.info=(0,o.D)(u);const m=e.init;e.runtime??=(e=>{const t=(0,p.a)(e,R),r=Object.keys(_).reduce((e,t)=>(e[t]={value:_[t],writable:!1,configurable:!0,enumerable:!0},e),{});return Object.defineProperties(t,r)})(l),m.proxy.assets&&(e=>{const t=e.startsWith("http");e+="/",r.p=t?e:"https://"+e})(m.proxy.assets),e.runtime.configured||(Object.defineProperty(e,"beacons",{get:()=>[e.info.beacon,e.info.errorBeacon,e.init.proxy.assets,e.init.proxy.beacon].filter(Boolean)}),Object.defineProperty(e.runtime,"denyList",{get:()=>[...e.init.ajax.deny_list||[],...e.init.ajax.block_internal?e.beacons:[]]}),e.runtime.ptid=e.agentIdentifier,function(e){const t=(0,i.pV)();Object.getOwnPropertyNames(s.W.prototype).forEach(r=>{const n=s.W.prototype[r];if("function"!=typeof n||"constructor"===n)return;let i=t[r];e[r]&&!1!==e.exposed&&"micro-agent"!==e.runtime?.loaderType&&(t[r]=(...t)=>{const n=e[r](...t);return i?i(...t):n})})}(e),e.runtime.loaderType=n,e.ee=x.ee.get(e.agentIdentifier),e.exposed=f,(0,A.W)({drained:!!e.runtime.activatedFeatures,type:"lifecycle",name:"initialize",feature:void 0,data:e.config}),e.runtime.configured=!0)}var T=r(9908),E=r(1863),j=r(4261),P=r(1738);var N=r(1687),O=r(4234),M=r(5289),I=r(7767);function V(e){return!!(0,i.dV)().o.MO&&(0,I.V)(e)&&!0===e?.session_trace.enabled}var D=r(6389),W=r(7699);const B=new WeakSet;class K extends O.W{constructor(e,t){super(e,t),this.abortHandler=void 0,this.featAggregate=void 0,this.loadedSuccessfully=void 0,this.onAggregateImported=new Promise(e=>{this.loadedSuccessfully=e}),this.deferred=Promise.resolve(),!1===e.init[this.featureName].autoStart?this.deferred=new Promise((t,r)=>{this.ee.on("manual-start-all",(0,D.J)(()=>{(0,N.Ak)(e,this.featureName),t()}))}):(0,N.Ak)(e,t)}importAggregator(e,t,n={}){if(this.featAggregate)return;const i=async()=>{if(await this.deferred,this.#t(e),!(0,o.f)(e.info))return(0,g.R)(43),e.ee.abort(),void this.loadedSuccessfully(!1);let i;try{if((0,I.V)(e.init)){const{setupAgentSession:t}=await r.e(296).then(r.bind(r,8391));i=t(e)}}catch(e){(0,g.R)(20,e),this.ee.emit("internal-error",[e]),(0,T.p)(W.qh,[e],void 0,this.featureName,this.ee)}try{if(!this.#r(this.featureName,i,e.init))return(0,N.Ze)(this.agentRef,this.featureName),void this.loadedSuccessfully(!1);const{Aggregate:r}=await t();this.featAggregate=new r(e,n),e.runtime.harvester.initializedAggregates.push(this.featAggregate),this.loadedSuccessfully(!0)}catch(e){(0,g.R)(34,e),this.abortHandler?.(),(0,N.Ze)(this.agentRef,this.featureName,!0),this.loadedSuccessfully(!1),this.ee&&this.ee.abort()}};v.RI?(0,M.GG)(()=>i(),!0):i()}#r(e,r,n){if(this.blocked)return!1;switch(e){case t.K7.sessionReplay:return V(n)&&!!r;case t.K7.sessionTrace:return!!r;default:return!0}}#t(e){if(!B.has(e)&&(B.add(e),!(0,o.f)(e.info))){const t=(0,i.pV)();let r={...t.info?.jsAttributes};try{r={...r,...e.info?.jsAttributes}}catch(e){}S(e,{...t,info:{...t.info,jsAttributes:r},runtime:e.runtime},e.runtime.loaderType)}}}var C=r(6630);class U extends K{static featureName=C.T;constructor(e){var t;super(e,C.T),this.setupInspectionEvents(),t=e,(0,P.Y)(j.Fw,function(e,r){"string"==typeof e&&("/"!==e.charAt(0)&&(e="/"+e),t.runtime.customTransaction=(r||"http://custom.transaction")+e,(0,T.p)("api-"+j.Fw,[(0,E.t)()],void 0,void 0,t.ee))},t),this.importAggregator(e,()=>r.e(296).then(r.bind(r,1324)))}setupInspectionEvents(){const e=(e,t)=>{e&&(0,A.W)({timeStamp:e.timeStamp,loaded:"complete"===e.target.readyState,type:"window",name:t,data:e.target.location+""})};(0,M.sB)(t=>{e(t,"DOMContentLoaded")}),(0,M.GG)(t=>{e(t,"load")}),(0,M.Qr)(t=>{e(t,"navigate")}),this.ee.on(f.tS.UPDATE,(e,t)=>{(0,A.W)({type:"lifecycle",name:"session",data:t})})}}class L extends e.d{constructor(e){var t;(super(),v.gm)?(this.features={},(0,i.bQ)(this.agentIdentifier,this),this.desiredFeatures=new Set(e.features||[]),this.desiredFeatures.add(U),S(this,e,e.loaderType||"agent"),t=this,(0,P.Y)(j.cD,function(e,r,n=!1){if("string"==typeof e){if(["string","number","boolean"].includes(typeof r)||null===r)return(0,P.U)(t,e,r,j.cD,n);(0,g.R)(40,typeof r)}else(0,g.R)(39,typeof e)},t),function(e){(0,P.Y)(j.Dl,function(t,r=!1){if("string"!=typeof t&&null!==t)return void(0,g.R)(41,typeof t);const n=e.info.jsAttributes["enduser.id"];r&&null!=n&&n!==t?(0,T.p)("api-setUserIdAndResetSession",[t],void 0,"session",e.ee):(0,P.U)(e,"enduser.id",t,j.Dl,!0)},e)}(this),function(e){(0,P.Y)(j.nb,function(t){if("string"==typeof t||null===t)return(0,P.U)(e,"application.version",t,j.nb,!1);(0,g.R)(42,typeof t)},e)}(this),function(e){(0,P.Y)("start",function(){e.ee.emit("manual-start-all")},e)}(this),function(e){(0,P.Y)(j.Pv,function(t=!0){if("boolean"==typeof t){if((0,T.p)("api-"+j.Pv,[t],void 0,"session",e.ee),e.runtime.consented=t,t){const t=e.features.page_view_event;t.onAggregateImported.then(e=>{const r=t.featAggregate;e&&!r.sentRum&&r.sendRum()})}}else(0,g.R)(65,typeof t)},e)}(this),this.run()):(0,g.R)(21)}get config(){return{info:this.info,init:this.init,loader_config:this.loader_config,runtime:this.runtime}}get api(){return this}run(){try{const e=function(e){const t={};return n.forEach(r=>{t[r]=!!e[r]?.enabled}),t}(this.init),r=[...this.desiredFeatures];r.sort((e,r)=>t.P3[e.featureName]-t.P3[r.featureName]),r.forEach(r=>{if(!e[r.featureName]&&r.featureName!==t.K7.pageViewEvent)return;const n=function(e){switch(e){case t.K7.ajax:return[t.K7.jserrors];case t.K7.sessionTrace:return[t.K7.ajax,t.K7.pageViewEvent];case t.K7.sessionReplay:return[t.K7.sessionTrace];case t.K7.pageViewTiming:return[t.K7.pageViewEvent];default:return[]}}(r.featureName).filter(e=>!(e in this.features));n.length>0&&(0,g.R)(36,{targetFeature:r.featureName,missingDependencies:n}),this.features[r.featureName]=new r(this)})}catch(e){(0,g.R)(22,e);for(const e in this.features)this.features[e].abortHandler?.();const t=(0,i.Zm)();delete t.initializedAgents[this.agentIdentifier]?.features,delete this.sharedAggregator;return t.ee.get(this.agentIdentifier).abort(),!1}}}var G=r(2843),F=r(782);class H extends K{static featureName=F.T;constructor(e){super(e,F.T),v.RI&&((0,G.u)(()=>(0,T.p)("docHidden",[(0,E.t)()],void 0,F.T,this.ee),!0),(0,G.G)(()=>(0,T.p)("winPagehide",[(0,E.t)()],void 0,F.T,this.ee)),this.importAggregator(e,()=>r.e(296).then(r.bind(r,2117))))}}var z=r(3969);class Y extends K{static featureName=z.TZ;constructor(e){super(e,z.TZ),this.importAggregator(e,()=>r.e(296).then(r.bind(r,9623)))}}new L({features:[U,H,Y],loaderType:"lite"})})()})();</script>
+  <title>Whiteboard - beyond the whiteboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="SCRUBBED" />
+  
+  
+  <link rel="icon" type="image/x-icon" href="/assets/favicon-7036f390d2384ee40f6b84a0adb7944261108f9083a6c1212b90ba5fe8267f0d.ico" />
+  <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/redmond/jquery-ui.min.css" />
+  <link rel="stylesheet" href="/assets/application-fcbb002392edf2d0beaf3c63ae426d7088f7bb49e0b59310cdb16856933799ac.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css" />
+  <link rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css" />
+  <style type="text/css">
+    #date_month {
+      cursor: pointer;
+    }
+    #date_year {
+      cursor: pointer;
+    }
+  </style>
+  <link rel="stylesheet" href="/assets/jquery.lightbox-0.5-110c0433167338c33a71f069a1e44f9ddd177565d85f2570833689b9a6750584.css" />
+  <link rel="stylesheet" href="/assets/hopscotch-c879fea03d99c5e269825b8ea337d33ff991c76aa7734970de42edaa0e8e494c.css" />
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YHBRH54S5H"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YHBRH54S5H', {
+    'user_id': '100001'
+  });
+</script>
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K7GWDHX');</script>
+<!-- End Google Tag Manager -->
+
+    <!-- Facebook Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window,document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '221226881549376');
+  fbq('track', 'PageView');
+</script>
+<noscript>
+ <img height="1" width="1" src="https://www.facebook.com/tr?id=221226881549376&ev=PageView &noscript=1"/>
+</noscript>
+<!-- End Facebook Pixel Code -->
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/i18n/jquery-ui-i18n.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment-with-locales.min.js"></script>
+    <script src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
+  <script src="https://code.highcharts.com/8.2/highcharts.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.6.1/jquery.timeago.min.js"></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.6.1/locales/jquery.timeago.ru.js"></script>
+  
+  
+  
+  
+  <script src="/assets/jquery.lightbox-0.5.min-3bba45d4914ea21a372ef087a13476234ec8aaf6bddffa3f3fd7a464dcd84c1d.js"></script>
+  <script src="/assets/hopscotch.min-e4ea3d795684db23fd484ff309762d8e7568a3a013c97a19a368532eb6cb8d14.js"></script>
+
+  <script src="/assets/application-0ec7cdc05fb708b8792730435a56935a235d61dc6c7b40cf68630a0fb677a2e9.js"></script>
+  <script type="importmap" data-turbo-track="reload">{
+  "imports": {
+    "app": "/assets/app-8c25d8b188f00a803cf5c979c9031976b3d1b88237ca80656cfc01f7c3715817.js",
+    "turbo_app": "/assets/turbo_app-723482ed736fd0316035e09b4a0a32e32be30df2e4bb4b49d435439f46624e7f.js",
+    "@hotwired/stimulus": "/assets/stimulus.min-2d97b4c7cf589d06f9e8d32c5e7ec41fdcc1752cf21798e2cd2f081d02a403a0.js",
+    "@hotwired/stimulus-loading": "/assets/stimulus-loading-5b5a62e00d4fdff28f0ea9ec8240cfcbf8e8f7f100420885d1488658282fca1f.js",
+    "@hotwired/turbo-rails": "/assets/turbo.min-ebaccdc18fc000fd5ab88133b554540c30142018e24028abb231af652212039e.js",
+    "flatpickr": "https://ga.jspm.io/npm:flatpickr@4.6.9/dist/flatpickr.js",
+    "flatpickr/dist/l10n": "https://ga.jspm.io/npm:flatpickr@4.6.9/dist/l10n/index.js",
+    "sortablejs": "https://ga.jspm.io/npm:sortablejs@1.15.0/modular/sortable.esm.js",
+    "highcharts": "/assets/highcharts-a376d26e6021244a30646bdc46ca5bacae97339ca9308d005b58398a61f3c7c8.js",
+    "highcharts/highcharts-more": "/assets/highcharts--highcharts-more-82f26a16342cfc34f55bf75952cab460cbc764c12f665f2209e001ca4c6ece6f.js",
+    "controllers/application": "/assets/controllers/application-bc75b1cf53e83b5e11357be2714f1b0adb7040f68e6b5cba587c7cba4b031654.js",
+    "controllers/auto_search_controller": "/assets/controllers/auto_search_controller-d17660036ed3f01ab6a74860011bcb5febdf3eabe9689c3d77ad4931e4c0b3fd.js",
+    "controllers/benchmarks_lifts_chart_controller": "/assets/controllers/benchmarks_lifts_chart_controller-794050ebd8686ab596a3a955441ae62339f2e971c72d3e6d4bf078af323ba8b8.js",
+    "controllers/benchmarks_result_chart_controller": "/assets/controllers/benchmarks_result_chart_controller-b07ebafd46a7c59aa2f77d9ac25a8dd843f88060ef131b25d59cc515a407dc85.js",
+    "controllers/bridges/bootstrap_dropdown_controller": "/assets/controllers/bridges/bootstrap_dropdown_controller-b164aff0586b827ecc4900d244c862276cdb7aa992aa54f09ea81c4f384db14f.js",
+    "controllers/bridges/bootstrap_modal_controller": "/assets/controllers/bridges/bootstrap_modal_controller-6f966f1668c4b4e987ceffe564e1e0ab834f339b6fbea7e41233a64a8eb93b8e.js",
+    "controllers/bridges/bootstrap_modal_onload_controller": "/assets/controllers/bridges/bootstrap_modal_onload_controller-0383f7079c8c9779b7d4bfd02283a1ef3411e49ba7f0876ef507ef80825b913d.js",
+    "controllers/bridges/bootstrap_popover_controller": "/assets/controllers/bridges/bootstrap_popover_controller-da21fd215b6e479eed5fdbc159cb4ef9ec64d4e02bdec5ffffca32778b8d6696.js",
+    "controllers/bridges/bootstrap_toast_controller": "/assets/controllers/bridges/bootstrap_toast_controller-eed3c37745e63ce464fce50e04ad42ad7f881c5cfbebb68b4235b589cdd7f431.js",
+    "controllers/bridges/bootstrap_toast_onload_controller": "/assets/controllers/bridges/bootstrap_toast_onload_controller-22d743f159cf03b08a7e28adb29b968849d5604671ec6d3b7731efaef1cb4985.js",
+    "controllers/bridges/bootstrap_tooltip_controller": "/assets/controllers/bridges/bootstrap_tooltip_controller-ffe9c9cc60b195239dbff2af63aeef7f80b924eab4d75301bec6b551c5474aa4.js",
+    "controllers/button_group_controller": "/assets/controllers/button_group_controller-290eb470e90639ebf5a4e76c42c71ccb88ddb4df7cbf5485842cb086dc8e89fe.js",
+    "controllers/clicker_controller": "/assets/controllers/clicker_controller-2839c161efed66061fe1eef12e50974adf4f094ceca01463434380377fef4105.js",
+    "controllers/clipboard_controller": "/assets/controllers/clipboard_controller-4f51b382efbd69797241124ff41f048f5dbdc99a0f841ae6594da4957afa0016.js",
+    "controllers/earned/tabbed_disabler_controller": "/assets/controllers/earned/tabbed_disabler_controller-c2a55af893038f31ef36c63ee39f0e308156c56749ae342ee3db18ec92555146.js",
+    "controllers/emoji_picker_controller": "/assets/controllers/emoji_picker_controller-04a59be4bcb97d9f165dd0befcff4841dc1f08470d597a6e4f793854338a755d.js",
+    "controllers/flatpickr_controller": "/assets/controllers/flatpickr_controller-89319059a9b19d1a1e9791f9da888ce50925cda20a1e3d3f5ca858bb405997c8.js",
+    "controllers/forms/action_controller": "/assets/controllers/forms/action_controller-33787f31ee516b4a03de4e4cc163c1f217df116ada7f17328c98a8c0a30a39fd.js",
+    "controllers/forms/child_index_controller": "/assets/controllers/forms/child_index_controller-eb8d557a0a933d6a3ed1f7f53dc11df09089f2fe4be074ad7723e68d0e695ac8.js",
+    "controllers/forms/destroy_toggler_controller": "/assets/controllers/forms/destroy_toggler_controller-b55ce03ce98a83c453b7e65f24eadc8e21779b24664e59c686f9bca8611edd6b.js",
+    "controllers/forms/disabled_toggler_controller": "/assets/controllers/forms/disabled_toggler_controller-29273c00e5628c767b8714e2b8aa9c4deed9ccfac3f2d53d886f0d6fabb9ac3e.js",
+    "controllers/forms/field_blanker_controller": "/assets/controllers/forms/field_blanker_controller-4a39583491c17ebe9db8eb2c2b6e318465f0c57d7284176b5fff94cd0a248efb.js",
+    "controllers/forms/nested_remover_controller": "/assets/controllers/forms/nested_remover_controller-60ae0da06f6b5dbed85d86c6c19397e882cef7bdb28c1e154d6629e20aba38db.js",
+    "controllers/forms/reseter_controller": "/assets/controllers/forms/reseter_controller-83da636539582ecc513a7e30019eebd626dae42a01a1a37b4a0a2fc5b9b8c67e.js",
+    "controllers/forms/submit_disabler_controller": "/assets/controllers/forms/submit_disabler_controller-eb6aea35fa6d6a96924486f3b2423305d6ae9156cf7d78482e80ba0eef1c9d4d.js",
+    "controllers/gyms/search_controller": "/assets/controllers/gyms/search_controller-d439118bf15300160fd3936d3756a3dbfa787a003d77585d71a6751cffd2c140.js",
+    "controllers/home/price_update_controller": "/assets/controllers/home/price_update_controller-eab653a9349d7d38f004fa3df38b67696de037a84f316a2a1bfc321e34b2c711.js",
+    "controllers/home/tabs_controller": "/assets/controllers/home/tabs_controller-3510b79c04e5b62ccddd163f29b6a4bc99cb351e341c8c71acefcdcccb1fe6f1.js",
+    "controllers/imbalances_chart_controller": "/assets/controllers/imbalances_chart_controller-d770d4569d81b75488f2f57826e5164260ac8b75e1549bf13dd18aae76771631.js",
+    "controllers": "/assets/controllers/index-7b15027243eb51853a2f5649cef7b4ea5a6c15dbb61abd95d2ade9837bfcdfb7.js",
+    "controllers/indicator_controller": "/assets/controllers/indicator_controller-ce9188849d8142d61f73354dc1387e3b89e2aa795553ca9792829ece21eaf1e4.js",
+    "controllers/line_overlay_controller": "/assets/controllers/line_overlay_controller-f7d155bd6ec374702eaa4995d09192ecd9c300b70e8e92e5be7a6a468d7981da.js",
+    "controllers/macros_photo_controller": "/assets/controllers/macros_photo_controller-b281a98990f862fed4980e68c295ba18640c3b1ee6b33f7a4893850b1f41a9cc.js",
+    "controllers/macros_target_controller": "/assets/controllers/macros_target_controller-7885c1c3b62624e028308107723027f46aec623369cc81e0b8d4509e107b9c3b.js",
+    "controllers/member_codes/search_controller": "/assets/controllers/member_codes/search_controller-e82707092f58896e2cae174ed5492fc656cfff4b066a73408733b3a7ee15528d.js",
+    "controllers/members/search_controller": "/assets/controllers/members/search_controller-092322e6461bb77e7d9dc9a5463c19ebd00edafda587b1384434b39ee08bb7eb.js",
+    "controllers/modalities_card_controller": "/assets/controllers/modalities_card_controller-cb1bdd629709dc209c2cccfd7790124a699dc43d9e25eb8061fd5ebe590d83b9.js",
+    "controllers/modalities_range_controller": "/assets/controllers/modalities_range_controller-58f61bbd14d5882fcbc27b314c608a20bfc4df1e83245597c79380d22b45c293.js",
+    "controllers/modalities_trend_controller": "/assets/controllers/modalities_trend_controller-a5f5da518de50e7f458295841ab55ca48d68d62c16701a503682d0e3778f8791.js",
+    "controllers/organizations/price_table_controller": "/assets/controllers/organizations/price_table_controller-eac6c6cbad5781d8c7d67a58c3cbd15b839127304a3a8d57ea15c699c54ab1fe.js",
+    "controllers/picker_toggle_controller": "/assets/controllers/picker_toggle_controller-3da57c92872e255d7603d27c703c688ea79c25c0018f36c233284208072b1dc8.js",
+    "controllers/plan/analyze_bar_controller": "/assets/controllers/plan/analyze_bar_controller-c4fd7da2e9662ad12017a5ee6af9407d3be741ab8823c07efcafae2cbf335fd3.js",
+    "controllers/plan/analyze_highlighter_controller": "/assets/controllers/plan/analyze_highlighter_controller-1d4c53aa06f1abad899783485795feffae97ba172c6d756127e835c670930c53.js",
+    "controllers/plan/analyze_scroll_controller": "/assets/controllers/plan/analyze_scroll_controller-63db4a092a366118843a9627030c0e6a39df779f15677d6865b869d35d59af57.js",
+    "controllers/plan/app_launcher_controller": "/assets/controllers/plan/app_launcher_controller-b81c1fab9cbb1b99d78cfdea9b837da4aeaf752ff35b0efa116e6e45d418a1af.js",
+    "controllers/plan/attribute_focus_controller": "/assets/controllers/plan/attribute_focus_controller-05d6b26cea6cfc9ac94de109473eb60f056756ea1ae83b0eaae92d61a2fc4d3e.js",
+    "controllers/plan/checkbox_group_controller": "/assets/controllers/plan/checkbox_group_controller-5ca8316ee3d8e6e404bb8e425da72b66d3f08dd697020bdec0585998ef88b8f2.js",
+    "controllers/plan/checkbox_select_all_controller": "/assets/controllers/plan/checkbox_select_all_controller-c1a91d4629ae730ea072fa17d1d9ae1c2f99b8ea9cb7b9da264ad36c526309a5.js",
+    "controllers/plan/child_index_controller": "/assets/controllers/plan/child_index_controller-eb8d557a0a933d6a3ed1f7f53dc11df09089f2fe4be074ad7723e68d0e695ac8.js",
+    "controllers/plan/cloner_controller": "/assets/controllers/plan/cloner_controller-2a360f82ee156de5f5c35279889a3d802f4fd5b2e9248e66ca870b12314e9f27.js",
+    "controllers/plan/complex_sets_controller": "/assets/controllers/plan/complex_sets_controller-e4a26e4ce908932931114029658638a0dd3d37374e0d875895ad67b8f3f831d1.js",
+    "controllers/plan/contents_dnd_controller": "/assets/controllers/plan/contents_dnd_controller-f8963e70a389aea33e2e6a145d1b23b04b75ebadf5cccbba9bae1ba8040fabca.js",
+    "controllers/plan/distance_copy_controller": "/assets/controllers/plan/distance_copy_controller-a1c83293d6ef36cd979ebda2a3395ebc0bec85ebbd8f97f2510c542de55f426d.js",
+    "controllers/plan/events_dnd_controller": "/assets/controllers/plan/events_dnd_controller-7f66219563b6251389ac257ab0d760b92a8a35b903717ae73e396acad23679ef.js",
+    "controllers/plan/examples_controller": "/assets/controllers/plan/examples_controller-2b4054c2257d3efe9f7349bf5722ccf18540a673a217fcfa1a86ac3dfb154a06.js",
+    "controllers/plan/focus_input_controller": "/assets/controllers/plan/focus_input_controller-22a1a838b448a40e73dda02a789bc7567455fe227d0c127664b3be054a938964.js",
+    "controllers/plan/generated_workout_controller": "/assets/controllers/plan/generated_workout_controller-2e4843eef4d729ed5eb6f3230c2086b629bfac0c55cb591242abcd906952a904.js",
+    "controllers/plan/height_set_input_controller": "/assets/controllers/plan/height_set_input_controller-4c676df76be66872971b3926fab34d4f89e4ef809dd69c694aae3367788e9bf4.js",
+    "controllers/plan/height_sets_controller": "/assets/controllers/plan/height_sets_controller-aab3299aabb05557b55bbaa953ee32da880161e1c4cf7eaf97906cc865ec72bd.js",
+    "controllers/plan/input_units_controller": "/assets/controllers/plan/input_units_controller-2739f61ea12ec71efeb5a423c01bfd2b3bc595c429a7755bd259ff2669bbe7ce.js",
+    "controllers/plan/instruction_controller": "/assets/controllers/plan/instruction_controller-b86e5a777a1a0fe3084b64c5ca70021eead43a2e317b3f0ded7fb3c69fc63d5b.js",
+    "controllers/plan/instructions_dnd_controller": "/assets/controllers/plan/instructions_dnd_controller-e03b4333fa15d9f645b008b8ab05c178c2e29b23c91ed00e312b791ed6a60371.js",
+    "controllers/plan/link_controller": "/assets/controllers/plan/link_controller-77d7c426bdcc2375cd455f469414512d4adc43d6c9deebc4f61c75e775bbcb83.js",
+    "controllers/plan/new_feature_callout_controller": "/assets/controllers/plan/new_feature_callout_controller-32517c87ca5e6ac289038cb9c7b3c9d447756503cd4e9f950d8e8c1dfaca5de9.js",
+    "controllers/plan/notes_counter_controller": "/assets/controllers/plan/notes_counter_controller-635d379e6d051d75ba44e1b5f335cc910eaccffa7bccadd570f0923b95f45c69.js",
+    "controllers/plan/popup_menu_controller": "/assets/controllers/plan/popup_menu_controller-613b3c4170613ee4ce79c41d7ac222af2e1652696e1abfb5a65b50f52269ab58.js",
+    "controllers/plan/preview_event_controller": "/assets/controllers/plan/preview_event_controller-bc260d40f749f9838febb2521e850edad99c3aff3bd19882edfa907fd20782eb.js",
+    "controllers/plan/preview_events_controller": "/assets/controllers/plan/preview_events_controller-e491eda95b412d77e63ddc5bd7036b7d08d886d33f52a1775865206a3de7aec3.js",
+    "controllers/plan/reps_set_input_controller": "/assets/controllers/plan/reps_set_input_controller-234e996306a547e36f88ed83e3be4a8dda6f60d5e6cb8c259fb78b925d3c42e2.js",
+    "controllers/plan/reps_sets_controller": "/assets/controllers/plan/reps_sets_controller-3f8aefa8499cce626783961968be20d0ae74d7999cb88f764cd3ef3121c18362.js",
+    "controllers/plan/repscheme_rounds_controller": "/assets/controllers/plan/repscheme_rounds_controller-cbdc459768adca7cb9a6e0c1ec5fdc95050ecc5a727ac551a55d8847d58eaf33.js",
+    "controllers/plan/scroll_arrows_controller": "/assets/controllers/plan/scroll_arrows_controller-b11c23e0d660b8b077c27e7afd4ec8e6f7bfd6414a1e633cc447857a0e76fd58.js",
+    "controllers/plan/scroll_into_view_controller": "/assets/controllers/plan/scroll_into_view_controller-c29cecb3f168218a546a7c7c63c27e46c540e24c885da7737a5e4cf6fcbccc5d.js",
+    "controllers/plan/sets_control_controller": "/assets/controllers/plan/sets_control_controller-2944210d5a716fdab3986a20501eb3b845f18c0393a2284d20fb3c4c5c795415.js",
+    "controllers/plan/sets_until_controller": "/assets/controllers/plan/sets_until_controller-4853e6c7d81967710d786bd450ddf75a017bb6b528360f22e1bc9abd90c178a2.js",
+    "controllers/plan/sidebar_categories_controller": "/assets/controllers/plan/sidebar_categories_controller-1bce8f7f975c3cc75a81709b402fc926b0b6d35e9794ea67f3042d7f4ed63c98.js",
+    "controllers/plan/sidebar_collapse_controller": "/assets/controllers/plan/sidebar_collapse_controller-20f7a0755fe1606652ac210cdf8250c4fba5101cc56cd44ea1233615c06cadab.js",
+    "controllers/plan/sidebar_controller": "/assets/controllers/plan/sidebar_controller-86416f7a33577ae18d9f5341c4e164b1e415d47c6261d81f5648cbcdda5a4464.js",
+    "controllers/plan/sidebar_dual_range_controller": "/assets/controllers/plan/sidebar_dual_range_controller-24d9c348d4f8043785326b52a99ab0c65ee749b8a3ebbb5c75ae91d8da511419.js",
+    "controllers/plan/sidebar_movement_search_controller": "/assets/controllers/plan/sidebar_movement_search_controller-f5b6c2d4120da9b64ea02c78fcf264c2e0fbb72b667aa86c2c6402d0fb156231.js",
+    "controllers/plan/start_add_reps_controller": "/assets/controllers/plan/start_add_reps_controller-84abdfd70321cd4d08807b39db16e05cedd864a34fcbc5e331f9d5e8790c1ada.js",
+    "controllers/plan/styletip_controller": "/assets/controllers/plan/styletip_controller-97d0ec21259179ba5a5d0a40d514b2f9004f0657db8a3e0aa6d96ef0bfacb276.js",
+    "controllers/plan/tag_select_controller": "/assets/controllers/plan/tag_select_controller-22786b4b8572d51ca8ff21365370ba6acd4bc6ec2d7036ae911eb297f9b627c7.js",
+    "controllers/plan/time_set_input_controller": "/assets/controllers/plan/time_set_input_controller-e462e49d78cc71859b79e1ff1da42d0649d7be569d41cb4b58ac6d451ea79849.js",
+    "controllers/plan/time_sets_controller": "/assets/controllers/plan/time_sets_controller-fd3782798598fce4dffd490e32000ea9207791047cecb9011fb1486ea3d973d6.js",
+    "controllers/plan/total_seconds_controller": "/assets/controllers/plan/total_seconds_controller-4f703b944315fd76fa6b83e02f87dd04e5e1d3a3d0c3df00acf20e674dc44c25.js",
+    "controllers/plan/track_event_controller": "/assets/controllers/plan/track_event_controller-99bb73d5fec7285d2b4996b1a2e1038ece7361f426b7906f0e305f68b5d14a5a.js",
+    "controllers/plan/track_select_controller": "/assets/controllers/plan/track_select_controller-338cf509d8947798ec45d09a30d8f4caab609178a1c5145237501bb4a7fa8cbb.js",
+    "controllers/plan/varying_control_controller": "/assets/controllers/plan/varying_control_controller-985241a55d935e760f314fcb7f4ba6ba7aac591b4ff4d046038eccd69db9ad14.js",
+    "controllers/plan/varying_inputs_controller": "/assets/controllers/plan/varying_inputs_controller-2fa0c9cbaf4c9cec7727f500a1a8b2b028cbef750c7a6087eb695952ade62c99.js",
+    "controllers/plan/week_scroll_controller": "/assets/controllers/plan/week_scroll_controller-d4488b0d7382936aa636ac1af512c2f08379c9c4cd1df3f85bcdfbc981327359.js",
+    "controllers/plan/weight_set_input_controller": "/assets/controllers/plan/weight_set_input_controller-ae0955eaa62cb9a10b7a88176b8db31fe4e664ed5a9efacb2160876011e60f1c.js",
+    "controllers/plan/weight_sets_controller": "/assets/controllers/plan/weight_sets_controller-ab6c597ceebafdf2531cc856b0264ea3f753587198d0aa9c743b7d64def0cc53.js",
+    "controllers/plan/weight_sets_scoring_controller": "/assets/controllers/plan/weight_sets_scoring_controller-8e55a29f50abb45ffc51e48ce1c41b1398b426fb37a3eda4813365cc7b6bc58d.js",
+    "controllers/remover_controller": "/assets/controllers/remover_controller-c2e8bb0318632246ebc951750468f728bcb44ac47418830414c55268b97769ad.js",
+    "controllers/site/search_controller": "/assets/controllers/site/search_controller-1dde15db27622d68b72b55d8a20e4365bb0b66eff64dbb56b6a0d3fa2fd52c7f.js",
+    "controllers/site_search_controller": "/assets/controllers/site_search_controller-409cebd934ded6d73c3d803e85bbd53cb6fe433b812d306103ff21338e2fc718.js",
+    "controllers/switch_controller": "/assets/controllers/switch_controller-e076e2d8a9b6be5e2964cca85e1e371e2024c11e416ea6d57fc6e0dd716e86c7.js",
+    "controllers/tabber_controller": "/assets/controllers/tabber_controller-a3f0ac5e74fde056fc6c27cc8c36a669e27c342d063128bcf25b9406e86f1900.js",
+    "controllers/toggler_controller": "/assets/controllers/toggler_controller-5e4379f2e264bc6db578bff22f845dce7d69312938837166e21a1eb0137e1c3f.js",
+    "controllers/token_list_controller": "/assets/controllers/token_list_controller-511b07555a16a92c0e330aa9a4567de5b0f550cb1b80fe04c681af0ac9b9fa2d.js",
+    "controllers/tracks/date_select_controller": "/assets/controllers/tracks/date_select_controller-b4685290e6f595db2b25c2568ef98fa7c79c75f0669e58d008329939399ec837.js",
+    "controllers/tracks/event_links_controller": "/assets/controllers/tracks/event_links_controller-731504635ef26b48c8f9c8c7dd4589209c1c74b31dcb7ca129e49f4c2082b2b2.js",
+    "controllers/tracks/preview_controller": "/assets/controllers/tracks/preview_controller-b3f4959b9b70b7048412ca515f7ddac6254b9501bea552a022857fe4a3cc1443.js",
+    "controllers/tracks/tab_selector_controller": "/assets/controllers/tracks/tab_selector_controller-b6e481f73bcecd01df8e57a8d99b80dcc48d47a4e557b2a2cddd15616f0fdd48.js",
+    "controllers/tracks/toggle_disabled_controller": "/assets/controllers/tracks/toggle_disabled_controller-561f234e53a6a9e0a3fbf9bd6cc7e33b1116426b19c54a3452113bd731791d6d.js",
+    "controllers/tracks/track_toggle_controller": "/assets/controllers/tracks/track_toggle_controller-7ed42b0080cc27f785c8813ce5fe98900446b40013bd12c586a1f3bf6ee9c58e.js",
+    "controllers/training_view_sync_controller": "/assets/controllers/training_view_sync_controller-ef7ea0de2320c2784ac2c23eb9cceda07fe667ddb4b1a848bd4d24626f2e1f8f.js",
+    "controllers/trigger_controller": "/assets/controllers/trigger_controller-79a811ed7cda332e44550822f39423602ff90aad66599d8769fb82af680a547e.js",
+    "controllers/watcher_controller": "/assets/controllers/watcher_controller-6b11f05a911899ed78ba840d089088f74d1fa9aea060e39f85a1d0b5757ef805.js",
+    "controllers/weigh_ins/body_fat_controller": "/assets/controllers/weigh_ins/body_fat_controller-5c686f2f4c16821f35a2f3c07a31c2c162b2a4768989ee5706177bba24826eb8.js",
+    "controllers/weigh_ins/measurement_controller": "/assets/controllers/weigh_ins/measurement_controller-a10e866aacb947568c563df23ca19ec6b53158953882d293a1ad7a9abba070b5.js",
+    "controllers/weigh_ins/track_events_controller": "/assets/controllers/weigh_ins/track_events_controller-14e8477feb1b9dc27d9d8891dcc2de2823a3bf36159a619625a40c8a1ac39f35.js",
+    "controllers/weigh_ins_chart_controller": "/assets/controllers/weigh_ins_chart_controller-a95b2bc041e755b48ab08a7ae743d1db8a657b97f2f3795bc71d3a28e5bb320a.js",
+    "controllers/weigh_ins_target_controller": "/assets/controllers/weigh_ins_target_controller-eebc8ef9122c2d39cefd88eac9f48cc0510526d5df11142bab9837494dbe888d.js",
+    "controllers/work_formula_contexts/edit_controller": "/assets/controllers/work_formula_contexts/edit_controller-dc05ba9eeed4262dfdbb58ee764826264d03b3542613f302f4dffc56a3d1e29d.js"
+  }
+}</script>
+<link rel="modulepreload" href="/assets/app-8c25d8b188f00a803cf5c979c9031976b3d1b88237ca80656cfc01f7c3715817.js">
+<link rel="modulepreload" href="/assets/turbo_app-723482ed736fd0316035e09b4a0a32e32be30df2e4bb4b49d435439f46624e7f.js">
+<link rel="modulepreload" href="/assets/stimulus.min-2d97b4c7cf589d06f9e8d32c5e7ec41fdcc1752cf21798e2cd2f081d02a403a0.js">
+<link rel="modulepreload" href="/assets/stimulus-loading-5b5a62e00d4fdff28f0ea9ec8240cfcbf8e8f7f100420885d1488658282fca1f.js">
+<link rel="modulepreload" href="/assets/turbo.min-ebaccdc18fc000fd5ab88133b554540c30142018e24028abb231af652212039e.js">
+<link rel="modulepreload" href="https://ga.jspm.io/npm:flatpickr@4.6.9/dist/flatpickr.js">
+<link rel="modulepreload" href="https://ga.jspm.io/npm:flatpickr@4.6.9/dist/l10n/index.js">
+<link rel="modulepreload" href="https://ga.jspm.io/npm:sortablejs@1.15.0/modular/sortable.esm.js">
+<link rel="modulepreload" href="/assets/highcharts-a376d26e6021244a30646bdc46ca5bacae97339ca9308d005b58398a61f3c7c8.js">
+<link rel="modulepreload" href="/assets/highcharts--highcharts-more-82f26a16342cfc34f55bf75952cab460cbc764c12f665f2209e001ca4c6ece6f.js">
+<link rel="modulepreload" href="/assets/controllers/application-bc75b1cf53e83b5e11357be2714f1b0adb7040f68e6b5cba587c7cba4b031654.js">
+<link rel="modulepreload" href="/assets/controllers/auto_search_controller-d17660036ed3f01ab6a74860011bcb5febdf3eabe9689c3d77ad4931e4c0b3fd.js">
+<link rel="modulepreload" href="/assets/controllers/benchmarks_lifts_chart_controller-794050ebd8686ab596a3a955441ae62339f2e971c72d3e6d4bf078af323ba8b8.js">
+<link rel="modulepreload" href="/assets/controllers/benchmarks_result_chart_controller-b07ebafd46a7c59aa2f77d9ac25a8dd843f88060ef131b25d59cc515a407dc85.js">
+<link rel="modulepreload" href="/assets/controllers/bridges/bootstrap_dropdown_controller-b164aff0586b827ecc4900d244c862276cdb7aa992aa54f09ea81c4f384db14f.js">
+<link rel="modulepreload" href="/assets/controllers/bridges/bootstrap_modal_controller-6f966f1668c4b4e987ceffe564e1e0ab834f339b6fbea7e41233a64a8eb93b8e.js">
+<link rel="modulepreload" href="/assets/controllers/bridges/bootstrap_modal_onload_controller-0383f7079c8c9779b7d4bfd02283a1ef3411e49ba7f0876ef507ef80825b913d.js">
+<link rel="modulepreload" href="/assets/controllers/bridges/bootstrap_popover_controller-da21fd215b6e479eed5fdbc159cb4ef9ec64d4e02bdec5ffffca32778b8d6696.js">
+<link rel="modulepreload" href="/assets/controllers/bridges/bootstrap_toast_controller-eed3c37745e63ce464fce50e04ad42ad7f881c5cfbebb68b4235b589cdd7f431.js">
+<link rel="modulepreload" href="/assets/controllers/bridges/bootstrap_toast_onload_controller-22d743f159cf03b08a7e28adb29b968849d5604671ec6d3b7731efaef1cb4985.js">
+<link rel="modulepreload" href="/assets/controllers/bridges/bootstrap_tooltip_controller-ffe9c9cc60b195239dbff2af63aeef7f80b924eab4d75301bec6b551c5474aa4.js">
+<link rel="modulepreload" href="/assets/controllers/button_group_controller-290eb470e90639ebf5a4e76c42c71ccb88ddb4df7cbf5485842cb086dc8e89fe.js">
+<link rel="modulepreload" href="/assets/controllers/clicker_controller-2839c161efed66061fe1eef12e50974adf4f094ceca01463434380377fef4105.js">
+<link rel="modulepreload" href="/assets/controllers/clipboard_controller-4f51b382efbd69797241124ff41f048f5dbdc99a0f841ae6594da4957afa0016.js">
+<link rel="modulepreload" href="/assets/controllers/earned/tabbed_disabler_controller-c2a55af893038f31ef36c63ee39f0e308156c56749ae342ee3db18ec92555146.js">
+<link rel="modulepreload" href="/assets/controllers/emoji_picker_controller-04a59be4bcb97d9f165dd0befcff4841dc1f08470d597a6e4f793854338a755d.js">
+<link rel="modulepreload" href="/assets/controllers/flatpickr_controller-89319059a9b19d1a1e9791f9da888ce50925cda20a1e3d3f5ca858bb405997c8.js">
+<link rel="modulepreload" href="/assets/controllers/forms/action_controller-33787f31ee516b4a03de4e4cc163c1f217df116ada7f17328c98a8c0a30a39fd.js">
+<link rel="modulepreload" href="/assets/controllers/forms/child_index_controller-eb8d557a0a933d6a3ed1f7f53dc11df09089f2fe4be074ad7723e68d0e695ac8.js">
+<link rel="modulepreload" href="/assets/controllers/forms/destroy_toggler_controller-b55ce03ce98a83c453b7e65f24eadc8e21779b24664e59c686f9bca8611edd6b.js">
+<link rel="modulepreload" href="/assets/controllers/forms/disabled_toggler_controller-29273c00e5628c767b8714e2b8aa9c4deed9ccfac3f2d53d886f0d6fabb9ac3e.js">
+<link rel="modulepreload" href="/assets/controllers/forms/field_blanker_controller-4a39583491c17ebe9db8eb2c2b6e318465f0c57d7284176b5fff94cd0a248efb.js">
+<link rel="modulepreload" href="/assets/controllers/forms/nested_remover_controller-60ae0da06f6b5dbed85d86c6c19397e882cef7bdb28c1e154d6629e20aba38db.js">
+<link rel="modulepreload" href="/assets/controllers/forms/reseter_controller-83da636539582ecc513a7e30019eebd626dae42a01a1a37b4a0a2fc5b9b8c67e.js">
+<link rel="modulepreload" href="/assets/controllers/forms/submit_disabler_controller-eb6aea35fa6d6a96924486f3b2423305d6ae9156cf7d78482e80ba0eef1c9d4d.js">
+<link rel="modulepreload" href="/assets/controllers/gyms/search_controller-d439118bf15300160fd3936d3756a3dbfa787a003d77585d71a6751cffd2c140.js">
+<link rel="modulepreload" href="/assets/controllers/home/price_update_controller-eab653a9349d7d38f004fa3df38b67696de037a84f316a2a1bfc321e34b2c711.js">
+<link rel="modulepreload" href="/assets/controllers/home/tabs_controller-3510b79c04e5b62ccddd163f29b6a4bc99cb351e341c8c71acefcdcccb1fe6f1.js">
+<link rel="modulepreload" href="/assets/controllers/imbalances_chart_controller-d770d4569d81b75488f2f57826e5164260ac8b75e1549bf13dd18aae76771631.js">
+<link rel="modulepreload" href="/assets/controllers/index-7b15027243eb51853a2f5649cef7b4ea5a6c15dbb61abd95d2ade9837bfcdfb7.js">
+<link rel="modulepreload" href="/assets/controllers/indicator_controller-ce9188849d8142d61f73354dc1387e3b89e2aa795553ca9792829ece21eaf1e4.js">
+<link rel="modulepreload" href="/assets/controllers/line_overlay_controller-f7d155bd6ec374702eaa4995d09192ecd9c300b70e8e92e5be7a6a468d7981da.js">
+<link rel="modulepreload" href="/assets/controllers/macros_photo_controller-b281a98990f862fed4980e68c295ba18640c3b1ee6b33f7a4893850b1f41a9cc.js">
+<link rel="modulepreload" href="/assets/controllers/macros_target_controller-7885c1c3b62624e028308107723027f46aec623369cc81e0b8d4509e107b9c3b.js">
+<link rel="modulepreload" href="/assets/controllers/member_codes/search_controller-e82707092f58896e2cae174ed5492fc656cfff4b066a73408733b3a7ee15528d.js">
+<link rel="modulepreload" href="/assets/controllers/members/search_controller-092322e6461bb77e7d9dc9a5463c19ebd00edafda587b1384434b39ee08bb7eb.js">
+<link rel="modulepreload" href="/assets/controllers/modalities_card_controller-cb1bdd629709dc209c2cccfd7790124a699dc43d9e25eb8061fd5ebe590d83b9.js">
+<link rel="modulepreload" href="/assets/controllers/modalities_range_controller-58f61bbd14d5882fcbc27b314c608a20bfc4df1e83245597c79380d22b45c293.js">
+<link rel="modulepreload" href="/assets/controllers/modalities_trend_controller-a5f5da518de50e7f458295841ab55ca48d68d62c16701a503682d0e3778f8791.js">
+<link rel="modulepreload" href="/assets/controllers/organizations/price_table_controller-eac6c6cbad5781d8c7d67a58c3cbd15b839127304a3a8d57ea15c699c54ab1fe.js">
+<link rel="modulepreload" href="/assets/controllers/picker_toggle_controller-3da57c92872e255d7603d27c703c688ea79c25c0018f36c233284208072b1dc8.js">
+<link rel="modulepreload" href="/assets/controllers/plan/analyze_bar_controller-c4fd7da2e9662ad12017a5ee6af9407d3be741ab8823c07efcafae2cbf335fd3.js">
+<link rel="modulepreload" href="/assets/controllers/plan/analyze_highlighter_controller-1d4c53aa06f1abad899783485795feffae97ba172c6d756127e835c670930c53.js">
+<link rel="modulepreload" href="/assets/controllers/plan/analyze_scroll_controller-63db4a092a366118843a9627030c0e6a39df779f15677d6865b869d35d59af57.js">
+<link rel="modulepreload" href="/assets/controllers/plan/app_launcher_controller-b81c1fab9cbb1b99d78cfdea9b837da4aeaf752ff35b0efa116e6e45d418a1af.js">
+<link rel="modulepreload" href="/assets/controllers/plan/attribute_focus_controller-05d6b26cea6cfc9ac94de109473eb60f056756ea1ae83b0eaae92d61a2fc4d3e.js">
+<link rel="modulepreload" href="/assets/controllers/plan/checkbox_group_controller-5ca8316ee3d8e6e404bb8e425da72b66d3f08dd697020bdec0585998ef88b8f2.js">
+<link rel="modulepreload" href="/assets/controllers/plan/checkbox_select_all_controller-c1a91d4629ae730ea072fa17d1d9ae1c2f99b8ea9cb7b9da264ad36c526309a5.js">
+<link rel="modulepreload" href="/assets/controllers/plan/child_index_controller-eb8d557a0a933d6a3ed1f7f53dc11df09089f2fe4be074ad7723e68d0e695ac8.js">
+<link rel="modulepreload" href="/assets/controllers/plan/cloner_controller-2a360f82ee156de5f5c35279889a3d802f4fd5b2e9248e66ca870b12314e9f27.js">
+<link rel="modulepreload" href="/assets/controllers/plan/complex_sets_controller-e4a26e4ce908932931114029658638a0dd3d37374e0d875895ad67b8f3f831d1.js">
+<link rel="modulepreload" href="/assets/controllers/plan/contents_dnd_controller-f8963e70a389aea33e2e6a145d1b23b04b75ebadf5cccbba9bae1ba8040fabca.js">
+<link rel="modulepreload" href="/assets/controllers/plan/distance_copy_controller-a1c83293d6ef36cd979ebda2a3395ebc0bec85ebbd8f97f2510c542de55f426d.js">
+<link rel="modulepreload" href="/assets/controllers/plan/events_dnd_controller-7f66219563b6251389ac257ab0d760b92a8a35b903717ae73e396acad23679ef.js">
+<link rel="modulepreload" href="/assets/controllers/plan/examples_controller-2b4054c2257d3efe9f7349bf5722ccf18540a673a217fcfa1a86ac3dfb154a06.js">
+<link rel="modulepreload" href="/assets/controllers/plan/focus_input_controller-22a1a838b448a40e73dda02a789bc7567455fe227d0c127664b3be054a938964.js">
+<link rel="modulepreload" href="/assets/controllers/plan/generated_workout_controller-2e4843eef4d729ed5eb6f3230c2086b629bfac0c55cb591242abcd906952a904.js">
+<link rel="modulepreload" href="/assets/controllers/plan/height_set_input_controller-4c676df76be66872971b3926fab34d4f89e4ef809dd69c694aae3367788e9bf4.js">
+<link rel="modulepreload" href="/assets/controllers/plan/height_sets_controller-aab3299aabb05557b55bbaa953ee32da880161e1c4cf7eaf97906cc865ec72bd.js">
+<link rel="modulepreload" href="/assets/controllers/plan/input_units_controller-2739f61ea12ec71efeb5a423c01bfd2b3bc595c429a7755bd259ff2669bbe7ce.js">
+<link rel="modulepreload" href="/assets/controllers/plan/instruction_controller-b86e5a777a1a0fe3084b64c5ca70021eead43a2e317b3f0ded7fb3c69fc63d5b.js">
+<link rel="modulepreload" href="/assets/controllers/plan/instructions_dnd_controller-e03b4333fa15d9f645b008b8ab05c178c2e29b23c91ed00e312b791ed6a60371.js">
+<link rel="modulepreload" href="/assets/controllers/plan/link_controller-77d7c426bdcc2375cd455f469414512d4adc43d6c9deebc4f61c75e775bbcb83.js">
+<link rel="modulepreload" href="/assets/controllers/plan/new_feature_callout_controller-32517c87ca5e6ac289038cb9c7b3c9d447756503cd4e9f950d8e8c1dfaca5de9.js">
+<link rel="modulepreload" href="/assets/controllers/plan/notes_counter_controller-635d379e6d051d75ba44e1b5f335cc910eaccffa7bccadd570f0923b95f45c69.js">
+<link rel="modulepreload" href="/assets/controllers/plan/popup_menu_controller-613b3c4170613ee4ce79c41d7ac222af2e1652696e1abfb5a65b50f52269ab58.js">
+<link rel="modulepreload" href="/assets/controllers/plan/preview_event_controller-bc260d40f749f9838febb2521e850edad99c3aff3bd19882edfa907fd20782eb.js">
+<link rel="modulepreload" href="/assets/controllers/plan/preview_events_controller-e491eda95b412d77e63ddc5bd7036b7d08d886d33f52a1775865206a3de7aec3.js">
+<link rel="modulepreload" href="/assets/controllers/plan/reps_set_input_controller-234e996306a547e36f88ed83e3be4a8dda6f60d5e6cb8c259fb78b925d3c42e2.js">
+<link rel="modulepreload" href="/assets/controllers/plan/reps_sets_controller-3f8aefa8499cce626783961968be20d0ae74d7999cb88f764cd3ef3121c18362.js">
+<link rel="modulepreload" href="/assets/controllers/plan/repscheme_rounds_controller-cbdc459768adca7cb9a6e0c1ec5fdc95050ecc5a727ac551a55d8847d58eaf33.js">
+<link rel="modulepreload" href="/assets/controllers/plan/scroll_arrows_controller-b11c23e0d660b8b077c27e7afd4ec8e6f7bfd6414a1e633cc447857a0e76fd58.js">
+<link rel="modulepreload" href="/assets/controllers/plan/scroll_into_view_controller-c29cecb3f168218a546a7c7c63c27e46c540e24c885da7737a5e4cf6fcbccc5d.js">
+<link rel="modulepreload" href="/assets/controllers/plan/sets_control_controller-2944210d5a716fdab3986a20501eb3b845f18c0393a2284d20fb3c4c5c795415.js">
+<link rel="modulepreload" href="/assets/controllers/plan/sets_until_controller-4853e6c7d81967710d786bd450ddf75a017bb6b528360f22e1bc9abd90c178a2.js">
+<link rel="modulepreload" href="/assets/controllers/plan/sidebar_categories_controller-1bce8f7f975c3cc75a81709b402fc926b0b6d35e9794ea67f3042d7f4ed63c98.js">
+<link rel="modulepreload" href="/assets/controllers/plan/sidebar_collapse_controller-20f7a0755fe1606652ac210cdf8250c4fba5101cc56cd44ea1233615c06cadab.js">
+<link rel="modulepreload" href="/assets/controllers/plan/sidebar_controller-86416f7a33577ae18d9f5341c4e164b1e415d47c6261d81f5648cbcdda5a4464.js">
+<link rel="modulepreload" href="/assets/controllers/plan/sidebar_dual_range_controller-24d9c348d4f8043785326b52a99ab0c65ee749b8a3ebbb5c75ae91d8da511419.js">
+<link rel="modulepreload" href="/assets/controllers/plan/sidebar_movement_search_controller-f5b6c2d4120da9b64ea02c78fcf264c2e0fbb72b667aa86c2c6402d0fb156231.js">
+<link rel="modulepreload" href="/assets/controllers/plan/start_add_reps_controller-84abdfd70321cd4d08807b39db16e05cedd864a34fcbc5e331f9d5e8790c1ada.js">
+<link rel="modulepreload" href="/assets/controllers/plan/styletip_controller-97d0ec21259179ba5a5d0a40d514b2f9004f0657db8a3e0aa6d96ef0bfacb276.js">
+<link rel="modulepreload" href="/assets/controllers/plan/tag_select_controller-22786b4b8572d51ca8ff21365370ba6acd4bc6ec2d7036ae911eb297f9b627c7.js">
+<link rel="modulepreload" href="/assets/controllers/plan/time_set_input_controller-e462e49d78cc71859b79e1ff1da42d0649d7be569d41cb4b58ac6d451ea79849.js">
+<link rel="modulepreload" href="/assets/controllers/plan/time_sets_controller-fd3782798598fce4dffd490e32000ea9207791047cecb9011fb1486ea3d973d6.js">
+<link rel="modulepreload" href="/assets/controllers/plan/total_seconds_controller-4f703b944315fd76fa6b83e02f87dd04e5e1d3a3d0c3df00acf20e674dc44c25.js">
+<link rel="modulepreload" href="/assets/controllers/plan/track_event_controller-99bb73d5fec7285d2b4996b1a2e1038ece7361f426b7906f0e305f68b5d14a5a.js">
+<link rel="modulepreload" href="/assets/controllers/plan/track_select_controller-338cf509d8947798ec45d09a30d8f4caab609178a1c5145237501bb4a7fa8cbb.js">
+<link rel="modulepreload" href="/assets/controllers/plan/varying_control_controller-985241a55d935e760f314fcb7f4ba6ba7aac591b4ff4d046038eccd69db9ad14.js">
+<link rel="modulepreload" href="/assets/controllers/plan/varying_inputs_controller-2fa0c9cbaf4c9cec7727f500a1a8b2b028cbef750c7a6087eb695952ade62c99.js">
+<link rel="modulepreload" href="/assets/controllers/plan/week_scroll_controller-d4488b0d7382936aa636ac1af512c2f08379c9c4cd1df3f85bcdfbc981327359.js">
+<link rel="modulepreload" href="/assets/controllers/plan/weight_set_input_controller-ae0955eaa62cb9a10b7a88176b8db31fe4e664ed5a9efacb2160876011e60f1c.js">
+<link rel="modulepreload" href="/assets/controllers/plan/weight_sets_controller-ab6c597ceebafdf2531cc856b0264ea3f753587198d0aa9c743b7d64def0cc53.js">
+<link rel="modulepreload" href="/assets/controllers/plan/weight_sets_scoring_controller-8e55a29f50abb45ffc51e48ce1c41b1398b426fb37a3eda4813365cc7b6bc58d.js">
+<link rel="modulepreload" href="/assets/controllers/remover_controller-c2e8bb0318632246ebc951750468f728bcb44ac47418830414c55268b97769ad.js">
+<link rel="modulepreload" href="/assets/controllers/site/search_controller-1dde15db27622d68b72b55d8a20e4365bb0b66eff64dbb56b6a0d3fa2fd52c7f.js">
+<link rel="modulepreload" href="/assets/controllers/site_search_controller-409cebd934ded6d73c3d803e85bbd53cb6fe433b812d306103ff21338e2fc718.js">
+<link rel="modulepreload" href="/assets/controllers/switch_controller-e076e2d8a9b6be5e2964cca85e1e371e2024c11e416ea6d57fc6e0dd716e86c7.js">
+<link rel="modulepreload" href="/assets/controllers/tabber_controller-a3f0ac5e74fde056fc6c27cc8c36a669e27c342d063128bcf25b9406e86f1900.js">
+<link rel="modulepreload" href="/assets/controllers/toggler_controller-5e4379f2e264bc6db578bff22f845dce7d69312938837166e21a1eb0137e1c3f.js">
+<link rel="modulepreload" href="/assets/controllers/token_list_controller-511b07555a16a92c0e330aa9a4567de5b0f550cb1b80fe04c681af0ac9b9fa2d.js">
+<link rel="modulepreload" href="/assets/controllers/tracks/date_select_controller-b4685290e6f595db2b25c2568ef98fa7c79c75f0669e58d008329939399ec837.js">
+<link rel="modulepreload" href="/assets/controllers/tracks/event_links_controller-731504635ef26b48c8f9c8c7dd4589209c1c74b31dcb7ca129e49f4c2082b2b2.js">
+<link rel="modulepreload" href="/assets/controllers/tracks/preview_controller-b3f4959b9b70b7048412ca515f7ddac6254b9501bea552a022857fe4a3cc1443.js">
+<link rel="modulepreload" href="/assets/controllers/tracks/tab_selector_controller-b6e481f73bcecd01df8e57a8d99b80dcc48d47a4e557b2a2cddd15616f0fdd48.js">
+<link rel="modulepreload" href="/assets/controllers/tracks/toggle_disabled_controller-561f234e53a6a9e0a3fbf9bd6cc7e33b1116426b19c54a3452113bd731791d6d.js">
+<link rel="modulepreload" href="/assets/controllers/tracks/track_toggle_controller-7ed42b0080cc27f785c8813ce5fe98900446b40013bd12c586a1f3bf6ee9c58e.js">
+<link rel="modulepreload" href="/assets/controllers/training_view_sync_controller-ef7ea0de2320c2784ac2c23eb9cceda07fe667ddb4b1a848bd4d24626f2e1f8f.js">
+<link rel="modulepreload" href="/assets/controllers/trigger_controller-79a811ed7cda332e44550822f39423602ff90aad66599d8769fb82af680a547e.js">
+<link rel="modulepreload" href="/assets/controllers/watcher_controller-6b11f05a911899ed78ba840d089088f74d1fa9aea060e39f85a1d0b5757ef805.js">
+<link rel="modulepreload" href="/assets/controllers/weigh_ins/body_fat_controller-5c686f2f4c16821f35a2f3c07a31c2c162b2a4768989ee5706177bba24826eb8.js">
+<link rel="modulepreload" href="/assets/controllers/weigh_ins/measurement_controller-a10e866aacb947568c563df23ca19ec6b53158953882d293a1ad7a9abba070b5.js">
+<link rel="modulepreload" href="/assets/controllers/weigh_ins/track_events_controller-14e8477feb1b9dc27d9d8891dcc2de2823a3bf36159a619625a40c8a1ac39f35.js">
+<link rel="modulepreload" href="/assets/controllers/weigh_ins_chart_controller-a95b2bc041e755b48ab08a7ae743d1db8a657b97f2f3795bc71d3a28e5bb320a.js">
+<link rel="modulepreload" href="/assets/controllers/weigh_ins_target_controller-eebc8ef9122c2d39cefd88eac9f48cc0510526d5df11142bab9837494dbe888d.js">
+<link rel="modulepreload" href="/assets/controllers/work_formula_contexts/edit_controller-dc05ba9eeed4262dfdbb58ee764826264d03b3542613f302f4dffc56a3d1e29d.js">
+<script type="module">import "app"</script>
+    <script>
+//<![CDATA[
+
+    $(function() {
+      initWhiteboardCalendar('#whiteboard-wods');
+      initHelp();
+    });
+
+//]]>
+</script>  <script>
+//<![CDATA[
+
+    $(function() {
+      initViewTaskEvents();
+    });
+
+//]]>
+</script>  <script>
+//<![CDATA[
+
+    // wait for doc to be loaded
+    var lightBoxOptions = {
+        imageLoading:  '/assets/lightbox-ico-loading-a8d89148bb557fe590ebce1fef5e2bb204cd7d605da39959f49a96f5279b92fc.gif',
+        imageBtnPrev:  '/assets/lightbox-btn-prev-f82ecd2e9c3fbfc0520ef7c15d034143422b24a7fe9599cf96d7d1a2f8778236.gif',
+        imageBtnNext:  '/assets/lightbox-btn-next-733bd8f24b14c47f99c837f82ef79a6fc7fe440e6dce22d44d593aac42812d88.gif',
+        imageBtnClose: '/assets/lightbox-btn-close-e77c04fd5c319d92670909888d8ef7d3e46bccc02d7585ebc2b4262c2f97d48d.gif',
+        imageBlank:    '/assets/lightbox-blank-1d99b3c7b1496e529623ad0d17a2a6c152f4d8e63db76a0e2610b93135a7c5d3.gif'
+    };
+
+    $(function() {
+      // select ALL links with rel = lightbox
+      $('a[rel="lightbox"]').lightBox(lightBoxOptions);
+    });
+
+//]]>
+</script>  <script>
+//<![CDATA[
+
+    $(function() {
+      initWhiteboardTour(false);
+    });
+
+//]]>
+</script>  <script>
+//<![CDATA[
+
+    $(function() {
+      initQuickLogs();
+      initLifestyle();
+    });
+
+//]]>
+</script>  <script>
+//<![CDATA[
+
+    $(function() {
+      initWeighInsPanel();
+    });
+
+//]]>
+</script>  <script>
+//<![CDATA[
+
+    $(function() {
+      initMovementModalityPanel();
+    });
+
+//]]>
+</script>  <script>
+//<![CDATA[
+
+    $(function() {
+      initActivityPanel("#whiteboard-activity");
+    });
+
+//]]>
+</script>
+</head>
+<body class="whiteboards whiteboards-show">
+
+  <header class="site-header">
+    <nav class="navigation">
+      <div class="navigation__container">
+          <a href="#nav-main-menu" class="navigation__hamburger-icon">&#9776;</a>
+        <a class="navigation__logo--link" href="/">
+          <img class="navigation__logo--image" src="/assets/btw-logo-95f44e10a231757758ec87a2d1f25aee21d5d654fc4a912045bafa36f52c51d2.png" />
+</a>        <div class="navigation__container--menu-wrapper">
+            <ul id="nav-main-menu" class="navigation__menu">
+  <li class="navigation__menu--item navigation__menu--item--close">
+    <a href="#nav-main-menu-toggle" class="navigation__close-menu-icon">&#10799;</a>
+  </li>
+  <li class="navigation__menu--item">
+    <strong class="navigation__menu--item--label">
+      Запись
+    </strong>
+    <ul class="navigation__sub-menu">
+      <li>
+        <a class="navigation__sub-menu--item" href="/workout_sessions/log"> Воркаут (ВОД)</a>
+      </li>
+      <li>
+        <a class="navigation__sub-menu--item" href="/members/100001/weigh_ins/new">Взвешивание</a>
+      </li>
+      <li>
+        <a class="navigation__sub-menu--item" href="/members/100001/journal_entries/new">Записей в журнал</a>
+      </li>
+      <li>
+        <a class="navigation__sub-menu--item" href="/members/100001/injuries/new">Травмы</a>
+      </li>
+    </ul>
+  </li>
+  <li class="navigation__menu--item">
+    <a class="navigation__menu--item--label" href="/plan/calendar">
+      <strong>
+        План
+      </strong>
+</a>  </li>
+  <li class="navigation__menu--item">
+    <strong class="navigation__menu--item--label">
+      Анализировать
+    </strong>
+    <ul class="navigation__sub-menu">
+      <li>
+        <a class="navigation__sub-menu--item" href="/analyze/members/100001">Анализировать страницу управления </a>
+      </li>
+      <li>
+        <a class="navigation__sub-menu--item" href="/analyze/members/100001/fitness_level">Фитнес-уровень </a>
+      </li>
+      <li>
+        <a class="navigation__sub-menu--item" href="/analyze/members/100001/imbalances">Дисбалансы</a>
+      </li>
+      <li>
+        <a class="navigation__sub-menu--item" href="/analyze/members/100001/programming">Программирование</a>
+      </li>
+      <li>
+        <a class="navigation__sub-menu--item" href="/analyze/members/100001/lifestyle">Образ жизни</a>
+      </li>
+    </ul>
+  </li>
+  <li class="navigation__menu--item">
+    <a class="navigation__menu--item--label" href="https://programs.btwb.com">
+      <strong>
+        Programs
+      </strong>
+</a>  </li>
+    <li class="navigation__menu--item">
+      <a class="navigation__menu--item--label" href="/leaderboards">
+        <strong>
+          Таблица лидеров
+        </strong>
+</a>    </li>
+  <li class="navigation__menu--item">
+    <strong class="navigation__menu--item--label">
+      Исследовать
+    </strong>
+    <ul class="navigation__sub-menu">
+      <li>
+        <a class="navigation__sub-menu--item" href="/gyms">Кроссфит-клубы</a>
+      </li>
+      <li>
+        <a class="navigation__sub-menu--item" href="/workouts"> Воркауты (ВОД)</a>
+      </li>
+      <li>
+        <a class="navigation__sub-menu--item" href="/members/100001/movements">Упражнения </a>
+      </li>
+      <li>
+        <a class="navigation__sub-menu--item" href="/members/100001/tracks">Tреки</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="navigation__container--search-wrapper">
+  <form class="navigation__search" action="/search/autosuggest">
+    <input type="search" name="keywords" class="navigation__search--input" />
+    <button type="sumbit" class="navigation__search--button">&nbsp;</button>
+    <script type="text/html"><li class="site-search-item">
+  <a><img src="{{= img_uri }}" />{{= name }}</a>
+</li>
+</script>
+  </form>
+
+
+  <div class="navigation__user-dropdown">
+    <div class="navigation__user-dropdown--container">
+      <img class="navigation__user-dropdown--avatar" src="https://btwb.com/avatars/100001-1733258723" width="25" height="25" />
+      <div class="navigation__user-dropdown--arrow-container">
+        <div class="navigation__user-dropdown--arrow"></div>
+      </div>
+    </div>
+    <div class="navigation__user-dropdown--menu">
+      <strong class="navigation__user-dropdown--header">
+        Test
+      </strong>
+      <ul class="navigation__user-list">
+        <li>
+          <a class="navigation__user-list--item" href="/notifications">
+            Уведомления
+              <span class="navigation__user-list--notifications-count">
+                2879
+              </span>
+</a>        </li>
+        <li>
+          <a class="navigation__user-list--item" href="/members/100001">Ваше профиль</a>
+        </li>
+        <li>
+          <a class="navigation__user-list--item" href="/whiteboard">Ваш  Whiteboard</a>
+        </li>
+        <li>
+          <a class="navigation__user-list--item" href="/gyms/4038-natrium-crossfit">Ваш кроссфит-клуб</a>
+        </li>
+        <li>
+          <a class="navigation__user-list--item" href="/members/100001/tracks">Ваши треки</a>
+        </li>
+      </ul>
+      <div class="navigation__user-dropdown--divider"></div>
+      <strong class="navigation__user-dropdown--header">
+        Обновите информацию 
+      </strong>
+      <ul class="navigation__user-list">
+        <li>
+          <a class="navigation__user-list--item" href="/members/100001/edit">Изменить профиль </a>
+        </li>
+        <li>
+          <a class="navigation__user-list--item" href="/members/100001/edit">Изменить кроссфит-клуб</a>
+        </li>
+      </ul>
+      <div class="navigation__user-dropdown--divider"></div>
+      <strong class="navigation__user-dropdown--header">
+        Учётная запись
+      </strong>
+      <ul class="navigation__user-list">
+        <li>
+          <a class="navigation__user-list--item" href="/subscriptions/members">Абонемент</a>
+        </li>
+        <li>
+          <a class="navigation__user-list--item" href="/members/100001/privacy_options">Редактировать настройки конфиденциальности</a>
+        </li>
+        <li>
+          <a class="navigation__user-list--item" href="/members/100001/preferences/edit">Изменить настройки </a>
+        </li>
+      </ul>
+      <div class="navigation__user-dropdown--divider"></div>
+      <ul class="navigation__user-list">
+        <li>
+          <a class="navigation__user-list--item" href="/legal">Юридическое уведомление</a>
+        </li>
+      </ul>
+      <div class="navigation__user-dropdown--divider"></div>
+      <ul class="navigation__user-list">
+        <li class="navigation__user-list--util-list">
+          <a class="navigation__user-list--item navigation__user-list--item--util-item" href="/signout">Выход</a>
+          <a class="navigation__user-list--item navigation__user-list--item--util-item" href="/support/home">Помощь</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <a class="navigation__notifications" href="/notifications">
+    <img src="/assets/header/bell-27355a47dce9ff03fc4bea046a24915e246c29c4496fba12e81ad22cdae59b6e.png" width="20" height="20" />
+      <div class="navigation__notifications--count">
+        2879
+      </div>
+</a></div>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  
+
+  <div role="main" id="main" class="container">
+    
+
+
+
+
+
+
+
+
+
+<div class="whiteboards__header">
+  <div class="name_plate clearfix" id="member_name_plate">
+  <a class="avatar" href="/members/100001">
+    <img width="80px" src="https://btwb.com/avatars/100001-1733258723" />
+</a>
+    
+  <div class="level_container pull-left">
+    <div class="level clearfix">
+      <div class="level_num_and_conf">
+        <div class="level_value">
+          <div class="title">Level</div>
+          <a href="/analyze/members/100001">57</a>
+        </div>
+
+          <div class="change change-negative">
+            0
+              <span class="info-text">
+               (Jul 21)
+              </span>
+          </div>
+
+        <div class="level_confidence">
+          <a title="Помощь - Достоверность Фитнес-уровня" rel="help" href="/help/fitness_levels/confidence">
+            <img src="/assets/confidence_level_small_2-74ca0026818ce0b35049c266efb1ab5805b920caac40e7fd1150d77b61da16e1.png" />
+</a>        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="info pull-left">
+    <div class="name">
+      <a href="/members/100001">Test Member</a>
+      <span id="analyze-gym-members-overlay-trigger"></span>
+    </div>
+    <span class="sub_heading label">
+      <a href="/gyms/4038-natrium-crossfit">Natrium CrossFit</a>
+    </span>
+    <span class="sub_heading label">
+      <a href="/members/100001/workout_sessions">1 549 тренировок</a>
+    </span>
+  </div>
+</div>
+
+  <div class="whiteboards__header--help">
+    <a title="Whiteboard помощь обзора" rel="help" id="help-link" class="help-link" href="/help/whiteboard/overview">
+      <span class="icon-help"></span>Нужна помощь?
+</a>    
+
+
+<a id="whiteboard-tour" data-uri="/members/100001"
+    data-value='{&quot;member&quot;:{&quot;preferences_attributes&quot;:[{&quot;name&quot;:&quot;starting_help&quot;,&quot;group_type&quot;:&quot;whiteboard&quot;,&quot;value&quot;:&quot;0&quot;,&quot;id&quot;:null}]}}'>
+  Тур
+</a>
+
+  </div>
+</div>
+
+<section id="whiteboard-wods">
+  <div class="wb-calendar-header page-header">
+  <h2 data-controller="trigger picker-toggle" data-picker-toggle-picker-name-value="_flatpickr">
+    <form data-trigger-target="form" style="display: inline;" action="/members/100001/whiteboard/week" accept-charset="UTF-8" data-remote="true" method="get">
+      <input type="text" name="d" id="d" value="2026-07-30" readonly="readonly" data-controller="flatpickr" data-flatpickr-locale-value="ru" data-flatpickr-first-day-of-week-value="1" data-picker-toggle-target="input" data-action="trigger#submitForm" style="border: none; width: 0;" />
+</form>    <span id="whiteboard-date" data-action="click->picker-toggle#togglePicker">
+      20 июля -
+      2 августа 2026
+    </span>
+  </h2>
+  <div class="calendar-navi">
+    <img id="wb-loading" style="margin-right: 5px; display: none;" src="/assets/ajax_loader-84ebf2b64317994865b6350333254da30f00b983de6b305208ba0164c42f823d.gif" />
+
+    <span style="margin-right: 20px;">
+      <a class="btn" data-remote="true" href="/members/100001/whiteboard/day?d=2026-07-30">День</a>
+      <span class="btn active">
+        Неделя
+      </span>
+      <a class="btn" data-remote="true" href="/members/100001/whiteboard/month?d=2026-07-30">Месяц</a>
+    </span>
+
+    <a class="btn" data-remote="true" href="/members/100001/whiteboard/week?d=2026-07-20">
+      <span class="icon-prev"></span>
+</a>    <a class="btn" data-remote="true" href="/members/100001/whiteboard/week?d=2026-08-03">
+      <span class="icon-next"></span>
+</a>  </div>
+</div>
+<div class="inner-shadow">
+  <div class="inner">
+    <div class="track-legend clearfix">
+  <ul class="pull-right">
+    <li><strong>Tреки</strong></li>
+      <li data-track-events="track_200002" data-color-name="blue" class="blue">
+        <span class="icon-dot-blue"></span>
+        Personal Test Track
+      </li>
+      <li data-track-events="track_529396" data-color-name="purple" class="purple">
+        <span class="icon-dot-purple"></span>
+        Natrium Weightlifting StaffOnly
+      </li>
+      <li data-track-events="track_530228" data-color-name="red" class="red">
+        <span class="icon-dot-red"></span>
+        Natrium WODs
+      </li>
+      <li data-track-events="track_530407" data-color-name="orange" class="orange">
+        <span class="icon-dot-orange"></span>
+        Natrium Gymnastics
+      </li>
+      <li data-track-events="track_530409" data-color-name="yellow" class="yellow">
+        <span class="icon-dot-yellow"></span>
+        Natrium Gym
+      </li>
+      <li data-track-events="track_559736" data-color-name="green" class="green">
+        <span class="icon-dot-green"></span>
+        Natrium &amp; Linchpin WODs
+      </li>
+      <li data-track-events="track_200001" data-color-name="blue" class="blue">
+        <span class="icon-dot-blue"></span>
+        CAP
+      </li>
+      <li data-track-events="track_694244" data-color-name="purple" class="purple">
+        <span class="icon-dot-purple"></span>
+        CAP - Coaches Notes
+      </li>
+      <li data-track-events="track_694245" data-color-name="red" class="red">
+        <span class="icon-dot-red"></span>
+        CAP - At Home
+      </li>
+      <li data-track-events="track_694246" data-color-name="orange" class="orange">
+        <span class="icon-dot-orange"></span>
+        CAP - Compete
+      </li>
+      <li data-track-events="track_694247" data-color-name="yellow" class="yellow">
+        <span class="icon-dot-yellow"></span>
+        CAP - Lifting
+      </li>
+      <li data-track-events="track_1021085" data-color-name="green" class="green">
+        <span class="icon-dot-green"></span>
+        Natrium Weightlifting
+      </li>
+      <li data-track-events="track_1059415" data-color-name="blue" class="blue">
+        <span class="icon-dot-blue"></span>
+        Test
+      </li>
+  </ul>
+</div>
+
+    <div id="whiteboard-wods-panel" class="clearfix">
+      <div class="week-events">
+        <div class="box-week clearfix" data-prev-week="2026-07-13" data-week="2026-07-20" data-next-week="2026-07-27">
+
+    <div class="box box-day   current-month">
+      <a style="text-decoration: none;" data-remote="true" href="/members/100001/whiteboard/day?d=2026-07-20">
+        <h3 class="view-day" title="view day">
+            Пн
+          | 20
+        </h3>
+</a>
+      <ul class="event-list">
+            <li class="blue track_200002">
+              <div class="view-task-details workout_session"
+                  data-task="workout_session"
+                  data-uri="/tasks/members/100001/workout_sessions/130283272">
+                <span class="icon-unplanned-event"></span>
+Every 1 min for 8 mins: Push Press
+
+              </div>
+            </li>
+            <li class="blue track_200002">
+              <div class="view-task-details workout_session"
+                  data-task="workout_session"
+                  data-uri="/tasks/members/100001/workout_sessions/130283284">
+                <span class="icon-unplanned-event"></span>
+FT: Assault Bike Calories; 5x Toes-to-bars and Dumbbell Devil Press
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323452610">
+                <span>
+    <span class="icon-dot"></span>
+    Rx&#39;d / Intermediate / Masters 55+ Deadlift : 1-1-1-1-1-1-1
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323442490">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323453321">
+                <span>
+    <span class="icon-dot"></span>
+    CrossFit Light Deadlift : 3-3-3-3-3-3-3
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323454165">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323453348">
+                <span>
+    <span class="icon-dot"></span>
+    At-Home Alt EMOM 15 mins: Superman Arch-ups, Plank Holds, Dumbbell Reverse Lunges, and Dumbbell Deadlifts
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323449110">
+                <span>
+    <span class="icon-note"></span>
+      Work Your Weakness
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323449187">
+                <span>
+    <span class="icon-dot"></span>
+    Strength I - Option A Snatch : 5-5-5-5-4-4-4
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323449258">
+                <span>
+    <span class="icon-dot"></span>
+    Strength I - Option B Clean 5-5-5-5-4-4-4
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323449424">
+                <span>
+    <span class="icon-dot"></span>
+    Strength I - Option C Jerk 5-5-5-5-4-4-4
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323449780">
+                <span>
+    <span class="icon-dot"></span>
+    Strength II Deadlift : 5-5-5-5-5+
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323450281">
+                <span>
+    <span class="icon-dot"></span>
+    Strength III Every 3 mins for 15 mins: Weighted Hip Extensions and Sandbag Carries
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323450469">
+                <span>
+    <span class="icon-dot"></span>
+    Skill I 10 RF-ME: Double Unders and Handstand Walks
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323450793">
+                <span>
+    <span class="icon-dot"></span>
+    Stamina I 4 RFT: Jogs, 400 m, Jogs, and Sprints
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323439301">
+                <span>
+    <span class="icon-note"></span>
+      Overview Video
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323439871">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323461136">
+                <span>
+    <span class="icon-note"></span>
+      Workout Order + Daily Notes
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323461563">
+                <span>
+    <span class="icon-note"></span>
+      Warm-up
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323463315">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 1 - 260720 AMReps 10 mins (1,2,3,...): Power Snatches and Push-ups
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323463823">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 2 - Strength II Deadlift : 5-5-5-5-5+
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323463963">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 3 - Accessory I FT: Sled Drag 800 m
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323465837">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+      </ul>
+    </div>
+
+    <div class="box box-day   current-month">
+      <a style="text-decoration: none;" data-remote="true" href="/members/100001/whiteboard/day?d=2026-07-21">
+        <h3 class="view-day" title="view day">
+            Вт
+          | 21
+        </h3>
+</a>
+      <ul class="event-list">
+            <li class="blue track_200001">
+              <div class="view-task-details workout_session"
+                  data-task="workout_session"
+                  data-uri="/tasks/members/100001/workout_sessions/130296646">
+                <span class="icon-planned-event"></span>
+AMRAP 20 mins: Handstand Push-ups, Alternating Pistols and Pull-ups
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323460366">
+                <span>
+    <span class="icon-dot"></span>
+    Intermediate / Masters 55+ AMRAP 20 mins: Handstand Push-ups, Alternating Pistols, and Pull-ups
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323445916">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325409706">
+                <span>
+    <span class="icon-note"></span>
+      Skill Work Light
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323460548">
+                <span>
+    <span class="icon-dot"></span>
+    CrossFit Light AMRAP 20 mins: Elevated Push-ups, Reverse Lunges, and Ring Rows
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323461086">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323460857">
+                <span>
+    <span class="icon-dot"></span>
+    At-Home AMRAP 20 mins: Handstand Push-ups, Alternating Pistols, and Dumbbell Hang Power Cleans
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323439315">
+                <span>
+    <span class="icon-note"></span>
+      Overview Video
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323442424">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323461708">
+                <span>
+    <span class="icon-note"></span>
+      Workout Order + Daily Notes
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323461814">
+                <span>
+    <span class="icon-note"></span>
+      Warm-up
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323465865">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 1 - 260721 10 RFT: 200 m, Legless Rope Climbs, and Rope Climbs
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323466149">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 2 - Skill I 10 RF-ME: Double Unders and Handstand Walks
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323466278">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 3 - Accessory I FQ: L-Sit Holds
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323466699">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+      </ul>
+    </div>
+
+    <div class="box box-day   current-month">
+      <a style="text-decoration: none;" data-remote="true" href="/members/100001/whiteboard/day?d=2026-07-22">
+        <h3 class="view-day" title="view day">
+            Ср
+          | 22
+        </h3>
+</a>
+      <ul class="event-list">
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323459684">
+                <span>
+    <span class="icon-dot"></span>
+    Skill Work Every 1 min for 8 mins: Strict Toes To Bar
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323458859">
+                <span>
+    <span class="icon-dot"></span>
+    Rx&#39;d 5 RFT: Row Calories and AbMat Sit-ups
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323458895">
+                <span>
+    <span class="icon-dot"></span>
+    Intermediate / Masters 55+ 4 RFT: Row Calories and AbMat Sit-ups
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323443321">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323458945">
+                <span>
+    <span class="icon-dot"></span>
+    CrossFit Light 3 RFT: Row Calories and AbMat Sit-ups
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323459936">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323459164">
+                <span>
+    <span class="icon-dot"></span>
+    At-Home 5 RFT: Shuttle Runs and AbMat Sit-ups
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323439396">
+                <span>
+    <span class="icon-note"></span>
+      Overview Video
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323443266">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323462094">
+                <span>
+    <span class="icon-note"></span>
+      Workout Order + Daily Notes
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323462201">
+                <span>
+    <span class="icon-note"></span>
+      Warm-up
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323466763">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 1 - Strength I - Option A Snatch : 5-5-5-5-4-4-4
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323466924">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 1 - Strength I - Option B Clean 5-5-5-5-4-4-4
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323467041">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 1 - Strength I - Option C Jerk 5-5-5-5-4-4-4
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323468031">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 2 - 260723 5 RFT: Row Calories and AbMat Sit-ups
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323468298">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 3 - Accessory I Weighted Pull-up : 3-2-2-1-1-1-1
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323468410">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+      </ul>
+    </div>
+
+    <div class="box box-day   current-month">
+      <a style="text-decoration: none;" data-remote="true" href="/members/100001/whiteboard/day?d=2026-07-23">
+        <h3 class="view-day" title="view day">
+            Чт
+          | 23
+        </h3>
+</a>
+      <ul class="event-list">
+            <li class="blue track_200002">
+              <div class="view-task-details workout_session"
+                  data-task="workout_session"
+                  data-uri="/tasks/members/100001/workout_sessions/130359780">
+                <span class="icon-unplanned-event"></span>
+Every 1 min for 10 mins: Hang Snatch
+
+              </div>
+            </li>
+            <li class="blue track_200002">
+              <div class="view-task-details workout_session"
+                  data-task="workout_session"
+                  data-uri="/tasks/members/100001/workout_sessions/130359803">
+                <span class="icon-unplanned-event"></span>
+FT: Row Calories, Burpee Over Rowers, AbMat Sit-ups, and 6 more
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323451035">
+                <span>
+    <span class="icon-dot"></span>
+    Rx&#39;d 10 RFT: Rows, Legless Rope Climbs, and Rope Climbs
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323451137">
+                <span>
+    <span class="icon-dot"></span>
+    Intermediate / Masters 55+ 8 RFT: Rows and Rope Climbs
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323440474">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323451760">
+                <span>
+    <span class="icon-dot"></span>
+    CrossFit Light 6 RFT: Rows and Pull-to-Stands
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325409713">
+                <span>
+    <span class="icon-dot"></span>
+    Skill Work 2 RFQ: Wrist Extensions, Copenhagen Planks, and Banded Walks
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323452613">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323451771">
+                <span>
+    <span class="icon-dot"></span>
+    At-Home 8 RFT: 200 m and Alternating Dumbbell Plank Rows
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323439394">
+                <span>
+    <span class="icon-note"></span>
+      Overview Video
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323444207">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="rest_day"
+                  data-uri="/tasks/members/100001/track_events/323462448">
+                <span>
+    <span class="icon-dot"></span>
+    День отдыха 
+</span>
+
+              </div>
+            </li>
+      </ul>
+    </div>
+
+    <div class="box box-day   current-month">
+      <a style="text-decoration: none;" data-remote="true" href="/members/100001/whiteboard/day?d=2026-07-24">
+        <h3 class="view-day" title="view day">
+            Пт
+          | 24
+        </h3>
+</a>
+      <ul class="event-list">
+            <li class="blue track_200001">
+              <div class="view-task-details workout_session"
+                  data-task="workout_session"
+                  data-uri="/tasks/members/100001/workout_sessions/130359979">
+                <span class="icon-planned-event"></span>
+Complex: Power Snatches and Overhead Squats : 1-1-1-1-1, rest 2 mins
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details workout_session"
+                  data-task="workout_session"
+                  data-uri="/tasks/members/100001/workout_sessions/130360131">
+                <span class="icon-planned-event"></span>
+AMReps 10 mins (1,2,3,...): Power Snatches and Push-ups
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323447112">
+                <span>
+    <span class="icon-dot"></span>
+    Intermediate / Masters 55+ AMReps 10 mins (1,2,3,...): Power Snatches and Push-ups
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323438764">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325409819">
+                <span>
+    <span class="icon-dot"></span>
+    Skill Work Light Complex: Snatch Deadlifts, Hang Power Snatches, and Power Snatches : 1-1-1-1-1
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323447220">
+                <span>
+    <span class="icon-dot"></span>
+    CrossFit Light AMReps 10 mins (1,2,3,...): Hang Power Snatches and Elevated Push-ups
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323447996">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323447252">
+                <span>
+    <span class="icon-dot"></span>
+    At-Home AMReps 10 mins (2,4,6,...): Alternating Dumbbell Snatches and Push-ups
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323439634">
+                <span>
+    <span class="icon-note"></span>
+      Overview Video
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323445070">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323463065">
+                <span>
+    <span class="icon-note"></span>
+      Workout Order + Daily Notes
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323463183">
+                <span>
+    <span class="icon-note"></span>
+      Warm-up
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323468510">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 1 - 260724 FT: Thrusters, Wall Walks, Double Unders, and 15 more
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323468744">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 2 - Stamina I 4 RFT: Jogs, 400 m, Jogs, and Sprints
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323468928">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 3 - Strength III Every 3 mins for 15 mins: Weighted Hip Extensions and Sandbag Carries
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323469121">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_1059415">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323444303">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_1059415">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323454176">
+                <span>
+    <span class="icon-dot"></span>
+    Rx&#39;d FT: Thrusters, Wall Walks, Double Unders, and 15 more
+</span>
+
+              </div>
+            </li>
+      </ul>
+    </div>
+
+    <div class="box box-day   current-month">
+      <a style="text-decoration: none;" data-remote="true" href="/members/100001/whiteboard/day?d=2026-07-25">
+        <h3 class="view-day" title="view day">
+            Сб
+          | 25
+        </h3>
+</a>
+      <ul class="event-list">
+            <li class="yellow track_530409">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/321541719">
+                <span>
+    <span class="icon-dot"></span>
+    Gym #1 - h pull strength &amp; hypertrophy Every 2:30 for 10 mins: Supinated Barbell Bent Over Rows
+</span>
+
+              </div>
+            </li>
+            <li class="yellow track_530409">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/321541721">
+                <span>
+    <span class="icon-dot"></span>
+    Gym #2 - h pull + v push strength &amp; hypertrophy Lifting: Ring Rows, Seated Shoulder Press, and Turkish Sit-ups
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325782805">
+                <span>
+    <span class="icon-dot"></span>
+    The Long WOD 7x RFT: Row Calories, Kipping Pull-ups, Kettlebell Box Step-ups, and 2 more
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323455419">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323439727">
+                <span>
+    <span class="icon-note"></span>
+      Overview Video
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323445904">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323463250">
+                <span>
+    <span class="icon-note"></span>
+      Workout Order + Daily Notes
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323463202">
+                <span>
+    <span class="icon-note"></span>
+      Warm-up
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323469255">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 1 - 260725 &quot;Tabata&quot; - Bike Calories, Shuttle Runs, Russian Double Kettlebell Swings, and 2 more : 6 x 20 secs / 10 secs
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323469462">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 2 - Mary Mary
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323470462">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 3 - Accessory I 5 RFQ: GHD Sit-ups and Russian Twists
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323471205">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_1059415">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323445136">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_1059415">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/323456592">
+                <span>
+    <span class="icon-dot"></span>
+    Rx&#39;d &quot;Tabata&quot; - Bike Calories, Shuttle Runs, Russian Double Kettlebell Swings, and 2 more : 6 x 20 secs / 10 secs
+</span>
+
+              </div>
+            </li>
+      </ul>
+    </div>
+
+    <div class="box box-day   current-month">
+      <a style="text-decoration: none;" data-remote="true" href="/members/100001/whiteboard/day?d=2026-07-26">
+        <h3 class="view-day" title="view day">
+            Вс
+          | 26
+        </h3>
+</a>
+      <ul class="event-list">
+            <li class="yellow track_530409">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/321541723">
+                <span>
+    <span class="icon-dot"></span>
+    Gym #1 - squat strength &amp; stamina Every 1 min for 10 mins: Front Squats
+</span>
+
+              </div>
+            </li>
+            <li class="yellow track_530409">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/321541725">
+                <span>
+    <span class="icon-dot"></span>
+    Gym #2 - squat strength &amp; hypertrophy Lifting: Back Rack Split Squats and Elbow Plank Holds
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323439878">
+                <span>
+    <span class="icon-note"></span>
+      Overview Video
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/323446815">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="rest_day"
+                  data-uri="/tasks/members/100001/track_events/323462815">
+                <span>
+    <span class="icon-dot"></span>
+    День отдыха 
+</span>
+
+              </div>
+            </li>
+      </ul>
+    </div>
+</div>
+
+        <div class="box-week clearfix" data-prev-week="2026-07-20" data-week="2026-07-27" data-next-week="2026-08-03">
+
+    <div class="box box-day   current-month">
+      <a style="text-decoration: none;" data-remote="true" href="/members/100001/whiteboard/day?d=2026-07-27">
+        <h3 class="view-day" title="view day">
+            Пн
+          | 27
+        </h3>
+</a>
+      <ul class="event-list">
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325504957">
+                <span>
+    <span class="icon-dot"></span>
+    Rx&#39;d Linda
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325505572">
+                <span>
+    <span class="icon-dot"></span>
+    At-Home FT: Dumbbell Deadlifts, Dumbbell Bench Press, Dumbbell Squat Cleans, and 27 more
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325506536">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325492228">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/326220851">
+                <span>
+    <span class="icon-note"></span>
+      Skill Work Light
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/326220849">
+                <span>
+    <span class="icon-dot"></span>
+    CrossFit Light 8-7-6-5-4-3-2-1: Deadlifts, Bench Press, and Cleans
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325501934">
+                <span>
+    <span class="icon-note"></span>
+      Work Your Weakness
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325502462">
+                <span>
+    <span class="icon-dot"></span>
+    Strength I - Option A Snatch : 5-5-5-4-4-4-4-4
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325503002">
+                <span>
+    <span class="icon-dot"></span>
+    Strength I - Option B Clean : 5-5-5-4-4-4-4-4
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325503510">
+                <span>
+    <span class="icon-dot"></span>
+    Strength I - Option C Jerk 5-5-5-4-4-4-4-4
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325503608">
+                <span>
+    <span class="icon-dot"></span>
+    Strength II Deadlift : 3-3-3-3-3+
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325503741">
+                <span>
+    <span class="icon-dot"></span>
+    Strength III 5 RFQ: Sandbag Carries and Russian Kettlebell Swings
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325504269">
+                <span>
+    <span class="icon-dot"></span>
+    Skill I 5 RFQ: Strict Ring Dips and L-Sit Holds
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325504673">
+                <span>
+    <span class="icon-dot"></span>
+    Stamina I A &quot;Tabata&quot; - Bike Calories : 6 x 30 secs / 30 secs
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325504877">
+                <span>
+    <span class="icon-dot"></span>
+    Stamina I B &quot;Tabata&quot; - Bike Calories : 6 x 20 secs / 40 secs
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325489901">
+                <span>
+    <span class="icon-note"></span>
+      Overview Video
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325492130">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325498029">
+                <span>
+    <span class="icon-note"></span>
+      Workout Order + Daily Notes
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325498120">
+                <span>
+    <span class="icon-note"></span>
+      Warm-up
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325516057">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 1 - 260727 Run : 2x 1600 m, rest 1:1
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325516166">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 2 - Strength III 5 RFQ: Sandbag Carries and Russian Kettlebell Swings
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325516358">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 3 - Core Conditioning AMRAP 8 mins: GHD Sit-ups and Plank Holds
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325516803">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+      </ul>
+    </div>
+
+    <div class="box box-day   current-month">
+      <a style="text-decoration: none;" data-remote="true" href="/members/100001/whiteboard/day?d=2026-07-28">
+        <h3 class="view-day" title="view day">
+            Вт
+          | 28
+        </h3>
+</a>
+      <ul class="event-list">
+            <li class="blue track_200001">
+              <div class="view-task-details workout_session"
+                  data-task="workout_session"
+                  data-uri="/tasks/members/100001/workout_sessions/130464021">
+                <span class="icon-planned-event"></span>
+2x RFT: Rows
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325490174">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/326266393">
+                <span>
+    <span class="icon-dot"></span>
+    CrossFit Light FT: Rows, Rests, and Rows
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/326266399">
+                <span>
+    <span class="icon-dot"></span>
+    Skill Work 3 RFQ: Jefferson Curls and Side Planks
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325501778">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325489991">
+                <span>
+    <span class="icon-note"></span>
+      Overview Video
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325493305">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325498154">
+                <span>
+    <span class="icon-note"></span>
+      Workout Order + Daily Notes
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325498168">
+                <span>
+    <span class="icon-note"></span>
+      Warm-up
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325516819">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 1 - Linda Linda
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325516913">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 2 - Stamina I A &quot;Tabata&quot; - Bike Calories : 6 x 30 secs / 30 secs
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325517029">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 2 - Stamina I B &quot;Tabata&quot; - Bike Calories : 6 x 20 secs / 40 secs
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325517255">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 3 - Skill I 5 RFQ: Strict Ring Dips and L-Sit Holds
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325517416">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+      </ul>
+    </div>
+
+    <div class="box box-day   current-month">
+      <a style="text-decoration: none;" data-remote="true" href="/members/100001/whiteboard/day?d=2026-07-29">
+        <h3 class="view-day" title="view day">
+            Ср
+          | 29
+        </h3>
+</a>
+      <ul class="event-list">
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325506620">
+                <span>
+    <span class="icon-dot"></span>
+    Rx&#39;d 5x 3 mins RemReps: Row Calories, Alternating Dumbbell Hang Sn...
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325507338">
+                <span>
+    <span class="icon-dot"></span>
+    Intermediate / Masters 55+ 5x 3 mins RemReps: Row Calories, Alternating Dumbbell Hang Sn...
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325493384">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325507680">
+                <span>
+    <span class="icon-dot"></span>
+    CrossFit Light 5x 3 mins RemReps: Row Calories, Alternating Dumbbell Hang Sn...
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/326266915">
+                <span>
+    <span class="icon-dot"></span>
+    Skill Work 3 RFQ: Dumbbell Windmills and ATies
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325508757">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325508392">
+                <span>
+    <span class="icon-dot"></span>
+    At-Home 5x 3 mins RemReps: Shuttle Runs, Alternating Dumbbell Hang Sn...
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325490070">
+                <span>
+    <span class="icon-note"></span>
+      Overview Video
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325494214">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325498472">
+                <span>
+    <span class="icon-note"></span>
+      Workout Order + Daily Notes
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325498545">
+                <span>
+    <span class="icon-note"></span>
+      Warm-up
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325517564">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 1 - 260729 5x 3 mins RemReps: Row Calories, Alternating Dumbbell Hang Sn...
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325517656">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 2 - 260730 AMRAP 12 mins: Double Unders and Toes-to-bars
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325517965">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 3 - Accessory I FT: Sled Drags and Sled Pushes
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325518633">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+      </ul>
+    </div>
+
+    <div class="box box-day selected current current-month">
+      <a style="text-decoration: none;" data-remote="true" href="/members/100001/whiteboard/day?d=2026-07-30">
+        <h3 class="view-day" title="view day">
+            Чт
+          | 30
+        </h3>
+</a>
+      <ul class="event-list">
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/326267416">
+                <span>
+    <span class="icon-dot"></span>
+    Skill Work Every 1 min for 8 mins: Crossover Practices
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325508983">
+                <span>
+    <span class="icon-dot"></span>
+    Rx&#39;d AMRAP 12 mins: Double Unders and Toes-to-bars
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325509132">
+                <span>
+    <span class="icon-dot"></span>
+    Intermediate / Masters 55+ AMRAP 12 mins: Double Unders and Toes-to-bars
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325494283">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325509769">
+                <span>
+    <span class="icon-dot"></span>
+    CrossFit Light AMRAP 12 mins: Single Unders and Hanging Leg Raises
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325509917">
+                <span>
+    <span class="icon-dot"></span>
+    At-Home AMRAP 12 mins: Double Unders and V-ups
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325510467">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325490148">
+                <span>
+    <span class="icon-note"></span>
+      Overview Video
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325495072">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="rest_day"
+                  data-uri="/tasks/members/100001/track_events/325499907">
+                <span>
+    <span class="icon-dot"></span>
+    День отдыха 
+</span>
+
+              </div>
+            </li>
+      </ul>
+    </div>
+
+    <div class="box box-day   current-month">
+      <a style="text-decoration: none;" data-remote="true" href="/members/100001/whiteboard/day?d=2026-07-31">
+        <h3 class="view-day" title="view day">
+            Пт
+          | 31
+        </h3>
+</a>
+      <ul class="event-list">
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325511151">
+                <span>
+    <span class="icon-dot"></span>
+    Rx&#39;d FT: Ring Muscle-ups, Front Squats, Ring Muscle-ups, and 11 more
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325511182">
+                <span>
+    <span class="icon-dot"></span>
+    Intermediate / Masters 55+ FT: Ring Muscle-ups, Front Squats, Ring Muscle-ups, and 11 more
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325495256">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325511205">
+                <span>
+    <span class="icon-dot"></span>
+    CrossFit Light FT: Ring Rows, Push-ups, Front Squats, and 24 more
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325512326">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325511294">
+                <span>
+    <span class="icon-dot"></span>
+    At-Home FT: Dumbbell Devil Press, Dumbbell Front Squats, Dumbbell Devil Press, and 11 more
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325490182">
+                <span>
+    <span class="icon-note"></span>
+      Overview Video
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325496023">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325498562">
+                <span>
+    <span class="icon-note"></span>
+      Workout Order + Daily Notes
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325498707">
+                <span>
+    <span class="icon-note"></span>
+      Warm-up
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325518796">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 1 - Strength I - Option A Snatch : 5-5-5-4-4-4-4-4
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325518917">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 1 - Strength I - Option B Clean : 5-5-5-4-4-4-4-4
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325519293">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 1 - Strength I - Option C Jerk 5-5-5-4-4-4-4-4
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325520283">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 2 - 260731 FT: Ring Muscle-ups, Back Squats, Ring Muscle-ups, and 11 more
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325520735">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 3 - Accessory I 4 RFQ: Weighted GHD Hip Extensions and Weighted GHD Hip Extension Holds
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325521235">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+      </ul>
+    </div>
+
+    <div class="box box-day   ">
+      <a style="text-decoration: none;" data-remote="true" href="/members/100001/whiteboard/day?d=2026-08-01">
+        <h3 class="view-day" title="view day">
+            авг.
+          | 1
+        </h3>
+</a>
+      <ul class="event-list">
+            <li class="yellow track_530409">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/321541726">
+                <span>
+    <span class="icon-dot"></span>
+    Gym #1 squat strength &amp; hypertrophy Front Squat : 6-6-6-6, rest 3 mins
+</span>
+
+              </div>
+            </li>
+            <li class="yellow track_530409">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/321541728">
+                <span>
+    <span class="icon-dot"></span>
+    Gym #2 squat hypertrophy &amp; stamina Lifting: Back Rack Reverse Lunges and Air Squats
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/326273936">
+                <span>
+    <span class="icon-dot"></span>
+    The Long WOD AMRAPx3: 12 mins of Rows, Single Leg Toes-to-bars, Box Step-ups, and Kettlebell...
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325513993">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325490190">
+                <span>
+    <span class="icon-note"></span>
+      Overview Video
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325496928">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325499027">
+                <span>
+    <span class="icon-note"></span>
+      Workout Order + Daily Notes
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325499494">
+                <span>
+    <span class="icon-note"></span>
+      Warm-up
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325521276">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 1 - 260802 AMReps 16 mins: (2) Legless Rope Climbs and (4+1) Power Snatches
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325521295">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 2 - 260801 5 RFT: Dumbbell Hang Power Cleans, Dumbbell Push Press, and Dumbbell Farmers Carries
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/325521845">
+                <span>
+    <span class="icon-dot"></span>
+    Workout 3 - Strength II Deadlift : 3-3-3-3-3+
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325522071">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+      </ul>
+    </div>
+
+    <div class="box box-day   ">
+      <a style="text-decoration: none;" data-remote="true" href="/members/100001/whiteboard/day?d=2026-08-02">
+        <h3 class="view-day" title="view day">
+            Вс
+          | 2
+        </h3>
+</a>
+      <ul class="event-list">
+            <li class="yellow track_530409">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/321541730">
+                <span>
+    <span class="icon-dot"></span>
+    Gym #1 h pull strength &amp; hypertrophy Bent Over Barbell Row : 10-10-10-10
+</span>
+
+              </div>
+            </li>
+            <li class="yellow track_530409">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/321541732">
+                <span>
+    <span class="icon-dot"></span>
+    Gym #2 h pull + v push hypertrophy Lifting: Alternating Dumbbell Bent Over Rows, Dumbbell Bicep Curl + Strict Press, and Turkish Sit-ups
+</span>
+
+              </div>
+            </li>
+            <li class="blue track_200001">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325515785">
+                <span>
+    <span class="icon-note"></span>
+      Cool Down
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325490268">
+                <span>
+    <span class="icon-note"></span>
+      Overview Video
+</span>
+
+              </div>
+            </li>
+            <li class="purple track_694244">
+              <div class="view-task-details track_event"
+                  data-task="note"
+                  data-uri="/tasks/members/100001/track_events/325497819">
+                <span>
+    <span class="icon-note"></span>
+      Daily Brief
+</span>
+
+              </div>
+            </li>
+            <li class="orange track_694246">
+              <div class="view-task-details track_event"
+                  data-task="rest_day"
+                  data-uri="/tasks/members/100001/track_events/325500013">
+                <span>
+    <span class="icon-dot"></span>
+    День отдыха 
+</span>
+
+              </div>
+            </li>
+            <li class="green track_1021085">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/321541759">
+                <span>
+    <span class="icon-dot"></span>
+     Snatch Balance : 3-3-3
+</span>
+
+              </div>
+            </li>
+            <li class="green track_1021085">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/321541761">
+                <span>
+    <span class="icon-dot"></span>
+     Complex: Snatch Pulls, Power Snatches, and Squat Snatches : 1-1-1-1
+</span>
+
+              </div>
+            </li>
+            <li class="green track_1021085">
+              <div class="view-task-details track_event"
+                  data-task="workout"
+                  data-uri="/tasks/members/100001/track_events/321541762">
+                <span>
+    <span class="icon-dot"></span>
+     Overhead Squat : 5-5-5
+</span>
+
+              </div>
+            </li>
+      </ul>
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</section>
+
+<div class="halves whiteboard_halves clearfix">
+  <div class="pull-left">
+    <div id="lifestyle-whiteboard" class="clearfix">
+      
+
+<section class="one-half" id="lifestyle-log"
+      data-seturi="/members/100001/quicklogs"
+      data-unseturi="/members/100001/quicklogs/unset">
+  <div class="page-header clearfix">
+    <div class="pull-left">
+      <div class="clearfix">
+        <h3 class="pull-left">
+          Журнал образа жизни
+        </h3>
+        <div class="days pull-left">
+            <div class="day" data-date="2026-07-23">
+              Чт
+            </div>
+            <div class="day" data-date="2026-07-24">
+              Пт
+            </div>
+            <div class="day" data-date="2026-07-25">
+              Сб
+            </div>
+            <div class="day" data-date="2026-07-26">
+              Вс
+            </div>
+            <div class="day" data-date="2026-07-27">
+              Пн
+            </div>
+            <div class="day" data-date="2026-07-28">
+              Вт
+            </div>
+            <div class="day" data-date="2026-07-29">
+              Ср
+            </div>
+        </div>
+      </div>
+      <p>
+        Ваш образ жизни влияет на вашу физическую форму.
+        <a href="/analyze/members/100001/lifestyle">Просмотреть отчет</a>
+      </p>
+    </div>
+    <div class="pull-right">
+      <div class="btn-group">
+        <span class="btn btn-large lifestyle-prev">
+          <span class="icon-prev"></span>
+        </span>
+        <span class="btn btn-large lifestyle-next">
+          <span class="icon-next"></span>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="inner-shadow">
+    <div class="inner clearfix">
+      <div class="lifestyle-scroll">
+        <div class="lifestyle-entries">
+            <div class="box box-entry"
+    data-quicklogs="{&quot;member_id&quot;:100001,&quot;logged_for&quot;:&quot;2026-07-23&quot;,&quot;quicklogs&quot;:[]}"
+    data-loggedfor="2026-07-23">
+  <h3>
+    Как вы ели Чт, 23 июля?
+    <span class="normal small">
+      <em>
+        <a rel="help" title="Что хорошее?" href="/help/lifestyle/diet">
+          (Что хорошее?)
+</a>      </em>
+    </span>
+  </h3>
+  <div class="question-group">
+    <span data-question="diet_quality">
+      <a href="#" class="btn btn-small" data-answer="1">Отлично</a>
+      <a href="#" class="btn btn-small" data-answer="0">ПЛОХОЙ</a>
+    </span>
+    <img style="display:none;" src="/assets/ajax_loader-84ebf2b64317994865b6350333254da30f00b983de6b305208ba0164c42f823d.gif" />
+  </div>
+  <hr>
+  <h3>
+    Как вы себя чувствовали Чт, 23 июля?
+  </h3>
+  <div class="question-group" data-question="psyche_feeling">
+    <a href="#" class="btn btn-small" data-answer="1">Отлично</a>
+    <a href="#" class="btn btn-small" data-answer="0">ПЛОХОЙ</a>
+    <img style="display:none;" src="/assets/ajax_loader-84ebf2b64317994865b6350333254da30f00b983de6b305208ba0164c42f823d.gif" />
+  </div>
+</div>
+
+            <div class="box box-entry"
+    data-quicklogs="{&quot;member_id&quot;:100001,&quot;logged_for&quot;:&quot;2026-07-24&quot;,&quot;quicklogs&quot;:[]}"
+    data-loggedfor="2026-07-24">
+  <h3>
+    Как вы ели Пт, 24 июля?
+    <span class="normal small">
+      <em>
+        <a rel="help" title="Что хорошее?" href="/help/lifestyle/diet">
+          (Что хорошее?)
+</a>      </em>
+    </span>
+  </h3>
+  <div class="question-group">
+    <span data-question="diet_quality">
+      <a href="#" class="btn btn-small" data-answer="1">Отлично</a>
+      <a href="#" class="btn btn-small" data-answer="0">ПЛОХОЙ</a>
+    </span>
+    <img style="display:none;" src="/assets/ajax_loader-84ebf2b64317994865b6350333254da30f00b983de6b305208ba0164c42f823d.gif" />
+  </div>
+  <hr>
+  <h3>
+    Как вы себя чувствовали Пт, 24 июля?
+  </h3>
+  <div class="question-group" data-question="psyche_feeling">
+    <a href="#" class="btn btn-small" data-answer="1">Отлично</a>
+    <a href="#" class="btn btn-small" data-answer="0">ПЛОХОЙ</a>
+    <img style="display:none;" src="/assets/ajax_loader-84ebf2b64317994865b6350333254da30f00b983de6b305208ba0164c42f823d.gif" />
+  </div>
+</div>
+
+            <div class="box box-entry"
+    data-quicklogs="{&quot;member_id&quot;:100001,&quot;logged_for&quot;:&quot;2026-07-25&quot;,&quot;quicklogs&quot;:[]}"
+    data-loggedfor="2026-07-25">
+  <h3>
+    Как вы ели Сб, 25 июля?
+    <span class="normal small">
+      <em>
+        <a rel="help" title="Что хорошее?" href="/help/lifestyle/diet">
+          (Что хорошее?)
+</a>      </em>
+    </span>
+  </h3>
+  <div class="question-group">
+    <span data-question="diet_quality">
+      <a href="#" class="btn btn-small" data-answer="1">Отлично</a>
+      <a href="#" class="btn btn-small" data-answer="0">ПЛОХОЙ</a>
+    </span>
+    <img style="display:none;" src="/assets/ajax_loader-84ebf2b64317994865b6350333254da30f00b983de6b305208ba0164c42f823d.gif" />
+  </div>
+  <hr>
+  <h3>
+    Как вы себя чувствовали Сб, 25 июля?
+  </h3>
+  <div class="question-group" data-question="psyche_feeling">
+    <a href="#" class="btn btn-small" data-answer="1">Отлично</a>
+    <a href="#" class="btn btn-small" data-answer="0">ПЛОХОЙ</a>
+    <img style="display:none;" src="/assets/ajax_loader-84ebf2b64317994865b6350333254da30f00b983de6b305208ba0164c42f823d.gif" />
+  </div>
+</div>
+
+            <div class="box box-entry"
+    data-quicklogs="{&quot;member_id&quot;:100001,&quot;logged_for&quot;:&quot;2026-07-26&quot;,&quot;quicklogs&quot;:[]}"
+    data-loggedfor="2026-07-26">
+  <h3>
+    Как вы ели Вс, 26 июля?
+    <span class="normal small">
+      <em>
+        <a rel="help" title="Что хорошее?" href="/help/lifestyle/diet">
+          (Что хорошее?)
+</a>      </em>
+    </span>
+  </h3>
+  <div class="question-group">
+    <span data-question="diet_quality">
+      <a href="#" class="btn btn-small" data-answer="1">Отлично</a>
+      <a href="#" class="btn btn-small" data-answer="0">ПЛОХОЙ</a>
+    </span>
+    <img style="display:none;" src="/assets/ajax_loader-84ebf2b64317994865b6350333254da30f00b983de6b305208ba0164c42f823d.gif" />
+  </div>
+  <hr>
+  <h3>
+    Как вы себя чувствовали Вс, 26 июля?
+  </h3>
+  <div class="question-group" data-question="psyche_feeling">
+    <a href="#" class="btn btn-small" data-answer="1">Отлично</a>
+    <a href="#" class="btn btn-small" data-answer="0">ПЛОХОЙ</a>
+    <img style="display:none;" src="/assets/ajax_loader-84ebf2b64317994865b6350333254da30f00b983de6b305208ba0164c42f823d.gif" />
+  </div>
+</div>
+
+            <div class="box box-entry"
+    data-quicklogs="{&quot;member_id&quot;:100001,&quot;logged_for&quot;:&quot;2026-07-27&quot;,&quot;quicklogs&quot;:[]}"
+    data-loggedfor="2026-07-27">
+  <h3>
+    Как вы ели Пн, 27 июля?
+    <span class="normal small">
+      <em>
+        <a rel="help" title="Что хорошее?" href="/help/lifestyle/diet">
+          (Что хорошее?)
+</a>      </em>
+    </span>
+  </h3>
+  <div class="question-group">
+    <span data-question="diet_quality">
+      <a href="#" class="btn btn-small" data-answer="1">Отлично</a>
+      <a href="#" class="btn btn-small" data-answer="0">ПЛОХОЙ</a>
+    </span>
+    <img style="display:none;" src="/assets/ajax_loader-84ebf2b64317994865b6350333254da30f00b983de6b305208ba0164c42f823d.gif" />
+  </div>
+  <hr>
+  <h3>
+    Как вы себя чувствовали Пн, 27 июля?
+  </h3>
+  <div class="question-group" data-question="psyche_feeling">
+    <a href="#" class="btn btn-small" data-answer="1">Отлично</a>
+    <a href="#" class="btn btn-small" data-answer="0">ПЛОХОЙ</a>
+    <img style="display:none;" src="/assets/ajax_loader-84ebf2b64317994865b6350333254da30f00b983de6b305208ba0164c42f823d.gif" />
+  </div>
+</div>
+
+            <div class="box box-entry"
+    data-quicklogs="{&quot;member_id&quot;:100001,&quot;logged_for&quot;:&quot;2026-07-28&quot;,&quot;quicklogs&quot;:[]}"
+    data-loggedfor="2026-07-28">
+  <h3>
+    Как вы ели Вт, 28 июля?
+    <span class="normal small">
+      <em>
+        <a rel="help" title="Что хорошее?" href="/help/lifestyle/diet">
+          (Что хорошее?)
+</a>      </em>
+    </span>
+  </h3>
+  <div class="question-group">
+    <span data-question="diet_quality">
+      <a href="#" class="btn btn-small" data-answer="1">Отлично</a>
+      <a href="#" class="btn btn-small" data-answer="0">ПЛОХОЙ</a>
+    </span>
+    <img style="display:none;" src="/assets/ajax_loader-84ebf2b64317994865b6350333254da30f00b983de6b305208ba0164c42f823d.gif" />
+  </div>
+  <hr>
+  <h3>
+    Как вы себя чувствовали Вт, 28 июля?
+  </h3>
+  <div class="question-group" data-question="psyche_feeling">
+    <a href="#" class="btn btn-small" data-answer="1">Отлично</a>
+    <a href="#" class="btn btn-small" data-answer="0">ПЛОХОЙ</a>
+    <img style="display:none;" src="/assets/ajax_loader-84ebf2b64317994865b6350333254da30f00b983de6b305208ba0164c42f823d.gif" />
+  </div>
+</div>
+
+            <div class="box box-entry"
+    data-quicklogs="{&quot;member_id&quot;:100001,&quot;logged_for&quot;:&quot;2026-07-29&quot;,&quot;quicklogs&quot;:[]}"
+    data-loggedfor="2026-07-29">
+  <h3>
+    Как вы ели вчера?
+    <span class="normal small">
+      <em>
+        <a rel="help" title="Что хорошее?" href="/help/lifestyle/diet">
+          (Что хорошее?)
+</a>      </em>
+    </span>
+  </h3>
+  <div class="question-group">
+    <span data-question="diet_quality">
+      <a href="#" class="btn btn-small" data-answer="1">Отлично</a>
+      <a href="#" class="btn btn-small" data-answer="0">ПЛОХОЙ</a>
+    </span>
+    <img style="display:none;" src="/assets/ajax_loader-84ebf2b64317994865b6350333254da30f00b983de6b305208ba0164c42f823d.gif" />
+  </div>
+  <hr>
+  <h3>
+    Как вы себя чувствовали вчера?
+  </h3>
+  <div class="question-group" data-question="psyche_feeling">
+    <a href="#" class="btn btn-small" data-answer="1">Отлично</a>
+    <a href="#" class="btn btn-small" data-answer="0">ПЛОХОЙ</a>
+    <img style="display:none;" src="/assets/ajax_loader-84ebf2b64317994865b6350333254da30f00b983de6b305208ba0164c42f823d.gif" />
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    </div>
+    <div id="weighin-whiteboard" class="clearfix">
+      
+<section class="weigh-ins-panel one-half">
+  <div class="page-header clearfix">
+    <div class="pull-left">
+      <h3>
+        Взвешивание
+      </h3>
+      <p>
+        <a href="/members/100001/weigh_ins/new"> Новое взвешивание</a> |
+        <a href="/members/100001/weigh_ins">Просмотреть взвешивания</a>
+      </p>
+    </div>
+      <div class="pull-right">
+        <select name="weighins_duration" id="weighins_duration" style="width: 200px">
+            <option value="3">
+              Прошлые 3 месяцы
+            </option>
+            <option value="6">
+              Прошлые 6 месяцы
+            </option>
+            <option value="9">
+              Прошлые 9 месяцы
+            </option>
+            <option value="12">
+              Прошлые 12 месяцы
+            </option>
+        </select>
+      </div>
+  </div>
+  <div class="inner-shadow">
+    <div class="inner clearfix">
+      <div class="box weighins">
+        <div class="weigh-in-pane-items">
+              <div class="weigh-in-pane" data-months="3"
+                    title="Click to see chart">
+                <div class="totals">
+                  <p class="caption">
+                    Прошлые 3 месяцы
+                  </p>
+                  <span class="stat-total">
+                    Вес
+                    <strong>NA</strong>
+                    NA
+                  </span>
+                  <span class="stat-total">
+                    жировая масса тела
+                    <strong>NA</strong>
+                    NA
+                  </span>
+                  <span class="stat-total">
+                    Нежировые ткани 
+                    <strong>NA</strong>
+                    NA
+                  </span>
+                </div>
+                <div class="weighin-chart" style="display:none"
+                      title="Прошлые 3 месяцы"
+                      data-months="3"
+                      data-metric="false"
+                      data-start="1785369600000"
+                      data-series="[{&quot;name&quot;:&quot;Вес&quot;,&quot;data&quot;:[]},{&quot;name&quot;:&quot;Нежировые ткани &quot;,&quot;data&quot;:[]},{&quot;name&quot;:&quot;жировая масса тела&quot;,&quot;yAxis&quot;:1,&quot;data&quot;:[]}]">
+                </div>
+              </div>
+              <div class="weigh-in-pane" data-months="6"
+                    title="Click to see chart">
+                <div class="totals">
+                  <p class="caption">
+                    Прошлые 6 месяцы
+                  </p>
+                  <span class="stat-total">
+                    Вес
+                    <strong>NA</strong>
+                    NA
+                  </span>
+                  <span class="stat-total">
+                    жировая масса тела
+                    <strong>NA</strong>
+                    NA
+                  </span>
+                  <span class="stat-total">
+                    Нежировые ткани 
+                    <strong>NA</strong>
+                    NA
+                  </span>
+                </div>
+                <div class="weighin-chart" style="display:none"
+                      title="Прошлые 6 месяцы"
+                      data-months="6"
+                      data-metric="false"
+                      data-start="1785369600000"
+                      data-series="[{&quot;name&quot;:&quot;Вес&quot;,&quot;data&quot;:[]},{&quot;name&quot;:&quot;Нежировые ткани &quot;,&quot;data&quot;:[]},{&quot;name&quot;:&quot;жировая масса тела&quot;,&quot;yAxis&quot;:1,&quot;data&quot;:[]}]">
+                </div>
+              </div>
+              <div class="weigh-in-pane" data-months="9"
+                    title="Click to see chart">
+                <div class="totals">
+                  <p class="caption">
+                    Прошлые 9 месяцы
+                  </p>
+                  <span class="stat-total">
+                    Вес
+                    <strong>NA</strong>
+                    NA
+                  </span>
+                  <span class="stat-total">
+                    жировая масса тела
+                    <strong>NA</strong>
+                    NA
+                  </span>
+                  <span class="stat-total">
+                    Нежировые ткани 
+                    <strong>NA</strong>
+                    NA
+                  </span>
+                </div>
+                <div class="weighin-chart" style="display:none"
+                      title="Прошлые 9 месяцы"
+                      data-months="9"
+                      data-metric="false"
+                      data-start="1785369600000"
+                      data-series="[{&quot;name&quot;:&quot;Вес&quot;,&quot;data&quot;:[]},{&quot;name&quot;:&quot;Нежировые ткани &quot;,&quot;data&quot;:[]},{&quot;name&quot;:&quot;жировая масса тела&quot;,&quot;yAxis&quot;:1,&quot;data&quot;:[]}]">
+                </div>
+              </div>
+              <div class="weigh-in-pane" data-months="12"
+                    title="Click to see chart">
+                <div class="totals">
+                  <p class="caption">
+                    Прошлые 12 месяцы
+                  </p>
+                  <span class="stat-total">
+                    Вес
+                    <strong>NA</strong>
+                    NA
+                  </span>
+                  <span class="stat-total">
+                    жировая масса тела
+                    <strong>NA</strong>
+                    NA
+                  </span>
+                  <span class="stat-total">
+                    Нежировые ткани 
+                    <strong>NA</strong>
+                    NA
+                  </span>
+                </div>
+                <div class="weighin-chart" style="display:none"
+                      title="Прошлые 12 месяцы"
+                      data-months="12"
+                      data-metric="false"
+                      data-start="1785369600000"
+                      data-series="[{&quot;name&quot;:&quot;Вес&quot;,&quot;data&quot;:[]},{&quot;name&quot;:&quot;Нежировые ткани &quot;,&quot;data&quot;:[]},{&quot;name&quot;:&quot;жировая масса тела&quot;,&quot;yAxis&quot;:1,&quot;data&quot;:[]}]">
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    </div>
+    <div id="movement-whiteboard" class="clearfix">
+      
+<section class="movement-modalities one-half" style="min-height:453px;">
+  <div class="page-header clearfix">
+    <div class="pull-left">
+        <h3>Модальность движений</h3>
+        <p><a href="/members/100001/movements">Просмотр истории движений</a></p>
+    </div>
+
+      <div class="pull-right">
+        <select name="movement_duration" id="movement_duration" style="width: 200px">
+            <option value="3">
+              Последние 3 месяцев 
+            </option>
+            <option value="6">
+              Последние 6 месяцев 
+            </option>
+            <option value="9">
+              Последние 9 месяцев 
+            </option>
+            <option value="12">
+              Последние 12 месяцев 
+            </option>
+        </select>
+      </div>
+  </div>
+  <div class="inner-shadow">
+    <div class="inner clearfix">
+
+        <div class="modality-scroller">
+          <div class="modality-items">
+
+                <div class="modality-pane clearfix">
+                  <div class="chart pull-left">
+                    <div class="pie" data-series="[{&quot;data&quot;:[[&quot;Гимнастика&quot;,34],[&quot;Моноструктурный &quot;,27],[&quot;Тяжелая атлетика &quot;,52],[&quot;Без категории &quot;,1]]}]"></div>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Модальность</th>
+                          <th>Текущий </th>
+                          <th>Изменить</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                            <td>Гимнастика</td>
+                            <td>30%</td>
+                            <td>
+                              <span class="icon-arrow increase"></span>
+                              0.4%
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Моноструктурный </td>
+                            <td>24%</td>
+                            <td>
+                              <span class="icon-arrow decrease"></span>
+                              1.3%
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Тяжелая атлетика </td>
+                            <td>46%</td>
+                            <td>
+                              <span class="icon-arrow increase"></span>
+                              0.0%
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Без категории </td>
+                            <td>1%</td>
+                            <td>
+                              <span class="icon-arrow increase"></span>
+                              0.9%
+                            </td>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="modality-pane clearfix">
+                  <div class="chart pull-left">
+                    <div class="pie" data-series="[{&quot;data&quot;:[[&quot;Гимнастика&quot;,54],[&quot;Моноструктурный &quot;,44],[&quot;Тяжелая атлетика &quot;,83],[&quot;Без категории &quot;,1]]}]"></div>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Модальность</th>
+                          <th>Текущий </th>
+                          <th>Изменить</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                            <td>Гимнастика</td>
+                            <td>30%</td>
+                            <td>
+                              <span class="icon-arrow increase"></span>
+                              1.7%
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Моноструктурный </td>
+                            <td>24%</td>
+                            <td>
+                              <span class="icon-arrow increase"></span>
+                              3.5%
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Тяжелая атлетика </td>
+                            <td>46%</td>
+                            <td>
+                              <span class="icon-arrow decrease"></span>
+                              5.3%
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Без категории </td>
+                            <td>1%</td>
+                            <td>
+                              <span class="icon-arrow increase"></span>
+                              0.1%
+                            </td>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="modality-pane clearfix">
+                  <div class="chart pull-left">
+                    <div class="pie" data-series="[{&quot;data&quot;:[[&quot;Гимнастика&quot;,66],[&quot;Моноструктурный &quot;,58],[&quot;Тяжелая атлетика &quot;,107],[&quot;Без категории &quot;,1]]}]"></div>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Модальность</th>
+                          <th>Текущий </th>
+                          <th>Изменить</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                            <td>Гимнастика</td>
+                            <td>28%</td>
+                            <td>
+                              <span class="icon-arrow decrease"></span>
+                              0.7%
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Моноструктурный </td>
+                            <td>25%</td>
+                            <td>
+                              <span class="icon-arrow increase"></span>
+                              5.8%
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Тяжелая атлетика </td>
+                            <td>46%</td>
+                            <td>
+                              <span class="icon-arrow decrease"></span>
+                              5.3%
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Без категории </td>
+                            <td>0%</td>
+                            <td>
+                              <span class="icon-arrow increase"></span>
+                              0.2%
+                            </td>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="modality-pane clearfix">
+                  <div class="chart pull-left">
+                    <div class="pie" data-series="[{&quot;data&quot;:[[&quot;Гимнастика&quot;,115],[&quot;Моноструктурный &quot;,90],[&quot;Тяжелая атлетика &quot;,194],[&quot;Без категории &quot;,2]]}]"></div>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Модальность</th>
+                          <th>Текущий </th>
+                          <th>Изменить</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                            <td>Гимнастика</td>
+                            <td>29%</td>
+                            <td>
+                              <span class="icon-arrow increase"></span>
+                              0.0%
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Моноструктурный </td>
+                            <td>22%</td>
+                            <td>
+                              <span class="icon-arrow increase"></span>
+                              2.3%
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Тяжелая атлетика </td>
+                            <td>48%</td>
+                            <td>
+                              <span class="icon-arrow decrease"></span>
+                              2.8%
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Без категории </td>
+                            <td>0%</td>
+                            <td>
+                              <span class="icon-arrow increase"></span>
+                              0.5%
+                            </td>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+          </div>
+        </div>
+
+    </div>
+  </div>
+</section>
+
+    </div>
+  </div>
+  <div class="pull-right">
+    
+<section class="one-half">
+  <div id="whiteboard-activity">
+    <ul style="font-size: smaller">
+        <li>
+          <a href="/squads/_m5mz/activity/panel">Natrium CrossFit</a>
+        </li>
+    </ul>
+  </div>
+</section>
+
+  </div>
+</div>
+
+  </div>
+
+  <footer class="site-footer">
+    <a class="site-footer__logo" href="/">
+      <img src="/assets/logo-1-orange-white-8913e25fc6c9d4f19be337126f5030dd2fac426020e34c82ae634656c7ec5ff5.svg" width="300" height="26" />
+</a>
+    <ul class="site-footer__menu">
+      <li class="site-footer__menu--item">
+        <a class="site-footer__menu--link" href="/support/home">Помощь</a>
+      </li>
+      <li class="site-footer__menu--item">
+        <a class="site-footer__menu--link" href="mailto:support@btwb.com">Свяжитесь с нами</a>
+      </li>
+      <li class="site-footer__menu--item">
+        <a class="site-footer__menu--link" href="/about">О нас</a>
+      </li>
+      <li class="site-footer__menu--item">
+        <a class="site-footer__menu--link" href="/privacy">Конфиденциальность</a>
+      </li>
+      <li class="site-footer__menu--item">
+        <a class="site-footer__menu--link" href="https://status.btwb.com">Статус</a>
+      </li>
+      <li class="site-footer__menu--item">
+        <a class="site-footer__menu--link" href="https://www.instagram.com/btwbapp/">Instagram</a>
+      </li>
+      <li class="site-footer__menu--item">
+        <a class="site-footer__menu--link" href="https://www.facebook.com/btwbapp/">Facebook</a>
+      </li>
+      <li class="site-footer__menu--item">
+        <a class="site-footer__menu--link" href="https://www.youtube.com/user/btwbmedia">YouTube</a>
+      </li>
+      <li class="site-footer__menu--item">
+        <a class="site-footer__menu--link" href="https://twitter.com/btwb">Twitter</a>
+      </li>
+      <li class="site-footer__menu--item">
+        <a class="site-footer__menu--link" href="https://btwb.blog">Блог</a>
+      </li>
+    </ul>
+
+    <form id="choose-language-form" style="margin-top: 10px; margin-bottom: 10px;" action="/language" accept-charset="UTF-8" data-remote="true" method="post"><input type="hidden" name="_method" value="put" /><input type="hidden" name="authenticity_token" value="SCRUBBED" />  <label for="language">Выберите Язык:</label>
+  <select name="language" id="language" onchange="Rails.fire(document.getElementById(&#39;choose-language-form&#39;), &#39;submit&#39;);"><option value="en">English</option>
+<option value="ar">العربية</option>
+<option value="da">Dansk</option>
+<option value="de">Deutsch</option>
+<option value="el">Ελληνικά</option>
+<option value="es">Español</option>
+<option value="fi">Suomi</option>
+<option value="fr">Français</option>
+<option value="fr-CA">Français (Canada)</option>
+<option value="hi">हिंदी</option>
+<option value="id">Bahasa Indonesia</option>
+<option value="is">Íslenska</option>
+<option value="it">Italiano</option>
+<option value="ja">日本語</option>
+<option value="ko">한국어</option>
+<option value="ms">Melayu</option>
+<option value="nb">Norsk bokmål </option>
+<option value="nl">Nederlands</option>
+<option value="pl">Polski</option>
+<option value="pt">Português</option>
+<option value="pt-BR">Português (Brasil)</option>
+<option selected="selected" value="ru">Русский</option>
+<option value="sv">Svenska</option>
+<option value="th">ไทย</option>
+<option value="tr">Türkçe</option>
+<option value="zh-Hans">简体中文</option></select>
+</form>
+
+    <p>
+      BEYOND THE WHITEBOARD<span style="vertical-align: super;">&reg;</span> and BTWB<span style="vertical-align: super;">&reg;</span> are registered trademarks of BTWB, LLC.
+    </p>
+    <p class="site-footer__text">
+      &copy; 2009-2026. Все права защищены. 
+    </p>
+  </footer>
+
+  
+
+  
+
+  <script type="text/javascript">
+    $.datepicker.setDefaults($.datepicker.regional["ru"]);
+    moment.locale("ru");
+  </script>
+</body>
+</html>
