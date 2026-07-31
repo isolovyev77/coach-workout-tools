@@ -18,14 +18,14 @@ Trenda. В него входят две команды и навык для Code
 
    ```bash
    ./scripts/verify-public-release.py
-   ./scripts/install.sh
+   ./scripts/install.sh --configure-path
    ```
 
 3. Войдите в свои личные аккаунты BTWB и Trenda:
 
    ```bash
    btwb-pp-cli auth login
-   trenda-auth login
+   trenda-pp-cli auth login
    ```
 
 4. Откройте Codex или Claude и попросите перенести тренировку либо составить
@@ -88,20 +88,23 @@ afterwards.
 git clone https://github.com/<account>/coach-workout-tools.git
 cd coach-workout-tools
 ./scripts/verify-public-release.py
-./scripts/install.sh
+./scripts/install.sh --configure-path
 ```
 
 The installer builds both binaries and places small launchers in
 `~/.local/bin`. If an earlier installation already uses `~/bin`, it updates
 that same location instead and saves the previous files in a timestamped local
-backup. Add the selected directory to `PATH` if it is not already there.
+backup. `--configure-path` adds the selected directory to the user's
+`~/.zprofile` once, so new Terminal windows, Codex and Claude can find the
+commands. Without that option the installer prints the exact next step and
+does not edit shell configuration.
 
 Sign in to BTWB and Trenda interactively. Passwords are never written to disk;
 each CLI stores only its local session data with owner-only permissions.
 
 ```bash
 btwb-pp-cli auth login
-trenda-auth login
+trenda-pp-cli auth login
 trenda-pp-cli doctor
 btwb-pp-cli auth status
 ```

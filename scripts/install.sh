@@ -13,12 +13,14 @@ fi
 SKILL_SOURCE="$ROOT_DIR/skills/populating-trenda-workouts"
 INSTALL_CODEX_SKILL=auto
 INSTALL_CLAUDE_SKILL=auto
+CONFIGURE_PATH=0
 
 for option in "$@"; do
   case "$option" in
     --no-skills) INSTALL_CODEX_SKILL=0; INSTALL_CLAUDE_SKILL=0 ;;
     --codex-only) INSTALL_CODEX_SKILL=1; INSTALL_CLAUDE_SKILL=0 ;;
     --claude-only) INSTALL_CODEX_SKILL=0; INSTALL_CLAUDE_SKILL=1 ;;
+    --configure-path) CONFIGURE_PATH=1 ;;
     *) echo "Неизвестный параметр: $option" >&2; exit 2 ;;
   esac
 done
@@ -82,6 +84,22 @@ for name in btwb-pp-cli trenda-pp-cli trenda trenda-auth; do
   mv -f "$STAGE_DIR/$name" "$BIN_DIR/$name"
 done
 
+configure_shell_path() {
+  local profile="${ZDOTDIR:-$HOME}/.zprofile"
+  local marker="# coach-workout-tools PATH"
+  case ":$PATH:" in
+    *":$BIN_DIR:"*) return 0 ;;
+  esac
+  if ! grep -Fqs "$marker" "$profile" 2>/dev/null; then
+    printf '\n%s\nexport PATH="%s:$PATH"\n' "$marker" "$BIN_DIR" >> "$profile"
+  fi
+  echo "PATH будет доступен в новых окнах терминала через $profile"
+}
+
+if [ "$CONFIGURE_PATH" -eq 1 ]; then
+  configure_shell_path
+fi
+
 install_skill_link() {
   local parent="$1"
   local target="$parent/populating-trenda-workouts"
@@ -102,10 +120,14 @@ if [ "$INSTALL_CLAUDE_SKILL" -eq 1 ]; then
 fi
 
 echo "Установлено в $BIN_DIR"
+case ":$PATH:" in
+  *":$BIN_DIR:"*) ;;
+  *) echo "Чтобы команды были доступны в новых терминалах: ./scripts/install.sh --configure-path" ;;
+esac
 if [ -d "$BACKUP_DIR" ]; then
   echo "Предыдущие CLI сохранены в $BACKUP_DIR"
 fi
 if [ "$INSTALL_CODEX_SKILL" -eq 1 ] || [ "$INSTALL_CLAUDE_SKILL" -eq 1 ]; then
   echo "Навык подключён для Codex и/или Claude из этого репозитория."
 fi
-echo "Следующий шаг: trenda-auth login"
+echo "Следующий шаг: trenda-pp-cli auth login"

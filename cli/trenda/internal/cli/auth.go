@@ -20,11 +20,33 @@ func newAuthCmd(flags *rootFlags) *cobra.Command {
 	}
 
 	cmd.AddCommand(newAuthSetupCmd(flags))
+	cmd.AddCommand(newAuthLoginCmd(flags))
 	cmd.AddCommand(newAuthStatusCmd(flags))
 	cmd.AddCommand(newAuthSetTokenCmd(flags))
 	cmd.AddCommand(newAuthLogoutCmd(flags))
 
 	return cmd
+}
+
+// newAuthLoginCmd keeps Trenda's browser-session helper behind the same
+// `auth login` interface used by the BTWB CLI. The helper owns the interactive
+// login flow; this command only forwards the terminal streams to it.
+func newAuthLoginCmd(_ *rootFlags) *cobra.Command {
+	return &cobra.Command{
+		Use:   "login",
+		Short: "Sign in to Trenda and store the session locally",
+		Example: "  trenda-pp-cli auth login",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			login := exec.CommandContext(cmd.Context(), "trenda-auth", "login")
+			login.Stdin = cmd.InOrStdin()
+			login.Stdout = cmd.OutOrStdout()
+			login.Stderr = cmd.ErrOrStderr()
+			if err := login.Run(); err != nil {
+				return fmt.Errorf("starting Trenda login: %w", err)
+			}
+			return nil
+		},
+	}
 }
 
 // newAuthSetupCmd prints concrete steps for getting a credential. Side-effect
