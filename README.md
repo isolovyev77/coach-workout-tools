@@ -32,6 +32,26 @@ Trenda. В него входят две команды и навык для Code
    новую. Навык найдёт клиента только в вашем аккаунте и перед записью
    уточнит дату и содержание, если они неоднозначны.
 
+### Готовые файлы установки
+
+На странице [Releases](../../releases) есть готовые архивы, в которых Go уже
+не нужен. Выберите файл по результату `uname -s` и `uname -m`:
+
+- `coach-workout-tools_darwin_arm64.tar.gz` - Mac с Apple Silicon;
+- `coach-workout-tools_darwin_amd64.tar.gz` - Mac Intel;
+- `coach-workout-tools_linux_amd64.tar.gz` - Linux на Intel/AMD;
+- `coach-workout-tools_linux_arm64.tar.gz` - Linux на ARM.
+
+Распакуйте подходящий архив, откройте его папку и выполните
+`./scripts/install.sh --configure-path`. Node.js всё равно нужен для входа в
+Trenda. На Linux установите его штатным менеджером пакетов дистрибутива.
+
+### Инструкция для ИИ-модели
+
+Попросите Codex, Claude или другую модель прочитать
+[AGENTS.md](AGENTS.md) в корне репозитория. Там есть краткая инструкция, как
+объяснить возможности набора, выбрать архив и безопасно установить его.
+
 ### Обновление
 
 В папке репозитория выполните `./scripts/update.sh`. Он получает только
@@ -77,9 +97,9 @@ afterwards.
 
 ## Requirements
 
-- macOS
-- Go, required to build both CLI binaries
+- macOS or Linux on Intel/AMD (`amd64`) or ARM (`arm64`)
 - Node.js, required for Trenda sign-in and automatic session refresh
+- Go 1.26.3 or newer, required only when building from source
 - a separate BTWB and Trenda account for each coach
 
 ## Install
@@ -98,6 +118,32 @@ backup. `--configure-path` adds the selected directory to the user's
 `~/.zprofile` once, so new Terminal windows, Codex and Claude can find the
 commands. Without that option the installer prints the exact next step and
 does not edit shell configuration.
+
+### Install from a ready-made release archive
+
+Ready-made macOS and Linux archives are available from
+[Releases](../../releases). Extract the archive for the operating system and
+CPU architecture, then run:
+
+```bash
+./scripts/verify-public-release.py
+./scripts/install.sh --configure-path
+```
+
+The archive includes prebuilt CLI binaries, so Go is not required. Node.js is
+still required for Trenda sign-in.
+
+### Build from source
+
+For macOS, install dependencies with Homebrew:
+
+```bash
+brew install go node
+```
+
+For Linux, install Node.js with the distribution's package manager and install
+Go 1.26.3 or newer from [go.dev](https://go.dev/dl/) if the distribution ships
+an older version.
 
 Sign in to BTWB and Trenda interactively. Passwords are never written to disk;
 each CLI stores only its local session data with owner-only permissions.
@@ -149,6 +195,8 @@ the skill manually.
   only to identify the services the tools interact with.
 
 ## License
+
+MIT. See [LICENSE](LICENSE).
 
 The bundled CLI source keeps its Apache-2.0 license and required notices. See
 the `LICENSE` and `NOTICE` files in each CLI directory.

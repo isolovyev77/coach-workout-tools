@@ -1,0 +1,67 @@
+name: Build release archives
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - goos: darwin
+            goarch: amd64
+          - goos: darwin
+            goarch: arm64
+          - goos: linux
+            goarch: amd64
+          - goos: linux
+            goarch: arm64
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.3'
+      - name: Verify public package
+        run: python3 scripts/verify-public-release.py
+      - name: Build portable archive
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: '0'
+        run: |
+          stage="$RUNNER_TEMP/coach-workout-tools"
+          mkdir -p "$stage/bin"
+          rsync -a --exclude '.git' --exclude '.DS_Store' --exclude 'bin' ./ "$stage/"
+          (cd cli/btwb && go build -o "$stage/bin/btwb-pp-cli" ./cmd/btwb-pp-cli)
+          (cd cli/trenda && go build -o "$stage/bin/trenda-pp-cli" ./cmd/trenda-pp-cli)
+          chmod +x "$stage/bin/btwb-pp-cli" "$stage/bin/trenda-pp-cli"
+          tar -C "$stage" -czf "$RUNNER_TEMP/coach-workout-tools_${GOOS}_${GOARCH}.tar.gz" .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coach-workout-tools_${{ matrix.goos }}_${{ matrix.goarch }}
+          path: ${{ runner.temp }}/coach-workout-tools_${{ matrix.goos }}_${{ matrix.goarch }}.tar.gz
+          if-no-files-found: error
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          merge-multiple: true
+      - name: Create or update release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" release-assets/*.tar.gz --clobber
+          else
+            gh release create "$TAG" release-assets/*.tar.gz --title "$TAG" --generate-notes
+          fi

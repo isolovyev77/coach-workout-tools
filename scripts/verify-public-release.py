@@ -9,6 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SKIP_DIRS = {".git", ".build", "dist", "__pycache__"}
 FORBIDDEN_NAMES = {".env", ".env.local", ".env.production", ".DS_Store"}
+GENERATED_BINARY_NAMES = {"btwb-pp-cli", "trenda-pp-cli"}
 PRIVATE_MARKERS = ("Владимир", "Володя", "Ivan", "Solovyev", "isolo" + "vyev")
 RULES = {
     "known personal marker": re.compile("|".join(map(re.escape, PRIVATE_MARKERS)), re.I),
@@ -30,7 +31,11 @@ for path in ROOT.rglob("*"):
     if path.name in FORBIDDEN_NAMES or path.suffix.lower() in {".cookie", ".session", ".sqlite", ".sqlite3"}:
         problems.append(f"forbidden file: {rel}")
         continue
-    if path == Path(__file__).resolve():
+    if path.name in GENERATED_BINARY_NAMES:
+        problems.append(f"forbidden generated binary: {rel}")
+        continue
+    # The scanner intentionally contains marker examples.  Do not scan itself.
+    if path.resolve() == Path(__file__).resolve():
         continue
     try:
         text = path.read_text(encoding="utf-8")
