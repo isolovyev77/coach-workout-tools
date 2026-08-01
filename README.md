@@ -112,6 +112,21 @@ btwb-pp-cli wod plan --date YYYY-MM-DD --track "Personal" \
   тренерами. Для включения возможностей достаточно сообщить: «доступ выдан»
   или «ключ настроен».
 
+Для локальной настройки ключа тренер открывает Терминал на своём компьютере
+и вводит:
+
+```bash
+read -rs WIDGET_KEY
+printf '\n'
+btwb-pp-cli auth set-widget-key "$WIDGET_KEY"
+unset WIDGET_KEY
+```
+
+Первая строка попросит вставить ключ, но не покажет его на экране. В истории
+терминала останутся команды, а не значение ключа. После этого read-only
+команды Web Widgets будут работать только на этом компьютере; для другого
+тренера настройку повторяют отдельно.
+
 ### 📦 Готовые файлы установки
 
 На странице [Releases](../../releases) есть готовые архивы, в которых Go уже
@@ -309,6 +324,20 @@ planning or editing permission. It enables the existing
   configuration.
 - Never share BTWB passwords, cookies, keys, or client data. To coordinate,
   it is enough to say that access was granted or the key was configured.
+
+To configure the key locally, the trainer opens Terminal on their own computer
+and enters:
+
+```bash
+read -rs WIDGET_KEY
+printf '\n'
+btwb-pp-cli auth set-widget-key "$WIDGET_KEY"
+unset WIDGET_KEY
+```
+
+The first line accepts a pasted key without echoing it. Terminal history keeps
+the commands, not the key value. Web Widgets read-only commands then work only
+on that computer; repeat the setup separately for every other trainer.
 
 ## 🔄 Update
 
