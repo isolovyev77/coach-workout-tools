@@ -90,7 +90,7 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 				header := cfg.AuthHeader()
 				if header == "" {
 					report["auth"] = "not configured"
-					report["auth_hint"] = "export TRENDA_SESSION=<your-key>"
+					report["auth_hint"] = "trenda-pp-cli auth login"
 					report["auth_docs_url"] = "https://app.trenda.coach"
 				} else {
 					authConfigured = true

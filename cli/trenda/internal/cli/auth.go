@@ -66,11 +66,15 @@ func newAuthSetupCmd(_ *rootFlags) *cobra.Command {
 		Example: "  trenda-pp-cli auth setup\n  trenda-pp-cli auth setup --launch",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			w := cmd.OutOrStdout()
-			fmt.Fprintln(w, "See API docs: https://app.trenda.coach")
+			fmt.Fprintln(w, "Sign in with the coach account's own password:")
+			fmt.Fprintln(w, "  trenda-pp-cli auth login")
 			fmt.Fprintln(w, "")
-			fmt.Fprintln(w, "Then set:")
+			fmt.Fprintln(w, "The session is stored and refreshed on its own; nothing to export.")
+			fmt.Fprintln(w, "A session obtained elsewhere can still be supplied directly:")
 			fmt.Fprintln(w, "  export TRENDA_SESSION=\"<your-token>\"")
 			fmt.Fprintln(w, "  trenda-pp-cli auth set-token <token>")
+			fmt.Fprintln(w, "")
+			fmt.Fprintln(w, "See API docs: https://app.trenda.coach")
 			if !launch {
 				return nil
 			}

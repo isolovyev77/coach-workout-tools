@@ -314,6 +314,27 @@ CrossFit's prose. CAP programming is subscription content and does not belong
 in a public repository; live output is unaffected because it comes from the
 API.
 
+## 💬 Trenda comments
+
+`coach comments`, `add-comment`, `edit-comment` and `delete-comment` work the
+thread a coach and a client share under a training day.
+
+```bash
+trenda-pp-cli coach comments --workout-id 66196
+trenda-pp-cli coach add-comment --workout-id 66196 --text "Как самочувствие?" --yes
+```
+
+Comment ids exist only in the listing: Trenda has no route that reads a comment
+by its own id, so editing and deleting take an id that came from `comments`.
+`add-comment` re-reads the thread and reports the id it created, so writing and
+then correcting needs no extra step. Every write asks for confirmation, and in
+agent mode refuses without `--yes` - the client reads this thread, and a comment
+sent by mistake has already arrived.
+
+Text is written and read as plain text; `<` and `&` are escaped and line breaks
+kept, with `--html` for real markup. Reads carry both the stored `text` and a
+rendered `text_plain`.
+
 ## 🎯 What the workout skill does
 
 `populating-trenda-workouts` guides Codex or Claude through a safe coaching

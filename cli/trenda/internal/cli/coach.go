@@ -28,5 +28,7 @@ func newCoachCmd(flags *rootFlags) *cobra.Command {
 	cmd.AddCommand(newCoachListProgramsCmd(flags))
 	cmd.AddCommand(newCoachUpdateWorkoutCmd(flags))
 	cmd.AddCommand(newCoachUpdateWorkoutBodyCmd(flags))
+	// Hand-written, in coach_comments.go: the comment routes are not in the spec.
+	addCommentCommands(cmd, flags)
 	return cmd
 }

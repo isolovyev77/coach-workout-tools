@@ -230,19 +230,19 @@ func classifyAPIError(err error, flags *rootFlags) error {
 		return classified
 	case strings.Contains(msg, "HTTP 400") && cliutil.LooksLikeAuthError(msg):
 		return authErr(fmt.Errorf("%w\nhint: the API rejected the request — this usually means auth is missing or invalid."+
-			"\n      Set your API key: export TRENDA_SESSION=<your-key>"+
+			"\n      Sign in again: trenda-pp-cli auth login"+
 			"\n      See API docs: https://app.trenda.coach"+
 			"\n      Run 'trenda-pp-cli doctor' to check auth status."+
 			"\n      Response: "+cliutil.SanitizeErrorBody(msg), err))
 	case strings.Contains(msg, "HTTP 401"):
 		return authErr(fmt.Errorf("%w\nhint: check your API key."+
-			" Set it with: export TRENDA_SESSION=<your-key>"+
+			" Sign in again: trenda-pp-cli auth login"+
 			"\n      See API docs: https://app.trenda.coach"+
 			"\n      Run 'trenda-pp-cli doctor' to check auth status.", err))
 	case strings.Contains(msg, "HTTP 403"):
 		return authErr(fmt.Errorf("%w\nhint: permission denied. Your credentials are valid but lack access to this resource."+
 			"\n      Check that your API key has the required permissions."+
-			"\n      Set it with: export TRENDA_SESSION=<your-key>"+
+			"\n      Sign in again: trenda-pp-cli auth login"+
 			"\n      See API docs: https://app.trenda.coach"+
 			"\n      Run 'trenda-pp-cli doctor' to check auth status.", err))
 	case strings.Contains(msg, "HTTP 404"):

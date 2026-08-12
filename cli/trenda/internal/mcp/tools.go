@@ -319,19 +319,19 @@ func makeAPIHandler(method, pathTemplate string, bindings []mcpParamBinding, pos
 			case strings.Contains(msg, "HTTP 400") && cliutil.LooksLikeAuthError(msg):
 				return mcplib.NewToolResultError("authentication error: " + cliutil.SanitizeErrorBody(msg) +
 					"\nhint: the API rejected the request — this usually means auth is missing or invalid." +
-					"\n      Set your API key: export TRENDA_SESSION=<your-key>" +
+					"\n      Sign in again: trenda-pp-cli auth login" +
 					"\n      See API docs: https://app.trenda.coach" +
 					"\n      Run 'trenda-pp-cli doctor' to check auth status."), nil
 			case strings.Contains(msg, "HTTP 401"):
 				return mcplib.NewToolResultError("authentication failed: " + cliutil.SanitizeErrorBody(msg) +
 					"\nhint: check your API key." +
-					"\n      Set it with: export TRENDA_SESSION=<your-key>" +
+					"\n      Sign in again: trenda-pp-cli auth login" +
 					"\n      See API docs: https://app.trenda.coach" +
 					"\n      Run 'trenda-pp-cli doctor' to check auth status."), nil
 			case strings.Contains(msg, "HTTP 403"):
 				return mcplib.NewToolResultError("permission denied: " + cliutil.SanitizeErrorBody(msg) +
 					"\nhint: your credentials are valid but lack access to this resource." +
-					"\n      Set it with: export TRENDA_SESSION=<your-key>" +
+					"\n      Sign in again: trenda-pp-cli auth login" +
 					"\n      See API docs: https://app.trenda.coach" +
 					"\n      Run 'trenda-pp-cli doctor' to check auth status."), nil
 			case strings.Contains(msg, "HTTP 404"):

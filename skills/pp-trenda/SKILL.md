@@ -64,7 +64,39 @@ This CLI uses Chrome-compatible HTTP transport for browser-facing endpoints. It 
 - `trenda-pp-cli coach list-programs` — Программы, доступные коучу, включая чужие публичные....
 - `trenda-pp-cli coach update-workout` — Правит свойства дня: дату, тип, название, описание, порядок...
 - `trenda-pp-cli coach update-workout-body` — Перезаписывает разминку, основную часть и заминку...
+- `trenda-pp-cli coach comments` — Переписка под тренировкой: кто, когда, что написал
+- `trenda-pp-cli coach add-comment` — Написать комментарий под тренировкой клиента
+- `trenda-pp-cli coach edit-comment` — Переписать свой комментарий
+- `trenda-pp-cli coach delete-comment` — Удалить комментарий
 
+
+## Comments
+
+The thread under a training day, shared with the client.
+
+```bash
+trenda-pp-cli coach comments --workout-id 66196
+trenda-pp-cli coach add-comment --workout-id 66196 --text "Как самочувствие?" --yes
+trenda-pp-cli coach edit-comment --comment-id 2695 --workout-id 66196 --text "..." --yes
+trenda-pp-cli coach delete-comment --comment-id 2695 --workout-id 66196 --yes
+```
+
+Four things worth knowing before you use them:
+
+- **Comment ids come from `comments` and nowhere else.** The API has no route
+  that reads a comment by its own id, so `edit-comment` and `delete-comment`
+  take an id you first listed. `add-comment` re-reads the thread and reports the
+  id it just created, so a write-then-edit sequence needs no extra call.
+- **`--yes` is required in agent mode**, for all three writes. The client reads
+  this thread; a comment posted by mistake has already been delivered. Show the
+  user the text you intend to post and let them approve it - the flag is not a
+  formality to route around.
+- **Text goes in as plain text.** Line breaks survive, `<` and `&` are escaped.
+  Pass `--html` only to send real markup. Reading gives you both: `text` exactly
+  as the API stores it and `text_plain` rendered for quoting back to a human.
+- **Pass `--workout-id` to `edit-comment` and `delete-comment` too** when a human
+  is watching. It costs one read and makes the confirmation show what is about to
+  be overwritten or deleted, instead of a bare id.
 
 ### Finding the right command
 
