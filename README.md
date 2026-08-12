@@ -25,24 +25,18 @@ Trenda. В него входят две команды и навык для Code
    ./scripts/install.sh --configure-path
    ```
 
-3. Войдите в свои личные аккаунты BTWB и Trenda:
+3. Войдите в свои личные аккаунты - по email и паролю в каждом:
 
    ```bash
    btwb-pp-cli auth login
    trenda-pp-cli auth login
-   ```
-
-   Для CAP вход такой же - по email и паролю:
-
-   ```bash
    cap-pp-cli auth login
    ```
 
-   Пароль спрашивается в терминале без отображения и на диск не попадает:
-   сохраняется только выданный токен. Он живёт несколько часов; когда команды
-   начнут отвечать ошибкой доступа, войдите снова. Библиотека движений и
-   бенчмарков (`cap-pp-cli cap movement`, `cap benchmarks`) работает и без
-   входа вообще.
+   Пароли спрашиваются в терминале без отображения и на диск не попадают.
+   Токен CAP живёт несколько часов: когда его команды начнут отвечать ошибкой
+   доступа, войдите снова. Библиотека движений и бенчмарков
+   (`cap-pp-cli cap movement`, `cap benchmarks`) работает и без входа вообще.
 
 4. Откройте Codex или Claude и попросите перенести тренировку либо составить
    новую. Навык найдёт клиента только в вашем аккаунте и перед записью
@@ -372,25 +366,22 @@ For Linux, install Node.js with the distribution's package manager and install
 Go 1.26.3 or newer from [go.dev](https://go.dev/dl/) if the distribution ships
 an older version.
 
-Sign in to BTWB and Trenda interactively. Passwords are never written to disk;
-each CLI stores only its local session data with owner-only permissions.
+Sign in to each account interactively. Passwords are never written to disk;
+each CLI stores only the session or token the service returns, with owner-only
+permissions.
 
 ```bash
 btwb-pp-cli auth login
 trenda-pp-cli auth login
+cap-pp-cli auth login
+
 trenda-pp-cli doctor
 btwb-pp-cli auth status
 ```
 
-CAP signs in the same way. It uses OAuth2 with PKCE rather than a login form,
-but the whole exchange runs from the terminal, so there is nothing to copy out
-of a browser.
-
-```bash
-cap-pp-cli auth login
-```
-
-The movement and benchmark commands need no token at all.
+CAP's token lasts a few hours, so its programming commands need signing in
+again from time to time. Its movement and benchmark commands need no token at
+all.
 
 ### 🗓 Plan a workout in BTWB
 
