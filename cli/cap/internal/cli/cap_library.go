@@ -6,6 +6,15 @@
 // these commands do not go through the generated client at all - it is wired
 // for the authenticated c3po API - and why they keep working when the
 // programming token has expired.
+//
+// A note for whoever debugs a "wrong movement came back" report: every response
+// names the movement it carries, and fetchMovement rejects a mismatch. The
+// likelier cause is on the caller's side - several lookups backgrounded in one
+// shell finish out of order, so their output interleaves and answers line up
+// against the wrong questions. Reproduced deliberately: two parallel calls
+// printed in a different order on consecutive runs. SKILL.md tells agents to
+// run these one at a time and to key results by .results.slug rather than by
+// output order.
 
 package cli
 

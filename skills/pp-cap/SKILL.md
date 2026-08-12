@@ -69,6 +69,36 @@ and `benchmarks "wall walk"` work.
 Every command emits the `{meta, results}` envelope; data is under `.results`.
 `--agent` for agent-friendly output, `--select` to trim fields.
 
+## Calling this from an agent
+
+**Run one command per shell invocation, and never in the background.** Several
+`cap movement` calls backgrounded in one shell finish in a nondeterministic
+order, so their output interleaves and the answers line up against the wrong
+questions. That failure looks exactly like the API serving the wrong movement:
+
+```bash
+# WRONG - output order is not the order you asked in
+cap-pp-cli cap movement push-jerk & cap-pp-cli cap movement deadlift & wait
+
+# RIGHT - one at a time, or label each result yourself
+cap-pp-cli cap movement push-jerk --json
+cap-pp-cli cap movement deadlift --json
+```
+
+**Read the identity back from the payload, not from the order of output.** Every
+response names what it is: `.results.slug` for a movement, `.results.date` for a
+day. When looking several things up, key the results by that field rather than
+by position.
+
+**Check the exit code.** 0 is a real answer; 3 means nothing is published for
+that date or movement; 4 means the programming token expired (the library
+commands still work). A nonzero code with output on stdout is not a partial
+answer - treat it as no answer.
+
+`cap movement` additionally verifies that the movement returned is the one
+requested and fails loudly if it ever is not, so a mismatch cannot reach you
+silently.
+
 ## What `compare` is for
 
 Each day carries CAP's own `load`, `volume` and `skill` (1-5) plus the movement
