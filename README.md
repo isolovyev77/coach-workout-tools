@@ -32,6 +32,17 @@ Trenda. В него входят две команды и навык для Code
    trenda-pp-cli auth login
    ```
 
+   Для CAP пароля нет: токен переносится из уже открытой сессии кабинета
+   аффилиата, помощник показывает по шагам, где его взять. На Windows -
+   `scripts\cap-auth.ps1`.
+
+   ```bash
+   ./scripts/cap-auth.sh
+   ```
+
+   Библиотека движений и бенчмарков (`cap-pp-cli cap movement`,
+   `cap benchmarks`) работает и без токена, вход ей не нужен.
+
 4. Откройте Codex или Claude и попросите перенести тренировку либо составить
    новую. Навык найдёт клиента только в вашем аккаунте и перед записью
    уточнит дату и содержание, если они неоднозначны.
@@ -377,6 +388,18 @@ trenda-pp-cli auth login
 trenda-pp-cli doctor
 btwb-pp-cli auth status
 ```
+
+CAP has no password to type: it uses OAuth2 PKCE and keeps a short-lived token
+in the browser. The helper walks through copying it out of an already
+signed-in session, saves it, and checks that it works. On Windows run
+`scripts\cap-auth.ps1`.
+
+```bash
+./scripts/cap-auth.sh
+./scripts/cap-auth.sh status
+```
+
+The movement and benchmark commands need no token at all.
 
 ### 🗓 Plan a workout in BTWB
 
