@@ -1,4 +1,4 @@
-// Copyright 2026 isolovyev. Licensed under Apache-2.0. See LICENSE.
+// Copyright 2026 Coach Workout Tools Contributors. Licensed under Apache-2.0. See LICENSE.
 //
 // Hand-authored. The generated `subscriptions` command is a faithful mirror of
 // the content endpoint: it wants a raw URN and returns the raw envelope. These

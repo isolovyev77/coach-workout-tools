@@ -1,4 +1,4 @@
-// Copyright 2026 isolovyev. Licensed under Apache-2.0. See LICENSE.
+// Copyright 2026 Coach Workout Tools Contributors. Licensed under Apache-2.0. See LICENSE.
 //
 // Hand-authored. The coaching library (movements, benchmarks, programming
 // resources) lives on a different host from the programming: the public CMS at

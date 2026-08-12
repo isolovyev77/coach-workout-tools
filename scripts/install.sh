@@ -10,7 +10,9 @@ elif [ -x "$HOME/bin/btwb-pp-cli" ] || [ -x "$HOME/bin/trenda-pp-cli" ]; then
 else
   BIN_DIR="$HOME/.local/bin"
 fi
-SKILL_SOURCE="$ROOT_DIR/skills/populating-trenda-workouts"
+# Both skills install the same way; listed once so a third one is a one-line
+# change rather than a hunt through the script.
+SKILL_NAMES="populating-trenda-workouts pp-cap"
 INSTALL_CODEX_SKILL=auto
 INSTALL_CLAUDE_SKILL=auto
 CONFIGURE_PATH=0
@@ -35,19 +37,22 @@ fi
 # A pre-existing regular directory may be a trainer's hand-maintained skill.
 # Preserve it by default instead of replacing it during a CLI update.
 for parent in "${CODEX_HOME:-$HOME/.codex}/skills" "${CLAUDE_HOME:-$HOME/.claude}/skills"; do
-  target="$parent/populating-trenda-workouts"
   case "$parent" in
     "${CODEX_HOME:-$HOME/.codex}/skills") enabled="$INSTALL_CODEX_SKILL" ;;
     *) enabled="$INSTALL_CLAUDE_SKILL" ;;
   esac
-  if [ "$enabled" -eq 1 ] && [ -e "$target" ] && [ ! -L "$target" ]; then
-    echo "Существующий навык сохранён без замены: $target"
-    if [ "$parent" = "${CODEX_HOME:-$HOME/.codex}/skills" ]; then
-      INSTALL_CODEX_SKILL=0
-    else
-      INSTALL_CLAUDE_SKILL=0
+  [ "$enabled" -eq 1 ] || continue
+  for skill in $SKILL_NAMES; do
+    target="$parent/$skill"
+    if [ -e "$target" ] && [ ! -L "$target" ]; then
+      echo "Существующий навык сохранён без замены: $target"
+      if [ "$parent" = "${CODEX_HOME:-$HOME/.codex}/skills" ]; then
+        INSTALL_CODEX_SKILL=0
+      else
+        INSTALL_CLAUDE_SKILL=0
+      fi
     fi
-  fi
+  done
 done
 
 GO_BIN="${GO_BIN:-$(command -v go 2>/dev/null || true)}"
@@ -62,6 +67,8 @@ STAGE_DIR="$(mktemp -d "${TMPDIR:-/tmp}/coach-workout-tools-install.XXXXXX")"
 trap 'rm -rf "$STAGE_DIR"' EXIT
 (cd "$ROOT_DIR/cli/btwb" && "$GO_BIN" build -o "$STAGE_DIR/btwb-pp-cli" ./cmd/btwb-pp-cli)
 (cd "$ROOT_DIR/cli/trenda" && "$GO_BIN" build -o "$STAGE_DIR/trenda-pp-cli" ./cmd/trenda-pp-cli)
+(cd "$ROOT_DIR/cli/cap" && "$GO_BIN" build -o "$STAGE_DIR/cap-pp-cli" ./cmd/cap-pp-cli)
+(cd "$ROOT_DIR/cli/cap" && "$GO_BIN" build -o "$STAGE_DIR/cap-pp-mcp" ./cmd/cap-pp-mcp)
 
 cat > "$STAGE_DIR/trenda" <<EOF
 #!/usr/bin/env bash
@@ -74,13 +81,13 @@ EOF
 chmod +x "$STAGE_DIR/trenda" "$STAGE_DIR/trenda-auth"
 
 BACKUP_DIR="${COACH_TOOLS_BACKUP_DIR:-$HOME/.local/share/coach-workout-tools/backups}/$(date +%Y%m%d-%H%M%S)"
-for name in btwb-pp-cli trenda-pp-cli trenda trenda-auth; do
+for name in btwb-pp-cli trenda-pp-cli cap-pp-cli cap-pp-mcp trenda trenda-auth; do
   if [ -e "$BIN_DIR/$name" ] || [ -L "$BIN_DIR/$name" ]; then
     mkdir -p "$BACKUP_DIR"
     cp -pR "$BIN_DIR/$name" "$BACKUP_DIR/$name"
   fi
 done
-for name in btwb-pp-cli trenda-pp-cli trenda trenda-auth; do
+for name in btwb-pp-cli trenda-pp-cli cap-pp-cli cap-pp-mcp trenda trenda-auth; do
   mv -f "$STAGE_DIR/$name" "$BIN_DIR/$name"
 done
 
@@ -102,14 +109,17 @@ fi
 
 install_skill_link() {
   local parent="$1"
-  local target="$parent/populating-trenda-workouts"
   mkdir -p "$parent"
-  if [ -e "$target" ] && [ ! -L "$target" ]; then
-    echo "Навык уже есть и не является ссылкой: $target" >&2
-    echo "Удали или перемести его, затем повтори установку." >&2
-    exit 1
-  fi
-  ln -sfn "$SKILL_SOURCE" "$target"
+  local skill target
+  for skill in $SKILL_NAMES; do
+    target="$parent/$skill"
+    if [ -e "$target" ] && [ ! -L "$target" ]; then
+      echo "Навык уже есть и не является ссылкой: $target" >&2
+      echo "Удали или перемести его, затем повтори установку." >&2
+      exit 1
+    fi
+    ln -sfn "$ROOT_DIR/skills/$skill" "$target"
+  done
 }
 
 if [ "$INSTALL_CODEX_SKILL" -eq 1 ]; then

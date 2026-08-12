@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SKIP_DIRS = {".git", ".build", "dist", "__pycache__"}
 FORBIDDEN_NAMES = {".env", ".env.local", ".env.production", ".DS_Store"}
-GENERATED_BINARY_NAMES = {"btwb-pp-cli", "trenda-pp-cli"}
+GENERATED_BINARY_NAMES = {"btwb-pp-cli", "trenda-pp-cli", "cap-pp-cli", "cap-pp-mcp"}
 PRIVATE_MARKERS = ("Владимир", "Володя", "Ivan", "Solovyev", "isolo" + "vyev")
 RULES = {
     "known personal marker": re.compile("|".join(map(re.escape, PRIVATE_MARKERS)), re.I),

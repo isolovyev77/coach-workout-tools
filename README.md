@@ -184,9 +184,19 @@ cap-pp-cli cap compare 2026-08-10 2026-08-16
 друга. Это заготовка для перестановки недели под группы, которые ходят в зал
 по фиксированным дням.
 
-**Доступ.** Программа требует токен из личного кабинета аффилиата
-(`cap-pp-cli auth set-token <токен>`), он короткоживущий. Библиотека движений
-и бенчмарков открыта и работает даже когда токен истёк.
+**Доступ.** Программа требует токен из личного кабинета аффилиата, он
+короткоживущий. Проще всего сохранить его помощником, который открывает нужную
+страницу и по шагам показывает, где взять токен:
+
+```bash
+scripts/cap-auth.sh          # сохранить токен
+scripts/cap-auth.sh status   # проверить, жив ли он
+```
+
+На Windows то же самое делает `scripts\cap-auth.ps1`. Пароль не спрашивается
+нигде: у CAP его в терминале ввести нельзя, токен переносится из уже открытой
+сессии браузера. Библиотека движений и бенчмарков открыта и работает даже
+когда токен истёк.
 
 ### 📦 Готовые файлы установки
 
@@ -279,6 +289,12 @@ expired.
 **Comparing days:** `cap compare <date> <date>` scores how much two days
 overlap - by CAP's own vectors and by the movement patterns they train - so a
 week can be resequenced around athletes who train on fixed days.
+
+**Signing in:** `scripts/cap-auth.sh` (or `scripts\cap-auth.ps1` on Windows)
+walks through copying the short-lived affiliate token out of an already
+signed-in browser session and saves it; `scripts/cap-auth.sh status` says
+whether it still works. There is no password to type: CAP uses OAuth2 PKCE and
+the token lives in the browser.
 
 **Fixtures:** the committed test fixtures keep the API's shapes but not
 CrossFit's prose. CAP programming is subscription content and does not belong

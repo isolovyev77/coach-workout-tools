@@ -1,4 +1,4 @@
-// Copyright 2026 isolovyev. Licensed under Apache-2.0. See LICENSE.
+// Copyright 2026 Coach Workout Tools Contributors. Licensed under Apache-2.0. See LICENSE.
 
 // Package capjson turns the CrossFit content API's JSON into structured Go
 // values, and classifies each day's movements into training patterns.

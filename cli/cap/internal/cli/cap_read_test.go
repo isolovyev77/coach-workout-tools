@@ -1,4 +1,4 @@
-// Copyright 2026 isolovyev. Licensed under Apache-2.0. See LICENSE.
+// Copyright 2026 Coach Workout Tools Contributors. Licensed under Apache-2.0. See LICENSE.
 
 package cli
 
