@@ -22,6 +22,12 @@ jobs:
             goarch: amd64
           - goos: linux
             goarch: arm64
+          # Windows ships as .zip with .exe binaries: a tarball is awkward to
+          # open there, and Windows will not run an extensionless executable.
+          - goos: windows
+            goarch: amd64
+          - goos: windows
+            goarch: arm64
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
@@ -38,16 +44,24 @@ jobs:
           stage="$RUNNER_TEMP/coach-workout-tools"
           mkdir -p "$stage/bin"
           rsync -a --exclude '.git' --exclude '.DS_Store' --exclude 'bin' ./ "$stage/"
-          (cd cli/btwb && go build -o "$stage/bin/btwb-pp-cli" ./cmd/btwb-pp-cli)
-          (cd cli/trenda && go build -o "$stage/bin/trenda-pp-cli" ./cmd/trenda-pp-cli)
-          (cd cli/cap && go build -o "$stage/bin/cap-pp-cli" ./cmd/cap-pp-cli)
-          (cd cli/cap && go build -o "$stage/bin/cap-pp-mcp" ./cmd/cap-pp-mcp)
+          ext=''
+          if [ "$GOOS" = windows ]; then ext='.exe'; fi
+          (cd cli/btwb && go build -o "$stage/bin/btwb-pp-cli$ext" ./cmd/btwb-pp-cli)
+          (cd cli/trenda && go build -o "$stage/bin/trenda-pp-cli$ext" ./cmd/trenda-pp-cli)
+          (cd cli/cap && go build -o "$stage/bin/cap-pp-cli$ext" ./cmd/cap-pp-cli)
+          (cd cli/cap && go build -o "$stage/bin/cap-pp-mcp$ext" ./cmd/cap-pp-mcp)
           chmod +x "$stage/bin/"*
-          tar -C "$stage" -czf "$RUNNER_TEMP/coach-workout-tools_${GOOS}_${GOARCH}.tar.gz" .
+          if [ "$GOOS" = windows ]; then
+            (cd "$stage" && zip -qr "$RUNNER_TEMP/coach-workout-tools_${GOOS}_${GOARCH}.zip" .)
+          else
+            tar -C "$stage" -czf "$RUNNER_TEMP/coach-workout-tools_${GOOS}_${GOARCH}.tar.gz" .
+          fi
       - uses: actions/upload-artifact@v4
         with:
           name: coach-workout-tools_${{ matrix.goos }}_${{ matrix.goarch }}
-          path: ${{ runner.temp }}/coach-workout-tools_${{ matrix.goos }}_${{ matrix.goarch }}.tar.gz
+          path: |
+            ${{ runner.temp }}/coach-workout-tools_${{ matrix.goos }}_${{ matrix.goarch }}.tar.gz
+            ${{ runner.temp }}/coach-workout-tools_${{ matrix.goos }}_${{ matrix.goarch }}.zip
           if-no-files-found: error
   publish:
     needs: build
@@ -63,10 +77,10 @@ jobs:
           TAG: ${{ github.ref_name }}
           REPOSITORY: ${{ github.repository }}
         run: |
-          mapfile -t archives < <(find release-assets -type f -name '*.tar.gz' -print)
-          # macOS and Linux, two architectures each. A short count means a build
-          # silently produced nothing.
-          test "${#archives[@]}" -eq 4
+          mapfile -t archives < <(find release-assets -type f \( -name '*.tar.gz' -o -name '*.zip' \) -print)
+          # Four tarballs (macOS and Linux, two architectures each) plus two
+          # Windows zips. A short count means a build silently produced nothing.
+          test "${#archives[@]}" -eq 6
           if gh release view "$TAG" --repo "$REPOSITORY" >/dev/null 2>&1; then
             gh release upload "$TAG" "${archives[@]}" --clobber --repo "$REPOSITORY"
           else
