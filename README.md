@@ -32,16 +32,17 @@ Trenda. В него входят две команды и навык для Code
    trenda-pp-cli auth login
    ```
 
-   Для CAP пароля нет: токен переносится из уже открытой сессии кабинета
-   аффилиата, помощник показывает по шагам, где его взять. На Windows -
-   `scripts\cap-auth.ps1`.
+   Для CAP вход такой же - по email и паролю:
 
    ```bash
-   ./scripts/cap-auth.sh
+   cap-pp-cli auth login
    ```
 
-   Библиотека движений и бенчмарков (`cap-pp-cli cap movement`,
-   `cap benchmarks`) работает и без токена, вход ей не нужен.
+   Пароль спрашивается в терминале без отображения и на диск не попадает:
+   сохраняется только выданный токен. Он живёт несколько часов; когда команды
+   начнут отвечать ошибкой доступа, войдите снова. Библиотека движений и
+   бенчмарков (`cap-pp-cli cap movement`, `cap benchmarks`) работает и без
+   входа вообще.
 
 4. Откройте Codex или Claude и попросите перенести тренировку либо составить
    новую. Навык найдёт клиента только в вашем аккаунте и перед записью
@@ -195,19 +196,13 @@ cap-pp-cli cap compare 2026-08-10 2026-08-16
 друга. Это заготовка для перестановки недели под группы, которые ходят в зал
 по фиксированным дням.
 
-**Доступ.** Программа требует токен из личного кабинета аффилиата, он
-короткоживущий. Проще всего сохранить его помощником, который открывает нужную
-страницу и по шагам показывает, где взять токен:
+**Доступ.** `cap-pp-cli auth login` спрашивает email и пароль, как и два других
+CLI. Пароль уходит только на сервер CrossFit и на диск не пишется - сохраняется
+лишь выданный токен, он живёт несколько часов. Библиотека движений и бенчмарков
+открыта и работает даже когда токен истёк.
 
-```bash
-scripts/cap-auth.sh          # сохранить токен
-scripts/cap-auth.sh status   # проверить, жив ли он
-```
-
-На Windows то же самое делает `scripts\cap-auth.ps1`. Пароль не спрашивается
-нигде: у CAP его в терминале ввести нельзя, токен переносится из уже открытой
-сессии браузера. Библиотека движений и бенчмарков открыта и работает даже
-когда токен истёк.
+Если токен получен другим путём, его можно сохранить напрямую:
+`cap-pp-cli auth set-token <токен>`.
 
 ### 📦 Готовые файлы установки
 
@@ -301,11 +296,9 @@ expired.
 overlap - by CAP's own vectors and by the movement patterns they train - so a
 week can be resequenced around athletes who train on fixed days.
 
-**Signing in:** `scripts/cap-auth.sh` (or `scripts\cap-auth.ps1` on Windows)
-walks through copying the short-lived affiliate token out of an already
-signed-in browser session and saves it; `scripts/cap-auth.sh status` says
-whether it still works. There is no password to type: CAP uses OAuth2 PKCE and
-the token lives in the browser.
+**Signing in:** `cap-pp-cli auth login` takes an email and password, reads the
+password without echo, and stores only the token CrossFit returns. The token
+lasts a few hours; the movement and benchmark commands need none.
 
 **Fixtures:** the committed test fixtures keep the API's shapes but not
 CrossFit's prose. CAP programming is subscription content and does not belong
@@ -389,14 +382,12 @@ trenda-pp-cli doctor
 btwb-pp-cli auth status
 ```
 
-CAP has no password to type: it uses OAuth2 PKCE and keeps a short-lived token
-in the browser. The helper walks through copying it out of an already
-signed-in session, saves it, and checks that it works. On Windows run
-`scripts\cap-auth.ps1`.
+CAP signs in the same way. It uses OAuth2 with PKCE rather than a login form,
+but the whole exchange runs from the terminal, so there is nothing to copy out
+of a browser.
 
 ```bash
-./scripts/cap-auth.sh
-./scripts/cap-auth.sh status
+cap-pp-cli auth login
 ```
 
 The movement and benchmark commands need no token at all.

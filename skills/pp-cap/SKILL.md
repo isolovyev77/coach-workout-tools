@@ -120,16 +120,20 @@ appear nowhere in the scaling section.
 
 ## Auth
 
-Programming needs an OAuth2 access token from the affiliate toolkit (short-lived
-public-client token, scope `user:full:read`):
+Programming needs a signed-in session; the movement and benchmark commands do
+not.
 
 ```bash
-cap-pp-cli auth set-token <token>
+cap-pp-cli auth login          # asks for email, then password without echo
 ```
 
-It expires; when programming calls return exit 4, get a fresh one. **Never ask
-the user for their CrossFit password** - this is a token flow, and the token
-comes from an already-signed-in browser session.
+The password goes only to CrossFit and is never written to disk - only the
+token it returns is stored. The token is short lived: when programming commands
+exit 4, sign in again.
+
+**Never run `auth login` on the user's behalf, and never ask for their password
+in chat.** Tell them to run it themselves. `auth set-token <token>` also exists
+for a token obtained some other way.
 
 ## Exit codes
 
