@@ -72,6 +72,19 @@ func Load(configPath string) (*Config, error) {
 		cfg.AuthSource = "config"
 	}
 
+	// Last: the cookie store `auth login` writes. Read rather than copied, so
+	// a session refreshed later is picked up instead of going stale. An
+	// explicit TRENDA_SESSION and a config-file credential both win over it,
+	// which keeps CI and debugging overrides working.
+	if cfg.AuthSource == "" {
+		if store, sErr := LoadTrendaStore(TrendaStorePath()); sErr == nil && store != nil {
+			if header := store.CookieHeader(); header != "" {
+				cfg.TrendaSession = header
+				cfg.AuthSource = "login"
+			}
+		}
+	}
+
 	// Base URL override (used by printing-press verify to point at mock/test servers)
 	if v := os.Getenv("TRENDA_BASE_URL"); v != "" {
 		cfg.BaseURL = v

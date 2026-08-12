@@ -37,13 +37,19 @@ func newAuthLoginCmd(_ *rootFlags) *cobra.Command {
 		Short: "Sign in to Trenda and store the session locally",
 		Example: "  trenda-pp-cli auth login",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			login := exec.CommandContext(cmd.Context(), "trenda-auth", "login")
+			helper, args, err := trendaHelperCommand("login")
+			if err != nil {
+				return configErr(err)
+			}
+			login := exec.CommandContext(cmd.Context(), helper, args...)
 			login.Stdin = cmd.InOrStdin()
 			login.Stdout = cmd.OutOrStdout()
 			login.Stderr = cmd.ErrOrStderr()
 			if err := login.Run(); err != nil {
 				return fmt.Errorf("starting Trenda login: %w", err)
 			}
+			// The helper wrote the session to the shared cookie store; from
+			// here the direct CLI reads it like any other credential.
 			return nil
 		},
 	}
@@ -135,7 +141,10 @@ func newAuthStatusCmd(flags *rootFlags) *cobra.Command {
 			if !authed {
 				fmt.Fprintln(w, red("Not authenticated"))
 				fmt.Fprintln(w, "")
-				fmt.Fprintln(w, "Set your token:")
+				fmt.Fprintln(w, "Sign in:")
+				fmt.Fprintln(w, "  trenda-pp-cli auth login")
+				fmt.Fprintln(w, "")
+				fmt.Fprintln(w, "Or supply a session directly:")
 				fmt.Fprintln(w, "  export TRENDA_SESSION=\"your-token-here\"")
 				fmt.Fprintf(w, "  trenda-pp-cli auth set-token <token>\n")
 				return authErr(fmt.Errorf("no credentials configured"))
@@ -202,6 +211,14 @@ func newAuthLogoutCmd(flags *rootFlags) *cobra.Command {
 
 			if err := cfg.ClearTokens(); err != nil {
 				return configErr(fmt.Errorf("clearing tokens: %w", err))
+			}
+
+			// The session `auth login` creates lives in the Node helper's
+			// cookie store, not in this config file. Clearing only the config
+			// would leave the CLI signed in through that store - a logout that
+			// does not log out.
+			if err := config.ClearTrendaStore(config.TrendaStorePath()); err != nil {
+				return configErr(err)
 			}
 
 			// Identify which (if any) auth env var is still exported so the

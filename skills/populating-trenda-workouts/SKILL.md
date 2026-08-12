@@ -46,10 +46,13 @@ clarifying question when one is missing.
 1. Check authentication.
 
    ```bash
-   "$COACH_TOOLS_HOME/apps/trenda/trenda-auth.mjs" status
-   trenda-pp-cli doctor
+   trenda-pp-cli auth status --agent
    btwb-pp-cli auth status
    ```
+
+   If Trenda reports no session, sign in with `trenda-pp-cli auth login`. The
+   session it stores is the one every Trenda command reads, wrapper or not, and
+   it is renewed automatically when it expires.
 
 2. Resolve the client in the current coach account and read the target date.
 

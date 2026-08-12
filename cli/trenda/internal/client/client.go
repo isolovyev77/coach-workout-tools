@@ -223,6 +223,9 @@ func (c *Client) do(method, path string, params map[string]string, body any, hea
 
 	const maxRetries = 3
 	var lastErr error
+	// The session is renewed at most once per call: a server that keeps
+	// answering 401 after a successful refresh is refusing us, not expiring us.
+	refreshed := false
 
 	for attempt := 0; attempt <= maxRetries; attempt++ {
 		// Proactive rate limiting — wait before sending
@@ -290,6 +293,18 @@ func (c *Client) do(method, path string, params map[string]string, body any, hea
 			Path:       path,
 			StatusCode: resp.StatusCode,
 			Body:       truncateBody(respBody),
+		}
+
+		// Session expired - renew the cookies once and replay the request.
+		// Trenda's cookies are short lived, so without this the direct CLI
+		// works right after signing in and starts failing an hour later.
+		if resp.StatusCode == 401 && !refreshed && path != trendaRefreshPath {
+			refreshed = true
+			if fresh, ok := c.refreshTrendaSession(); ok {
+				authHeader = fresh
+				lastErr = apiErr
+				continue
+			}
 		}
 
 		// Rate limited - adjust adaptive limiter and retry
