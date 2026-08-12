@@ -3,7 +3,7 @@
 ## 🇷🇺 По-русски
 
 Набор помогает тренеру переносить и составлять тренировки между BTWB и
-Trenda. В него входят две команды и навык для Codex или Claude:
+Trenda. В него входят три команды и четыре навыка для Codex или Claude:
 
 - `btwb-pp-cli` - читает программу BTWB, планирует тренировку на доступный
   трек и безопасно работает в режиме агента;
@@ -14,6 +14,10 @@ Trenda. В него входят две команды и навык для Code
   сравнивает два дня по нагрузке;
 - `populating-trenda-workouts` - помогает перенести тренировку, подготовить
   разминку под движения и проверить сохранённый результат.
+
+Навыки `pp-btwb`, `pp-trenda` и `pp-cap` учат агента работать с
+соответствующей командой: какие подкоманды есть, как читать ответ, где
+подводные камни. Установщик связывает все четыре с Codex и Claude.
 
 ### 🚀 Быстрый старт
 
@@ -246,8 +250,11 @@ Open toolkit for coaches who use BTWB and Trenda. It includes:
   a permitted track;
 - `trenda-pp-cli` plus the `trenda` session wrapper - work with a coach's own
   Trenda account;
+- `cap-pp-cli` - read CrossFit Affiliate Programming: the day's plan, the
+  movement library with faults and cues, benchmarks, and a load comparison
+  between two days;
 - `populating-trenda-workouts` - an agent skill for transferring or composing
-  workouts safely.
+  workouts safely, plus `pp-btwb`, `pp-trenda` and `pp-cap`, one per command.
 
 This repository contains source code and generic examples only. It deliberately
 does not contain client data, coaching accounts, cookies, passwords, personal
@@ -479,13 +486,14 @@ touches session files stored in the user's home directory.
 
 ## 🤖 Codex and Claude
 
-The default installer connects the same skill to both Codex and Claude using
-safe local symbolic links:
+The default installer connects the same four skills to both Codex and Claude
+using safe local symbolic links, under `~/.codex/skills/` and
+`~/.claude/skills/`:
 
-- Codex: `~/.codex/skills/populating-trenda-workouts`
-- Claude: `~/.claude/skills/populating-trenda-workouts`
+- `populating-trenda-workouts` - transferring and composing workouts
+- `pp-btwb`, `pp-trenda`, `pp-cap` - one per command
 
-So one clone serves both agents, and `./scripts/update.sh` updates the skill
+So one clone serves both agents, and `./scripts/update.sh` updates the skills
 for both on the next conversation. The CLI commands are shared too. To install
 only one integration, use `./scripts/install.sh --codex-only` or
 `./scripts/install.sh --claude-only`.

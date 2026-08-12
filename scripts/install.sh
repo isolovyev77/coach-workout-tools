@@ -10,9 +10,9 @@ elif [ -x "$HOME/bin/btwb-pp-cli" ] || [ -x "$HOME/bin/trenda-pp-cli" ]; then
 else
   BIN_DIR="$HOME/.local/bin"
 fi
-# Both skills install the same way; listed once so a third one is a one-line
+# Every skill installs the same way; listed once so adding one is a one-line
 # change rather than a hunt through the script.
-SKILL_NAMES="populating-trenda-workouts pp-cap"
+SKILL_NAMES="populating-trenda-workouts pp-btwb pp-trenda pp-cap"
 INSTALL_CODEX_SKILL=auto
 INSTALL_CLAUDE_SKILL=auto
 CONFIGURE_PATH=0
