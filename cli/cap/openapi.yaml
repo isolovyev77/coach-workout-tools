@@ -1,0 +1,110 @@
+openapi: 3.1.0
+info:
+  title: CrossFit Affiliate Programming (CAP)
+  version: "1.0.0"
+  description: >
+    Read the CrossFit Affiliate Programming (CAP) daily class plans and weekly
+    overviews. The affiliate toolkit at affiliate.crossfit.com is a React app
+    over a plain JSON content API on c3po.crossfit.com; there is no HTML to
+    scrape. A single content endpoint takes a URN naming the programming
+    document (a daily class plan for a date, or a weekly overview) and returns
+    the workout, its intended stimulus, the load/volume/skill vectors, the class
+    plan timing, scaling, and warm-up material.
+
+    Auth is OAuth2 with PKCE: the toolkit is a public client
+    (react_affiliate_toolkit_hBwg8A, scope user:full:read) and holds a short
+    lived Bearer access token. This CLI carries that token; obtaining it is
+    documented in the CLI, not the spec.
+servers:
+  - url: https://c3po.crossfit.com/api
+    description: CrossFit content and identity API (c3po)
+
+paths:
+  /subscriptions/v1/content:
+    get:
+      operationId: getContent
+      summary: Fetch a programming document by its content URN
+      description: >
+        Returns the content tile for a URN such as
+        content_api:///programming/affiliate/daily-class-plan/YYYYMMDD or
+        content_api:///programming/affiliate/weekly-overview/YYYYMMDD. The
+        response wraps one or more tiles; each tile's acf field holds the
+        programming payload.
+      tags: [content]
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: urn
+          in: query
+          required: true
+          description: The content URN identifying the document to fetch.
+          schema:
+            type: string
+          example: content_api:///programming/affiliate/daily-class-plan/20260810
+      responses:
+        "200":
+          description: The content envelope.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContentEnvelope"
+        "401":
+          description: Missing or expired access token.
+        "404":
+          description: No programming document exists for that URN.
+
+  /users/v2/auth/me:
+    get:
+      operationId: getAuthMe
+      summary: The identity behind the current access token
+      description: Returns the authenticated user, used to confirm a token works.
+      tags: [auth]
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: The authenticated identity.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        "401":
+          description: Missing or expired access token.
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >
+        OAuth2 PKCE access token for the affiliate toolkit public client
+        (scope user:full:read).
+  schemas:
+    ContentEnvelope:
+      type: object
+      description: The content API's list wrapper. CAP queries return one tile.
+      properties:
+        count:
+          type: integer
+        tiles:
+          type: array
+          items:
+            $ref: "#/components/schemas/ContentTile"
+    ContentTile:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        full_path:
+          type: string
+        content_type:
+          type: string
+        publishing_state:
+          type: string
+        acf:
+          type: object
+          description: The programming payload. Shape depends on the document type.
+          additionalProperties: true

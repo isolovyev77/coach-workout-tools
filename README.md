@@ -9,6 +9,9 @@ Trenda. В него входят две команды и навык для Code
   трек и безопасно работает в режиме агента;
 - `trenda-pp-cli` и команда `trenda` - работают с аккаунтом тренера в
   Trenda;
+- `cap-pp-cli` - читает программу CrossFit Affiliate Programming (CAP),
+  библиотеку движений с ошибками и подсказками, бенчмарки и ресурсы, а также
+  сравнивает два дня по нагрузке;
 - `populating-trenda-workouts` - помогает перенести тренировку, подготовить
   разминку под движения и проверить сохранённый результат.
 
@@ -127,6 +130,64 @@ unset WIDGET_KEY
 команды Web Widgets будут работать только на этом компьютере; для другого
 тренера настройку повторяют отдельно.
 
+### 🏋️ Возможности CAP CLI
+
+`cap-pp-cli` читает программу CrossFit Affiliate Programming и тренерскую
+библиотеку CrossFit. Только чтение - это опубликованные материалы.
+
+**Программа дня и недели:**
+
+```bash
+cap-pp-cli cap day 2026-08-10          # тренировка, стимул, векторы, паттерны
+cap-pp-cli cap day 2026-08-10 --full   # плюс план класса, скейлинг, цели тренера
+cap-pp-cli cap week 2026-08-10         # обзор недели
+cap-pp-cli cap warmup 2026-08-10       # только разминочные блоки с таймингом
+```
+
+Дата - `ГГГГ-ММ-ДД` или `ГГГГММДД`; без даты берётся сегодня. Любая прошлая
+дата работает, поэтому бенчмарк, опубликованный в конкретный день, доступен
+по этой дате.
+
+**Другие треки.** Подготовка к геройским тренировкам и прогрессии навыков -
+это последовательности, они адресуются номером дня:
+
+```bash
+cap-pp-cli cap tracks                   # что доступно
+cap-pp-cli cap day 3 --track murph      # третий день подготовки к Murph
+cap-pp-cli cap day 5 --track ring-muscle-up
+```
+
+**Библиотека тренера - работает без токена:**
+
+```bash
+cap-pp-cli cap movement air-squat       # ошибки и подсказки к ним, прогрессии
+cap-pp-cli cap movements squat          # каталог движений
+cap-pp-cli cap benchmarks murph         # бенчмарки, геройские и Open-тренировки
+cap-pp-cli cap resources warm-up        # разминки, прогрессии, скейлинг, советы
+cap-pp-cli cap resources --kids         # планы для детей и подростков
+```
+
+`cap movement` отвечает на вопрос «что идёт не так и что сказать»: возвращает
+каждую типовую ошибку вместе с подсказками, которые её исправляют. Поиск по
+бенчмаркам идёт и по названию, и по тексту тренировки.
+
+**Сравнение дней.** У каждого дня CAP проставляет `load`, `volume` и `skill`
+(шкала 1-5), а CLI дополняет их паттернами движений (присед, шарнир,
+вертикальный жим, вертикальная тяга, олимпийские, кор, кардио и другие):
+
+```bash
+cap-pp-cli cap compare 2026-08-10 2026-08-16
+```
+
+Команда считает, насколько сильно два дня столкнутся, если поставить их
+подряд: 8 и выше - разводить по разным дням, ниже 4 - хорошо дополняют друг
+друга. Это заготовка для перестановки недели под группы, которые ходят в зал
+по фиксированным дням.
+
+**Доступ.** Программа требует токен из личного кабинета аффилиата
+(`cap-pp-cli auth set-token <токен>`), он короткоживущий. Библиотека движений
+и бенчмарков открыта и работает даже когда токен истёк.
+
 ### 📦 Готовые файлы установки
 
 На странице [Releases](../../releases) есть готовые архивы, в которых Go уже
@@ -192,6 +253,37 @@ previewed with `--dry-run` and writes only with a separate explicit `--yes`.
 only an owner-readable session cookie. Commands support a consistent JSON
 envelope and `--agent`. Login and deletion are not exposed through MCP;
 planning still needs an explicit `--yes`.
+
+## 🏋️ CAP CLI capabilities
+
+`cap-pp-cli` reads CrossFit Affiliate Programming and CrossFit's coaching
+library. Read-only: this is published material.
+
+**Programming:** `cap day`, `cap week` and `cap warmup` read a day's workout,
+its intended stimulus, the load/volume/skill vectors, the timed class plan and
+the warm-up blocks. Dates are `YYYY-MM-DD` or `YYYYMMDD`.
+
+**Other tracks:** hero preparation (`murph`, `chad`) and skill progressions
+(`pull-up`, `ring-muscle-up` and the rest) are sequences addressed by day
+number: `cap day 3 --track murph`. `cap tracks` lists them, and an unknown
+slug is passed through so a newly published track works without a release.
+
+**Coaching library, no token:** `cap movement <name>` returns each fault with
+the cues that fix it, plus teaching progressions and substitutions.
+`cap movements` lists the catalogue, `cap benchmarks` searches benchmark, Hero
+and Open workouts by name or by workout text, and `cap resources` covers
+warm-ups, progressions, scaling and the kids/teens plans. These read
+CrossFit's public CMS, so they keep working when the programming token has
+expired.
+
+**Comparing days:** `cap compare <date> <date>` scores how much two days
+overlap - by CAP's own vectors and by the movement patterns they train - so a
+week can be resequenced around athletes who train on fixed days.
+
+**Fixtures:** the committed test fixtures keep the API's shapes but not
+CrossFit's prose. CAP programming is subscription content and does not belong
+in a public repository; live output is unaffected because it comes from the
+API.
 
 ## 🎯 What the workout skill does
 
