@@ -28,9 +28,13 @@ jobs:
         run: |
           bash -n scripts/install.sh
           bash -n scripts/update.sh
+          bash -n scripts/cap-auth.sh
       - name: Test BTWB CLI
         working-directory: cli/btwb
         run: go test -mod=readonly ./...
       - name: Test Trenda CLI
         working-directory: cli/trenda
+        run: go test -mod=readonly ./...
+      - name: Test CAP CLI
+        working-directory: cli/cap
         run: go test -mod=readonly ./...

@@ -40,7 +40,9 @@ jobs:
           rsync -a --exclude '.git' --exclude '.DS_Store' --exclude 'bin' ./ "$stage/"
           (cd cli/btwb && go build -o "$stage/bin/btwb-pp-cli" ./cmd/btwb-pp-cli)
           (cd cli/trenda && go build -o "$stage/bin/trenda-pp-cli" ./cmd/trenda-pp-cli)
-          chmod +x "$stage/bin/btwb-pp-cli" "$stage/bin/trenda-pp-cli"
+          (cd cli/cap && go build -o "$stage/bin/cap-pp-cli" ./cmd/cap-pp-cli)
+          (cd cli/cap && go build -o "$stage/bin/cap-pp-mcp" ./cmd/cap-pp-mcp)
+          chmod +x "$stage/bin/"*
           tar -C "$stage" -czf "$RUNNER_TEMP/coach-workout-tools_${GOOS}_${GOARCH}.tar.gz" .
       - uses: actions/upload-artifact@v4
         with:
@@ -62,6 +64,8 @@ jobs:
           REPOSITORY: ${{ github.repository }}
         run: |
           mapfile -t archives < <(find release-assets -type f -name '*.tar.gz' -print)
+          # macOS and Linux, two architectures each. A short count means a build
+          # silently produced nothing.
           test "${#archives[@]}" -eq 4
           if gh release view "$TAG" --repo "$REPOSITORY" >/dev/null 2>&1; then
             gh release upload "$TAG" "${archives[@]}" --clobber --repo "$REPOSITORY"
