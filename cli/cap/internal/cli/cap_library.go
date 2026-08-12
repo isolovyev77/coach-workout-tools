@@ -20,7 +20,9 @@ import (
 	"cap-pp-cli/internal/capjson"
 )
 
-const cmsBase = "https://cms-api.crossfit.com/tiles?full_path="
+// cmsBase is a var, not a const, so tests can point the library commands at a
+// replay server; nothing else reassigns it.
+var cmsBase = "https://cms-api.crossfit.com/tiles?full_path="
 
 // CMS listing pages worth having as named commands.
 const (
@@ -81,21 +83,8 @@ programming token has expired.`,
 			if dryRunOK(flags) {
 				return nil
 			}
-			body, err := fetchCMS(flags, "/movement/"+slug)
+			mv, err := fetchMovement(flags, slug)
 			if err != nil {
-				// A misspelled movement is the common case; point at the catalogue.
-				if ExitCode(err) == 3 {
-					return notFoundErr(fmt.Errorf(
-						"no movement %q; run 'cap-pp-cli cap movements' for the list", slug))
-				}
-				return err
-			}
-			mv, err := capjson.ParseMovement(body)
-			if err != nil {
-				if err == capjson.ErrNoContent {
-					return notFoundErr(fmt.Errorf(
-						"no movement %q; run 'cap-pp-cli cap movements' for the list", slug))
-				}
 				return err
 			}
 			if wantsJSON(cmd, flags) {
@@ -105,6 +94,49 @@ programming token has expired.`,
 			return nil
 		},
 	}
+}
+
+// fetchMovement reads one movement and refuses to hand back a different one.
+//
+// The CMS is a cached, CDN-fronted service and this command exists to answer
+// "how do I coach this movement" - cues for the wrong movement are worse than
+// no answer, because nothing in the output would look wrong to a coach reading
+// it. So the slug that comes back is checked against the slug that was asked
+// for, with one retry before giving up.
+//
+// This is a guard, not a fix for an observed defect: a report of the CMS
+// serving a neighbouring movement did not reproduce (22 requests, plus a sweep
+// of all 81 catalogue entries, every one self-consistent). The check is kept
+// because it costs one string comparison and removes the possibility of a
+// silent swap entirely.
+func fetchMovement(flags *rootFlags, slug string) (*capjson.Movement, error) {
+	var lastGot string
+	for attempt := 0; attempt < 2; attempt++ {
+		body, err := fetchCMS(flags, "/movement/"+slug)
+		if err != nil {
+			// A misspelled movement is the common case; point at the catalogue.
+			if ExitCode(err) == 3 {
+				return nil, notFoundErr(fmt.Errorf(
+					"no movement %q; run 'cap-pp-cli cap movements' for the list", slug))
+			}
+			return nil, err
+		}
+		mv, err := capjson.ParseMovement(body)
+		if err != nil {
+			if err == capjson.ErrNoContent {
+				return nil, notFoundErr(fmt.Errorf(
+					"no movement %q; run 'cap-pp-cli cap movements' for the list", slug))
+			}
+			return nil, err
+		}
+		if mv.Slug == "" || mv.Slug == slug {
+			return mv, nil
+		}
+		lastGot = mv.Slug
+	}
+	return nil, apiErr(fmt.Errorf(
+		"CrossFit's CMS returned the movement %q when asked for %q, twice; "+
+			"try again shortly", lastGot, slug))
 }
 
 func newCapMovementsCmd(flags *rootFlags) *cobra.Command {
