@@ -41,8 +41,8 @@ type wodItem struct {
 func newWodCmd(flags *rootFlags) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "wod",
-		Short: "Read workouts and plan them onto permitted tracks",
-		Long: `Read the workouts on your btwb whiteboard and plan a workout onto a track you may edit.
+		Short: "Read the workouts programmed on your whiteboard",
+		Long: `Read the workouts on your btwb whiteboard.
 
 These commands resolve your member id from the session stored by
 'btwb-pp-cli auth login', so you only pass the date and, if you want, the track.
@@ -143,10 +143,11 @@ window rather than exactly seven days. Each day has the same shape as 'wod day'.
 			if err != nil {
 				return err
 			}
-			// btwb renders the same fortnight grid for both the day and month
-			// URLs; the month one is read as every day in the window.
-			raw, err := c.Get(fmt.Sprintf("/members/%d/whiteboard/month", memberID),
-				map[string]string{"d": date})
+			// Only the bare /whiteboard route honours ?d=; the member-scoped
+			// day and month routes silently answer with the current fortnight
+			// whatever date is asked for, which made every historical and
+			// future date read as "not present in page".
+			raw, err := c.Get(whiteboardPath, map[string]string{"d": date})
 			if err != nil {
 				return classifyBtwbError(err, flags)
 			}
@@ -219,6 +220,38 @@ Event ids come from the entries returned by 'wod today' and 'wod day'.`,
 	return cmd
 }
 
+// whiteboardPath is the only route that honours the ?d= parameter. The
+// member-scoped /members/<id>/whiteboard/day and .../month routes ignore it and
+// always render the current fortnight, so a request for any other date came
+// back as "date not present in page".
+const whiteboardPath = "/whiteboard"
+
+// dayFromWindow picks one date out of the fortnight btwb renders, and says
+// plainly what the page did cover when the date is not in it.
+func dayFromWindow(raw []byte, memberID int, date string) (*btwbhtml.WhiteboardDay, error) {
+	var window struct {
+		Days []btwbhtml.WhiteboardDay `json:"days"`
+	}
+	if err := json.Unmarshal(raw, &window); err != nil {
+		return nil, fmt.Errorf("reading whiteboard response: %w", err)
+	}
+	for i := range window.Days {
+		if window.Days[i].Date == date {
+			d := window.Days[i]
+			if d.MemberID == 0 {
+				d.MemberID = memberID
+			}
+			return &d, nil
+		}
+	}
+	if len(window.Days) == 0 {
+		return nil, notFoundErr(fmt.Errorf("btwb returned no days for %s", date))
+	}
+	return nil, notFoundErr(fmt.Errorf(
+		"no whiteboard for %s; btwb returned %s..%s",
+		date, window.Days[0].Date, window.Days[len(window.Days)-1].Date))
+}
+
 // wodContext resolves the client, whose whiteboard to read, and the track names.
 func wodContext(flags *rootFlags, sel *wodSelector) (*client.Client, int, map[int]string, error) {
 	c, err := flags.newClient()
@@ -257,16 +290,18 @@ func runWodDay(cmd *cobra.Command, flags *rootFlags, sel *wodSelector, date stri
 	if err != nil {
 		return err
 	}
-	raw, err := c.Get(fmt.Sprintf("/members/%d/whiteboard/day", memberID),
-		map[string]string{"d": date})
+	// btwb answers with a fortnight around the date, and only on the bare
+	// /whiteboard route does the date have any effect; the requested day is
+	// then picked out of that window.
+	raw, err := c.Get(whiteboardPath, map[string]string{"d": date})
 	if err != nil {
 		return classifyBtwbError(err, flags)
 	}
-	var day btwbhtml.WhiteboardDay
-	if err := json.Unmarshal(raw, &day); err != nil {
-		return fmt.Errorf("reading whiteboard response: %w", err)
+	day, err := dayFromWindow(raw, memberID, date)
+	if err != nil {
+		return err
 	}
-	built, err := buildWodDay(c, sel, names, day)
+	built, err := buildWodDay(c, sel, names, *day)
 	if err != nil {
 		return err
 	}

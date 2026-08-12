@@ -120,6 +120,10 @@ func normalizeWidgetParams(targetURL string, params map[string]string) map[strin
 var signinFormRe = regexp.MustCompile(`<form[^>]+action="/session"`)
 
 var (
+	// The member-scoped routes ignore the ?d= parameter and always answer with
+	// the current fortnight; only the bare /whiteboard route honours it. Both
+	// render the same markup, so the same parser reads either.
+	boardPathRe    = regexp.MustCompile(`^/whiteboard$`)
 	dayPathRe      = regexp.MustCompile(`^/members/(\d+)/whiteboard/day$`)
 	monthPathRe    = regexp.MustCompile(`^/members/(\d+)/whiteboard/month$`)
 	tracksPathRe   = regexp.MustCompile(`^/members/(\d+)/tracks$`)
@@ -167,7 +171,12 @@ func transformBtwbResponse(targetURL string, params map[string]string, body []by
 		}
 		return json.Marshal(day)
 
-	case "month":
+	case "board", "month":
+		if memberID == 0 {
+			// The bare /whiteboard path carries no member id; the page names
+			// the member it belongs to.
+			memberID = memberIDFromPage(body)
+		}
 		days, err := btwbhtml.ParseWeeks(body, memberID, nil)
 		if err != nil {
 			return nil, fmt.Errorf("reading whiteboard: %w", err)
@@ -198,12 +207,29 @@ func transformBtwbResponse(targetURL string, params map[string]string, body []by
 	return body, nil
 }
 
+// pageMemberRe finds the member a whiteboard page belongs to.
+var pageMemberRe = regexp.MustCompile(`/members/(\d+)/`)
+
+// memberIDFromPage reads the member id out of a rendered page, for the routes
+// that do not carry it in the URL.
+func memberIDFromPage(body []byte) int {
+	if m := pageMemberRe.FindSubmatch(body); m != nil {
+		id, _ := strconv.Atoi(string(m[1]))
+		return id
+	}
+	return 0
+}
+
 // classifyBtwbPath names the endpoint a path addresses, plus the ids embedded
 // in it. An empty kind means "not an endpoint this client rewrites".
 func classifyBtwbPath(path string) (kind string, memberID, eventID int) {
 	atoi := func(s string) int {
 		n, _ := strconv.Atoi(s)
 		return n
+	}
+	if boardPathRe.MatchString(path) {
+		// Member id is not in this path; callers supply it separately.
+		return "board", 0, 0
 	}
 	if m := dayPathRe.FindStringSubmatch(path); m != nil {
 		return "day", atoi(m[1]), 0

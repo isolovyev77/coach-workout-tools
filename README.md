@@ -61,6 +61,14 @@ whiteboard и собственных залогированных результ
 удаление не показываются агенту через MCP; планирование требует отдельного
 явного `--yes`.
 
+**Даты.** У btwb три маршрута с одинаковой разметкой доски, но ведут они себя
+по-разному: `/members/<id>/whiteboard/day?d=` и `.../month?d=` **игнорируют
+дату** и всегда отдают текущие две недели, а параметр слушает только
+`/whiteboard?d=`. Разница незаметна, пока запрашиваешь день внутри текущего
+блока. Из-за неё исторические даты возвращались как «дата отсутствует», а
+будущие тренировки, видимые в мобильном приложении, были недоступны из CLI.
+`wod day` и `wod week` используют маршрут, который дату уважает.
+
 ### 🗓 Планирование в BTWB
 
 Сначала посмотрите только те треки, в которые ваш аккаунт вправе вносить
@@ -382,6 +390,11 @@ btwb-pp-cli auth status
 CAP's token lasts a few hours, so its programming commands need signing in
 again from time to time. Its movement and benchmark commands need no token at
 all.
+
+**Dates:** of the three btwb routes that render the same whiteboard markup,
+only the bare `/whiteboard?d=` honours the date; the member-scoped day and
+month routes always return the current fortnight. `wod day` and `wod week` use
+the route that honours it, so historical and future dates read correctly.
 
 ### 🗓 Plan a workout in BTWB
 
