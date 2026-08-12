@@ -186,7 +186,7 @@ func TestAddCommentEscapesAndReportsNewID(t *testing.T) {
 	threads := commentFixture()
 	srv, posted := commentAPI(t, threads)
 
-	out, err := runTrenda(t, srv.URL, "--agent", "coach", "add-comment",
+	out, err := runTrenda(t, srv.URL, "--agent", "--yes", "coach", "add-comment",
 		"--workout-id", "66196", "--text", "5 < 6 & сложно\nвторая строка")
 	if err != nil {
 		t.Fatalf("add-comment failed: %v\n%s", err, out)
@@ -224,7 +224,7 @@ func TestAddCommentEscapesAndReportsNewID(t *testing.T) {
 func TestAddCommentHTMLFlagSendsMarkupUntouched(t *testing.T) {
 	srv, posted := commentAPI(t, commentFixture())
 
-	if out, err := runTrenda(t, srv.URL, "--agent", "coach", "add-comment",
+	if out, err := runTrenda(t, srv.URL, "--agent", "--yes", "coach", "add-comment",
 		"--workout-id", "66196", "--html", "--text", "<p>Жирно: <b>да</b></p>"); err != nil {
 		t.Fatalf("add-comment --html failed: %v\n%s", err, out)
 	}
@@ -264,11 +264,43 @@ func TestWritesRefuseWithoutConfirmation(t *testing.T) {
 	}
 }
 
+// --agent bundles --yes together with --json and --no-input. If the comment
+// writes honoured that inherited flag, the confirmation would be waived for
+// precisely the caller it exists to stop, and an agent could post to a client's
+// thread by default. The yes has to be said about this command.
+func TestAgentModeAloneDoesNotAuthoriseAWrite(t *testing.T) {
+	srv, posted := commentAPI(t, commentFixture())
+
+	cases := [][]string{
+		{"coach", "add-comment", "--workout-id", "66196", "--text", "привет"},
+		{"coach", "edit-comment", "--comment-id", "2695", "--text", "привет"},
+		{"coach", "delete-comment", "--comment-id", "2695"},
+	}
+	for _, args := range cases {
+		out, err := runTrenda(t, srv.URL, append([]string{"--agent"}, args...)...)
+		if err == nil {
+			t.Errorf("%s wrote under --agent alone:\n%s", strings.Join(args, " "), out)
+		}
+	}
+	for _, call := range *posted {
+		switch call["path"] {
+		case commentAddPath, commentEditPath, commentDeletePath:
+			t.Fatalf("--agent alone reached %v", call["path"])
+		}
+	}
+
+	// The same commands with an explicit --yes must still go through.
+	if out, err := runTrenda(t, srv.URL, "--agent", "--yes",
+		"coach", "add-comment", "--workout-id", "66196", "--text", "привет"); err != nil {
+		t.Fatalf("explicit --yes was refused: %v\n%s", err, out)
+	}
+}
+
 func TestEditCommentReplacesText(t *testing.T) {
 	threads := commentFixture()
 	srv, _ := commentAPI(t, threads)
 
-	if out, err := runTrenda(t, srv.URL, "--agent", "coach", "edit-comment",
+	if out, err := runTrenda(t, srv.URL, "--agent", "--yes", "coach", "edit-comment",
 		"--comment-id", "2695", "--workout-id", "66196", "--text", "Как восстановление?"); err != nil {
 		t.Fatalf("edit-comment failed: %v\n%s", err, out)
 	}
@@ -281,7 +313,7 @@ func TestDeleteCommentRemovesIt(t *testing.T) {
 	threads := commentFixture()
 	srv, _ := commentAPI(t, threads)
 
-	if out, err := runTrenda(t, srv.URL, "--agent", "coach", "delete-comment",
+	if out, err := runTrenda(t, srv.URL, "--agent", "--yes", "coach", "delete-comment",
 		"--comment-id", "2695", "--workout-id", "66196"); err != nil {
 		t.Fatalf("delete-comment failed: %v\n%s", err, out)
 	}
@@ -295,7 +327,7 @@ func TestDeleteCommentRemovesIt(t *testing.T) {
 func TestUnknownCommentIDIsNotFound(t *testing.T) {
 	srv, _ := commentAPI(t, commentFixture())
 
-	_, err := runTrenda(t, srv.URL, "--agent", "coach", "delete-comment", "--comment-id", "424242")
+	_, err := runTrenda(t, srv.URL, "--agent", "--yes", "coach", "delete-comment", "--comment-id", "424242")
 	if err == nil {
 		t.Fatal("deleting an unknown comment succeeded")
 	}
@@ -323,7 +355,7 @@ func TestCommentTextRoundTrip(t *testing.T) {
 func TestEmptyTextIsRefusedBeforeAnyRequest(t *testing.T) {
 	srv, posted := commentAPI(t, commentFixture())
 
-	_, err := runTrenda(t, srv.URL, "--agent", "coach", "add-comment", "--workout-id", "66196", "--text", "   ")
+	_, err := runTrenda(t, srv.URL, "--agent", "--yes", "coach", "add-comment", "--workout-id", "66196", "--text", "   ")
 	if err == nil {
 		t.Fatal("an empty comment was accepted")
 	}

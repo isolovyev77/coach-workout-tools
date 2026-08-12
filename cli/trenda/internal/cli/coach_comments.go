@@ -125,10 +125,14 @@ func commentBody(text, textFile string, asHTML bool) (string, error) {
 	return commentHTML(text), nil
 }
 
-// confirmComment gates every write behind an explicit yes, the same way btwb's
-// `wod plan` does: these commands post to a thread the client can read.
-func confirmComment(cmd *cobra.Command, flags *rootFlags, prompt string) (bool, error) {
-	if flags.yes {
+// confirmComment gates every write behind a yes that was typed for this command.
+//
+// assumeOK comes from a --yes declared on the command itself, not from the
+// persistent one: --agent turns the persistent --yes on as part of its bundle of
+// defaults, which would have made the confirmation here a formality for exactly
+// the callers it exists to stop. An agent must say --yes about this write.
+func confirmComment(cmd *cobra.Command, flags *rootFlags, assumeOK bool, prompt string) (bool, error) {
+	if assumeOK {
 		return true, nil
 	}
 	if flags.noInput {
@@ -271,6 +275,7 @@ func newCoachAddCommentCmd(flags *rootFlags) *cobra.Command {
 	var workoutID int
 	var text, textFile string
 	var asHTML bool
+	var assumeOK bool
 
 	cmd := &cobra.Command{
 		Use:   "add-comment",
@@ -315,7 +320,7 @@ API на добавление отвечает пустым телом, поэт
 				known[prev.ID] = true
 			}
 
-			ok, err := confirmComment(cmd, flags,
+			ok, err := confirmComment(cmd, flags, assumeOK,
 				fmt.Sprintf("Post this comment to workout %d, where the client can read it?\n  %s\n",
 					workoutID, commentPlainText(body)))
 			if err != nil {
@@ -356,6 +361,7 @@ API на добавление отвечает пустым телом, поэт
 	cmd.Flags().StringVar(&text, "text", "", "Текст комментария")
 	cmd.Flags().StringVar(&textFile, "text-file", "", "Файл с текстом комментария")
 	cmd.Flags().BoolVar(&asHTML, "html", false, "Отправить текст как HTML, без экранирования")
+	cmd.Flags().BoolVar(&assumeOK, "yes", false, "Подтвердить запись в ветку, которую видит клиент")
 	return cmd
 }
 
@@ -385,6 +391,7 @@ func newCoachEditCommentCmd(flags *rootFlags) *cobra.Command {
 	var commentID, workoutID int
 	var text, textFile string
 	var asHTML bool
+	var assumeOK bool
 
 	cmd := &cobra.Command{
 		Use:   "edit-comment",
@@ -422,7 +429,7 @@ func newCoachEditCommentCmd(flags *rootFlags) *cobra.Command {
 						commentID, commentPlainText(current.Text), commentPlainText(body))
 				}
 			}
-			ok, err := confirmComment(cmd, flags, prompt)
+			ok, err := confirmComment(cmd, flags, assumeOK, prompt)
 			if err != nil {
 				return err
 			}
@@ -456,11 +463,13 @@ func newCoachEditCommentCmd(flags *rootFlags) *cobra.Command {
 	cmd.Flags().StringVar(&text, "text", "", "Новый текст комментария")
 	cmd.Flags().StringVar(&textFile, "text-file", "", "Файл с новым текстом")
 	cmd.Flags().BoolVar(&asHTML, "html", false, "Отправить текст как HTML, без экранирования")
+	cmd.Flags().BoolVar(&assumeOK, "yes", false, "Подтвердить запись в ветку, которую видит клиент")
 	return cmd
 }
 
 func newCoachDeleteCommentCmd(flags *rootFlags) *cobra.Command {
 	var commentID, workoutID int
+	var assumeOK bool
 
 	cmd := &cobra.Command{
 		Use:   "delete-comment",
@@ -492,7 +501,7 @@ func newCoachDeleteCommentCmd(flags *rootFlags) *cobra.Command {
 						commentID, current.AuthorName, commentPlainText(current.Text))
 				}
 			}
-			ok, err := confirmComment(cmd, flags, prompt)
+			ok, err := confirmComment(cmd, flags, assumeOK, prompt)
 			if err != nil {
 				return err
 			}
@@ -519,6 +528,7 @@ func newCoachDeleteCommentCmd(flags *rootFlags) *cobra.Command {
 	}
 	cmd.Flags().IntVar(&commentID, "comment-id", 0, "Идентификатор комментария")
 	cmd.Flags().IntVar(&workoutID, "workout-id", 0, "Тренировка комментария: нужна, чтобы показать удаляемый текст")
+	cmd.Flags().BoolVar(&assumeOK, "yes", false, "Подтвердить запись в ветку, которую видит клиент")
 	return cmd
 }
 

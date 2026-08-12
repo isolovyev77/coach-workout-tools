@@ -87,10 +87,11 @@ Four things worth knowing before you use them:
   that reads a comment by its own id, so `edit-comment` and `delete-comment`
   take an id you first listed. `add-comment` re-reads the thread and reports the
   id it just created, so a write-then-edit sequence needs no extra call.
-- **`--yes` is required in agent mode**, for all three writes. The client reads
-  this thread; a comment posted by mistake has already been delivered. Show the
-  user the text you intend to post and let them approve it - the flag is not a
-  formality to route around.
+- **`--yes` must be passed to the write command itself**, for all three writes.
+  `--agent` does not stand in for it here, unlike everywhere else in this CLI:
+  the client reads this thread, and a comment posted by mistake has already been
+  delivered. Show the user the text you intend to post, let them approve it, and
+  only then add the flag.
 - **Text goes in as plain text.** Line breaks survive, `<` and `&` are escaped.
   Pass `--html` only to send real markup. Reading gives you both: `text` exactly
   as the API stores it and `text_plain` rendered for quoting back to a human.
