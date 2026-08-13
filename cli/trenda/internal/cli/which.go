@@ -44,6 +44,10 @@ var whichIndex = []whichEntry{
 	{Command: "coach list-programs", Description: "Программы, доступные коучу, включая чужие публичные. Поддерживает\nпагинацию через limit и offset.", Group: "coach"},
 	{Command: "coach update-workout", Description: "Правит свойства дня: дату, тип, название, описание, порядок среди тренировок\nодного дня. Содержимое тренировки этим вызовом не меняется.", Group: "coach"},
 	{Command: "coach update-workout-body", Description: "Перезаписывает разминку, основную часть и заминку существующей тренировки.", Group: "coach"},
+	{Command: "coach comments", Description: "Комментарии и переписка под тренировкой: кто написал, когда, что.\nОтсюда берутся идентификаторы комментариев для правки и удаления -\nбольше их взять негде.", Group: "coach"},
+	{Command: "coach add-comment", Description: "Написать, отправить комментарий или сообщение клиенту под его тренировкой.\nКлиент это увидит, поэтому запись требует явного --yes.", Group: "coach"},
+	{Command: "coach edit-comment", Description: "Отредактировать, переписать, исправить свой комментарий под тренировкой.", Group: "coach"},
+	{Command: "coach delete-comment", Description: "Удалить, стереть комментарий под тренировкой безвозвратно.", Group: "coach"},
 }
 
 // whichMatch pairs an index entry with its ranking score for a query.
@@ -128,6 +132,19 @@ func whichScoreEntry(e whichEntry, query string, qTokens []string) int {
 	// Substring match on the description.
 	if strings.Contains(desc, query) {
 		score += 2
+	}
+	// Per-token match on the description. Whole-phrase matching alone answered
+	// only queries phrased the way a description happens to run: "написать
+	// комментарий клиенту" missed an entry saying exactly that, because the
+	// description has a comma between the words. Tokens shorter than four
+	// characters are skipped so prepositions and articles do not score.
+	for _, qt := range qTokens {
+		if len([]rune(qt)) < 4 {
+			continue
+		}
+		if strings.Contains(desc, qt) {
+			score++
+		}
 	}
 	// Group tag match.
 	if group != "" {

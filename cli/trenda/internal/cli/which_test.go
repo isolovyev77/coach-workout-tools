@@ -83,6 +83,33 @@ func TestRankWhich_NoMatchReturnsEmpty(t *testing.T) {
 	}
 }
 
+// A query only has to share words with a description, not its phrasing. This
+// used to require the whole query as one substring, so "написать комментарий
+// клиенту" found nothing even though those three words all sit in the entry -
+// separated by a comma. Real queries are typed the asker's way, not the
+// index's.
+func TestRankWhich_ScattizedWordsStillMatch(t *testing.T) {
+	index := []whichEntry{
+		{Command: "coach add-comment", Description: "Написать, отправить комментарий или сообщение клиенту.", Group: "coach"},
+		{Command: "coach copy-workout", Description: "Копирует тренировку на другую дату.", Group: "coach"},
+	}
+	got := rankWhich(index, "написать комментарий клиенту", 3)
+	if len(got) == 0 || got[0].Entry.Command != "coach add-comment" {
+		t.Errorf("expected coach add-comment for a query whose words are scattered in the description, got %+v", got)
+	}
+}
+
+// Per-token matching must not let a stray conjunction rank an entry that has
+// nothing to do with the query: only words of four characters or more count.
+func TestRankWhich_ShortWordsDoNotCarryAQuery(t *testing.T) {
+	index := []whichEntry{
+		{Command: "coach add-comment", Description: "Написать или отправить.", Group: "coach"},
+	}
+	if got := rankWhich(index, "или мультипликатор", 3); len(got) != 0 {
+		t.Errorf("a three-letter conjunction alone ranked %d entries: %+v", len(got), got)
+	}
+}
+
 // Sanity: whichIndex compiles and is well-formed. Generated CLIs with
 // zero NovelFeatures ship an empty index, and that is still a valid
 // state (which returns the "no curated index" error at runtime).
