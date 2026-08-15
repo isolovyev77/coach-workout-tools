@@ -228,6 +228,10 @@ func classifyAPIError(err error, flags *rootFlags) error {
 		classified := apiErr(err)
 		writeAPIErrorEnvelope(flags, classified, ExitCode(classified))
 		return classified
+	// A declined or impossible refresh already names its fix - signing in
+	// again - so it must not pick up the generic token hints below.
+	case strings.Contains(msg, "cap-pp-cli auth login"):
+		return authErr(err)
 	case strings.Contains(msg, "HTTP 400") && cliutil.LooksLikeAuthError(msg):
 		return authErr(fmt.Errorf("%w\nhint: the API rejected the request — this usually means auth is missing or invalid."+
 			"\n      Set your API key: export CROSSFIT_AFFILIATE_PROGRAMMING_BEARER_AUTH=<your-key>"+

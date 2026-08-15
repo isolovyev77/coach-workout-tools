@@ -20,7 +20,14 @@ import (
 type crossfitReplay struct {
 	signinQuery url.Values
 	signinBody  map[string]string
-	tokenForm   url.Values
+	// tokenGrant holds the exchange parameters however they were encoded, and
+	// tokenTypes the Content-Type of each attempt in order - the exchange is
+	// JSON-first with a form fallback, and tests pin both halves.
+	tokenGrant map[string]string
+	tokenTypes []string
+	// rejectJSONExchange makes the token endpoint refuse a JSON body, the way a
+	// server that only reads form encoding would.
+	rejectJSONExchange bool
 	// codeIn decides where the authorization code is returned from: "location"
 	// or "body". The real API's shape is not contractual, so both are supported.
 	codeIn string
@@ -48,8 +55,26 @@ func (r *crossfitReplay) start(t *testing.T) string {
 		w.WriteHeader(http.StatusFound)
 	})
 	mux.HandleFunc("/users/v2/auth/token", func(w http.ResponseWriter, req *http.Request) {
-		_ = req.ParseForm()
-		r.tokenForm = req.PostForm
+		ct := req.Header.Get("Content-Type")
+		r.tokenTypes = append(r.tokenTypes, ct)
+		if strings.HasPrefix(ct, "application/json") {
+			if r.rejectJSONExchange {
+				w.WriteHeader(http.StatusBadRequest)
+				w.Write([]byte(`{"error":"invalid_request","error_description":"unsupported content type"}`))
+				return
+			}
+			raw, _ := io.ReadAll(req.Body)
+			grant := map[string]string{}
+			_ = json.Unmarshal(raw, &grant)
+			r.tokenGrant = grant
+		} else {
+			_ = req.ParseForm()
+			grant := map[string]string{}
+			for k := range req.PostForm {
+				grant[k] = req.PostForm.Get(k)
+			}
+			r.tokenGrant = grant
+		}
 		w.Write([]byte(`{"access_token":"tok-abc","refresh_token":"ref-xyz","expires_in":3600}`))
 	})
 	srv := httptest.NewServer(mux)
@@ -120,7 +145,7 @@ func TestSignInUsesAMatchingPKCEPair(t *testing.T) {
 	if _, _, _, err := crossfitSignIn("me@example.com", "correct", 5*time.Second); err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	verifier := replay.tokenForm.Get("code_verifier")
+	verifier := replay.tokenGrant["code_verifier"]
 	if verifier == "" {
 		t.Fatal("no code_verifier was sent to the token endpoint")
 	}
@@ -129,8 +154,8 @@ func TestSignInUsesAMatchingPKCEPair(t *testing.T) {
 	if got := replay.signinQuery.Get("code_challenge"); got != want {
 		t.Errorf("challenge %q is not the SHA-256 of the verifier that was sent", got)
 	}
-	if replay.tokenForm.Get("grant_type") != "authorization_code" {
-		t.Errorf("grant_type = %q", replay.tokenForm.Get("grant_type"))
+	if replay.tokenGrant["grant_type"] != "authorization_code" {
+		t.Errorf("grant_type = %q", replay.tokenGrant["grant_type"])
 	}
 }
 
@@ -168,7 +193,7 @@ func TestSignInReadsTheCodeFromEitherPlace(t *testing.T) {
 		if token != "tok-abc" {
 			t.Errorf("code in %s: token = %q", where, token)
 		}
-		if got := replay.tokenForm.Get("code"); got != "auth-code-123" {
+		if got := replay.tokenGrant["code"]; got != "auth-code-123" {
 			t.Errorf("code in %s: exchanged %q", where, got)
 		}
 	}

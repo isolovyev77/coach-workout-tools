@@ -206,6 +206,9 @@ func (c *Client) do(method, path string, params map[string]string, body any, hea
 
 	const maxRetries = 3
 	var lastErr error
+	// Reactive half of the renewal: one refresh per request, so a revoked
+	// session degrades to a clean error instead of a refresh loop.
+	refreshed := false
 
 	for attempt := 0; attempt <= maxRetries; attempt++ {
 		// Proactive rate limiting — wait before sending
@@ -276,6 +279,21 @@ func (c *Client) do(method, path string, params map[string]string, body any, hea
 			Path:       path,
 			StatusCode: resp.StatusCode,
 			Body:       truncateBody(respBody),
+		}
+
+		// Expired session - refresh once and replay the original request. The
+		// expiry stored in the config is our estimate; the server's 401 is the
+		// truth, so this path matters even when the clock says the token is
+		// fine. If the refresh itself is declined, its error names the fix
+		// (sign in again) better than a bare 401 would.
+		if resp.StatusCode == 401 && !refreshed && c.Config != nil && c.Config.RefreshToken != "" {
+			refreshed = true
+			if rerr := c.refreshAccessToken(); rerr != nil {
+				return nil, resp.StatusCode, rerr
+			}
+			authHeader = c.Config.AuthHeader()
+			lastErr = apiErr
+			continue
 		}
 
 		// Rate limited - adjust adaptive limiter and retry
@@ -355,20 +373,16 @@ func (c *Client) authHeader() (string, error) {
 	if c.Config == nil {
 		return "", nil
 	}
-	if c.Config.AccessToken != "" && !c.Config.TokenExpiry.IsZero() && time.Now().After(c.Config.TokenExpiry) && c.Config.RefreshToken != "" {
+	// Proactive half of the renewal: a token known to be expired is refreshed
+	// before the request goes out. Dry-run must stay offline, so it previews
+	// with the cached token as-is.
+	if !c.DryRun && c.Config.AccessToken != "" && !c.Config.TokenExpiry.IsZero() &&
+		time.Now().After(c.Config.TokenExpiry) && c.Config.RefreshToken != "" {
 		if err := c.refreshAccessToken(); err != nil {
 			return "", err
 		}
 	}
 	return c.Config.AuthHeader(), nil
-}
-
-func (c *Client) refreshAccessToken() error {
-	if c.Config == nil {
-		return nil
-	}
-
-	return nil
 }
 
 // sanitizeJSONResponse strips known JSONP/XSSI prefixes and UTF-8 BOM from

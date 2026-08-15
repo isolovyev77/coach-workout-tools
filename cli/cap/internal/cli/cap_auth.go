@@ -331,23 +331,57 @@ func codeFromBody(data []byte) string {
 	return ""
 }
 
-// exchangeCode trades the authorization code for the access token.
+// exchangeCode trades the authorization code for the token pair.
+//
+// The body goes out as JSON first because that is what the toolkit's own
+// frontend sends, and the frontend receives a refresh_token where our earlier
+// form-encoded exchange came back with none - the working theory for the empty
+// refresh_token this CLI used to store. Form encoding is kept as a fallback
+// since it demonstrably yielded access tokens.
 func exchangeCode(client *http.Client, code, verifier string) (
 	accessToken, refreshToken string, expiry time.Time, err error) {
 
-	form := url.Values{
-		"grant_type":    {"authorization_code"},
-		"code":          {code},
-		"code_verifier": {verifier},
-		"client_id":     {toolkitClientID},
-		"redirect_uri":  {toolkitRedirectURI},
+	grant := map[string]string{
+		"grant_type":    "authorization_code",
+		"code":          code,
+		"code_verifier": verifier,
+		"client_id":     toolkitClientID,
+		"redirect_uri":  toolkitRedirectURI,
 	}
-	req, err := http.NewRequest(http.MethodPost, crossfitAPI+"/users/v2/auth/token",
-		strings.NewReader(form.Encode()))
+
+	jsonBody, err := json.Marshal(grant)
 	if err != nil {
 		return "", "", time.Time{}, fmt.Errorf("building the token request: %w", err)
 	}
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	access, refresh, expiry, jsonErr := postTokenRequest(client,
+		strings.NewReader(string(jsonBody)), "application/json")
+	if jsonErr == nil {
+		return access, refresh, expiry, nil
+	}
+
+	form := url.Values{}
+	for k, v := range grant {
+		form.Set(k, v)
+	}
+	access, refresh, expiry, formErr := postTokenRequest(client,
+		strings.NewReader(form.Encode()), "application/x-www-form-urlencoded")
+	if formErr == nil {
+		return access, refresh, expiry, nil
+	}
+	// The JSON attempt is the primary one; its error is the one to report.
+	return "", "", time.Time{}, jsonErr
+}
+
+// postTokenRequest performs one attempt against the token endpoint and parses
+// the answer. Shared by the JSON-primary and form-fallback paths.
+func postTokenRequest(client *http.Client, body io.Reader, contentType string) (
+	accessToken, refreshToken string, expiry time.Time, err error) {
+
+	req, err := http.NewRequest(http.MethodPost, crossfitAPI+"/users/v2/auth/token", body)
+	if err != nil {
+		return "", "", time.Time{}, fmt.Errorf("building the token request: %w", err)
+	}
+	req.Header.Set("Content-Type", contentType)
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", "cap-pp-cli")
 

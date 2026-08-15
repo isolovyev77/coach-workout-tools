@@ -128,12 +128,18 @@ cap-pp-cli auth login          # asks for email, then password without echo
 ```
 
 The password goes only to CrossFit and is never written to disk - only the
-token it returns is stored. The token is short lived: when programming commands
-exit 4, sign in again.
+token pair it returns is stored. The access token is short lived, but the
+session renews itself: on expiry or a 401 the CLI trades the stored refresh
+token for a fresh pair and replays the request, so one sign-in normally lasts.
+
+Exit 4 with a message naming `auth login` means the renewal itself was
+declined - the refresh token is used up, revoked, or absent (sessions stored by
+versions before v0.2.3 carry no refresh token; one fresh sign-in fixes that
+permanently). That is the only case where signing in again is the answer.
 
 **Never run `auth login` on the user's behalf, and never ask for their password
 in chat.** Tell them to run it themselves. `auth set-token <token>` also exists
-for a token obtained some other way.
+for a token obtained some other way - note a bare token cannot self-renew.
 
 ## Exit codes
 

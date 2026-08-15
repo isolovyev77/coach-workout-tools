@@ -37,10 +37,11 @@ Trenda. В него входят три команды и четыре навы�
    cap-pp-cli auth login
    ```
 
-   Пароли спрашиваются без отображения и на диск не попадают. Сессия Trenda
-   сохраняется один раз и обновляется сама, когда истекает. Токен CAP живёт
-   несколько часов - когда его команды начнут отвечать ошибкой доступа, войдите
-   снова.
+   Пароли спрашиваются без отображения и на диск не попадают. Сессии Trenda и
+   CAP сохраняются один раз и дальше обновляются сами: когда токен истекает,
+   команда обновляет его по сохранённому refresh-токену и повторяет запрос.
+   Повторный вход нужен, только если CrossFit или Trenda отклонили обновление -
+   команда прямо скажет об этом.
 
 4. Откройте Codex или Claude и попросите перенести тренировку либо составить
    новую. Навык найдёт клиента только в вашем аккаунте и перед записью
@@ -204,8 +205,9 @@ cap-pp-cli cap compare 2026-08-10 2026-08-16
 
 **Доступ.** `cap-pp-cli auth login` спрашивает email и пароль, как и два других
 CLI. Пароль уходит только на сервер CrossFit и на диск не пишется - сохраняется
-лишь выданный токен, он живёт несколько часов. Библиотека движений и бенчмарков
-открыта и работает даже когда токен истёк.
+пара токенов. Доступ живёт несколько часов, но продлевается сам: по истечении
+команда обновляет его по refresh-токену и повторяет исходный запрос. Библиотека
+движений и бенчмарков открыта и работает даже без входа.
 
 Если токен получен другим путём, его можно сохранить напрямую:
 `cap-pp-cli auth set-token <токен>`.
@@ -306,8 +308,9 @@ overlap - by CAP's own vectors and by the movement patterns they train - so a
 week can be resequenced around athletes who train on fixed days.
 
 **Signing in:** `cap-pp-cli auth login` takes an email and password, reads the
-password without echo, and stores only the token CrossFit returns. The token
-lasts a few hours; the movement and benchmark commands need none.
+password without echo, and stores only the token pair CrossFit returns. The
+access token lasts a few hours and renews itself off the refresh token; the
+movement and benchmark commands need none.
 
 **Fixtures:** the committed test fixtures keep the API's shapes but not
 CrossFit's prose. CAP programming is subscription content and does not belong
@@ -416,8 +419,10 @@ trenda-pp-cli doctor
 btwb-pp-cli auth status
 ```
 
-CAP's token lasts a few hours, so its programming commands need signing in
-again from time to time. Its movement and benchmark commands need no token at
+CAP's access token lasts a few hours, but the session renews itself: on expiry
+(or a 401) the CLI trades the stored refresh token for a fresh pair and replays
+the request. Signing in again is only needed when CrossFit declines the
+refresh - the error says so. Movement and benchmark commands need no token at
 all.
 
 **Dates:** of the three btwb routes that render the same whiteboard markup,
