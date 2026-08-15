@@ -127,14 +127,16 @@ not.
 cap-pp-cli auth login          # asks for email, then password without echo
 ```
 
-The password goes only to CrossFit and is never written to disk - only the
-token pair it returns is stored. The access token is short lived, but the
-session renews itself: on expiry or a 401 the CLI trades the stored refresh
-token for a fresh pair and replays the request, so one sign-in normally lasts.
+The password goes only to CrossFit and is never written to disk - what is
+stored is the token plus the identity session cookies. The access token is
+short lived, but the session renews itself: on expiry or a 401 the CLI silently
+reauthorizes with the stored session - the mechanism CrossFit's own site uses,
+its OAuth refresh grant being disabled server-side - and replays the request.
+One sign-in normally lasts as long as the identity session does.
 
 Exit 4 with a message naming `auth login` means the renewal itself was
-declined - the refresh token is used up, revoked, or absent (sessions stored by
-versions before v0.2.3 carry no refresh token; one fresh sign-in fixes that
+declined - the identity session died or was never stored (sign-ins made by
+versions before v0.2.4 kept no session; one fresh sign-in fixes that
 permanently). That is the only case where signing in again is the answer.
 
 **Never run `auth login` on the user's behalf, and never ask for their password

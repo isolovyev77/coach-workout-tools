@@ -274,6 +274,16 @@ func (c *Client) do(method, path string, params map[string]string, body any, hea
 		}
 		respBody = sanitizeJSONResponse(respBody)
 
+		// btwb can rotate a short Rails session or issue a fresh session from a
+		// remembered browser login. Persist that full cookie set before the next
+		// process starts, but never replace a still-useful session with cookies
+		// from the sign-in page after the server has rejected it.
+		if resp.StatusCode < 400 && !isWidgetURL(targetURL) && !signinFormRe.Match(respBody) && c.Config != nil {
+			if _, err := c.Config.MergeSessionCookies(resp.Cookies()); err != nil {
+				fmt.Fprintf(os.Stderr, "warning: could not persist updated btwb session: %v\\n", err)
+			}
+		}
+
 		// btwb's member endpoints answer with HTML; convert to the documented
 		// JSON before anything downstream (cache included) sees the body.
 		if resp.StatusCode < 400 {

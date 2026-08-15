@@ -99,7 +99,7 @@ The password is read from the terminal without echo. For unattended use, pass
 				return usageErr(fmt.Errorf("password is required"))
 			}
 
-			session, memberID, err := btwbFormLogin(email, password, flags.timeout)
+			cookies, memberID, err := btwbFormLoginCookies(email, password, flags.timeout)
 			// Drop the password as soon as it has been used.
 			password = ""
 			_ = password
@@ -107,7 +107,7 @@ The password is read from the terminal without echo. For unattended use, pass
 				return err
 			}
 
-			if err := cfg.SaveSession(session, memberID); err != nil {
+			if err := cfg.SaveSessionCookies(cookies, memberID); err != nil {
 				return configErr(err)
 			}
 
@@ -164,16 +164,31 @@ func readPassword(cmd *cobra.Command, fromStdin, noInput bool) (string, error) {
 // btwbFormLogin performs the sign-in and returns the session cookie value and
 // the member id it belongs to.
 func btwbFormLogin(email, password string, timeout time.Duration) (string, int, error) {
+	cookies, memberID, err := btwbFormLoginCookies(email, password, timeout)
+	if err != nil {
+		return "", 0, err
+	}
+	for _, name := range []string{btwbSessionCookieName, btwbLegacySessionCookieName} {
+		if session := cookies[name]; session != "" {
+			return session, memberID, nil
+		}
+	}
+	return "", 0, authErr(fmt.Errorf("btwb returned no session cookie"))
+}
+
+// btwbFormLoginCookies performs the browser login and returns every cookie the
+// browser would retain, including the long-lived remember-me credential.
+func btwbFormLoginCookies(email, password string, timeout time.Duration) (map[string]string, int, error) {
 	jar, err := cookiejar.New(nil)
 	if err != nil {
-		return "", 0, fmt.Errorf("creating cookie jar: %w", err)
+		return nil, 0, fmt.Errorf("creating cookie jar: %w", err)
 	}
 	httpClient := &http.Client{Timeout: timeout, Jar: jar}
 
 	// Step 1: the sign-in page, for the CSRF token and the pre-login cookie.
 	page, err := httpGetString(httpClient, btwbSignInURL)
 	if err != nil {
-		return "", 0, fmt.Errorf("opening the btwb sign-in page: %w", err)
+		return nil, 0, fmt.Errorf("opening the btwb sign-in page: %w", err)
 	}
 	token := ""
 	if m := csrfFormRe.FindStringSubmatch(page); m != nil {
@@ -182,7 +197,7 @@ func btwbFormLogin(email, password string, timeout time.Duration) (string, int, 
 		token = m[1]
 	}
 	if token == "" {
-		return "", 0, fmt.Errorf("btwb's sign-in form changed: no authenticity_token found")
+		return nil, 0, fmt.Errorf("btwb's sign-in form changed: no authenticity_token found")
 	}
 
 	// Step 2: submit the form. remember_me asks btwb for a long-lived session.
@@ -196,7 +211,7 @@ func btwbFormLogin(email, password string, timeout time.Duration) (string, int, 
 	req, err := http.NewRequest(http.MethodPost, btwbSessionURL,
 		strings.NewReader(form.Encode()))
 	if err != nil {
-		return "", 0, fmt.Errorf("building the sign-in request: %w", err)
+		return nil, 0, fmt.Errorf("building the sign-in request: %w", err)
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("Origin", "https://btwb.com")
@@ -205,7 +220,7 @@ func btwbFormLogin(email, password string, timeout time.Duration) (string, int, 
 
 	resp, err := httpClient.Do(req)
 	if err != nil {
-		return "", 0, fmt.Errorf("signing in: %w", err)
+		return nil, 0, fmt.Errorf("signing in: %w", err)
 	}
 	io.Copy(io.Discard, io.LimitReader(resp.Body, 1<<20))
 	resp.Body.Close()
@@ -214,28 +229,27 @@ func btwbFormLogin(email, password string, timeout time.Duration) (string, int, 
 	// every request - and answers 302 back to /signin. So the cookie proves
 	// nothing; the only reliable test is whether the session can read the
 	// member's own whiteboard.
-	session := sessionFromJar(jar)
-	if session == "" {
-		return "", 0, authErr(fmt.Errorf("btwb returned HTTP %d without a session cookie",
+	if sessionFromJar(jar) == "" {
+		return nil, 0, authErr(fmt.Errorf("btwb returned HTTP %d without a session cookie",
 			resp.StatusCode))
 	}
 
 	// Step 3: confirm the session works, and learn which member it belongs to.
 	home, err := httpGetString(httpClient, btwbHomeURL)
 	if err != nil {
-		return "", 0, fmt.Errorf("checking the new session: %w", err)
+		return nil, 0, fmt.Errorf("checking the new session: %w", err)
 	}
 	if signinPageRe.MatchString(home) {
-		return "", 0, authErr(fmt.Errorf("btwb rejected the email or password"))
+		return nil, 0, authErr(fmt.Errorf("btwb rejected the email or password"))
 	}
 	m := memberIDRe.FindStringSubmatch(home)
 	if m == nil {
-		return "", 0, authErr(fmt.Errorf(
+		return nil, 0, authErr(fmt.Errorf(
 			"signed in but btwb's whiteboard did not identify the member; " +
 				"the page layout may have changed"))
 	}
 	memberID, _ := strconv.Atoi(m[1])
-	return session, memberID, nil
+	return cookiesFromJar(jar), memberID, nil
 }
 
 func httpGetString(c *http.Client, target string) (string, error) {
@@ -260,19 +274,27 @@ func httpGetString(c *http.Client, target string) (string, error) {
 }
 
 func sessionFromJar(jar *cookiejar.Jar) string {
-	u, err := url.Parse("https://btwb.com/")
-	if err != nil {
-		return ""
-	}
-	cookies := jar.Cookies(u)
+	cookies := cookiesFromJar(jar)
 	for _, name := range []string{btwbSessionCookieName, btwbLegacySessionCookieName} {
-		for _, ck := range cookies {
-			if ck.Name == name {
-				return ck.Value
-			}
+		if session := cookies[name]; session != "" {
+			return session
 		}
 	}
 	return ""
+}
+
+func cookiesFromJar(jar *cookiejar.Jar) map[string]string {
+	cookies := map[string]string{}
+	u, err := url.Parse("https://btwb.com/")
+	if err != nil {
+		return cookies
+	}
+	for _, cookie := range jar.Cookies(u) {
+		if cookie.Name != "" && cookie.Value != "" {
+			cookies[cookie.Name] = cookie.Value
+		}
+	}
+	return cookies
 }
 
 func newAuthSetWidgetKeyCmd(flags *rootFlags) *cobra.Command {

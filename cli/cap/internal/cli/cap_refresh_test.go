@@ -251,7 +251,7 @@ func TestRefreshSendsTheFrontendGrant(t *testing.T) {
 func TestExchangeSpeaksJSONFirstAndFallsBackToForm(t *testing.T) {
 	jsonReplay := &crossfitReplay{codeIn: "location"}
 	withAPI(t, jsonReplay.start(t))
-	if _, refresh, _, err := crossfitSignIn("me@example.com", "correct", 5*time.Second); err != nil {
+	if _, refresh, _, _, err := crossfitSignIn("me@example.com", "correct", 5*time.Second); err != nil {
 		t.Fatalf("sign-in failed: %v", err)
 	} else if refresh != "ref-xyz" {
 		t.Errorf("refresh = %q", refresh)
@@ -262,7 +262,7 @@ func TestExchangeSpeaksJSONFirstAndFallsBackToForm(t *testing.T) {
 
 	formReplay := &crossfitReplay{codeIn: "location", rejectJSONExchange: true}
 	withAPI(t, formReplay.start(t))
-	if _, _, _, err := crossfitSignIn("me@example.com", "correct", 5*time.Second); err != nil {
+	if _, _, _, _, err := crossfitSignIn("me@example.com", "correct", 5*time.Second); err != nil {
 		t.Fatalf("sign-in with a form-only server failed: %v", err)
 	}
 	if n := len(formReplay.tokenTypes); n != 2 {
@@ -277,3 +277,214 @@ func TestExchangeSpeaksJSONFirstAndFallsBackToForm(t *testing.T) {
 }
 
 var _ = fmt.Sprintf // keep fmt imported if assertions above change
+
+// --- Silent reauthorization -------------------------------------------------
+//
+// The refresh grant is disabled server-side (unauthorized_client, verified live
+// even for the toolkit frontend's own token). What actually renews a session is
+// the identity cookie signing a fresh authorization code. These tests replay
+// that server.
+
+type silentReplay struct {
+	contentCalls   int
+	grantAttempts  int
+	authorizeCalls int
+	exchanged      []string
+	cookieSeen     string
+}
+
+func (r *silentReplay) start(t *testing.T) *httptest.Server {
+	t.Helper()
+	mux := http.NewServeMux()
+	mux.HandleFunc("/subscriptions/v1/content", func(w http.ResponseWriter, req *http.Request) {
+		r.contentCalls++
+		if req.Header.Get("Authorization") != "Bearer fresh-tok" {
+			w.WriteHeader(http.StatusUnauthorized)
+			w.Write([]byte(`{"message":"Unauthorized"}`))
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte(`{"count":1,"tiles":[{"title":"ok"}]}`))
+	})
+	mux.HandleFunc("/authorize", func(w http.ResponseWriter, req *http.Request) {
+		r.authorizeCalls++
+		r.cookieSeen = req.Header.Get("Cookie")
+		if !strings.Contains(r.cookieSeen, "cf_session=sess-1") {
+			// A dead identity session bounces to the login page, codeless.
+			w.Header().Set("Location", "https://affiliate.crossfit.com/tools/login")
+			w.WriteHeader(http.StatusFound)
+			return
+		}
+		w.Header().Set("Location",
+			"https://affiliate.crossfit.com/tools/redirect?code=renewed-code-9")
+		w.WriteHeader(http.StatusFound)
+	})
+	mux.HandleFunc("/token", func(w http.ResponseWriter, req *http.Request) {
+		grant := map[string]string{}
+		_ = json.NewDecoder(req.Body).Decode(&grant)
+		switch grant["grant_type"] {
+		case "refresh_token":
+			// The live server's answer, for everyone.
+			r.grantAttempts++
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte(`{"error":"unauthorized_client"}`))
+		case "authorization_code":
+			r.exchanged = append(r.exchanged, grant["code"])
+			if grant["code"] != "renewed-code-9" {
+				w.WriteHeader(http.StatusBadRequest)
+				w.Write([]byte(`{"error":"invalid_grant"}`))
+				return
+			}
+			_ = json.NewEncoder(w).Encode(map[string]any{
+				"access_token": "fresh-tok", "refresh_token": "ref-next", "expires_in": 3600})
+		default:
+			w.WriteHeader(http.StatusBadRequest)
+		}
+	})
+	srv := httptest.NewServer(mux)
+	t.Cleanup(srv.Close)
+
+	oldTok, oldAuth := client.TokenURL, client.AuthorizeURL
+	client.TokenURL = srv.URL + "/token"
+	client.AuthorizeURL = srv.URL + "/authorize"
+	t.Cleanup(func() { client.TokenURL, client.AuthorizeURL = oldTok, oldAuth })
+	return srv
+}
+
+func runCapWithSession(t *testing.T, base, accessToken, refreshToken, sessionCookie string, expiry time.Time) (string, string, error) {
+	t.Helper()
+	cfgPath := filepath.Join(t.TempDir(), "config.toml")
+	cfg := "base_url = \"" + base + "\"\n" +
+		"access_token = \"" + accessToken + "\"\n" +
+		"refresh_token = \"" + refreshToken + "\"\n"
+	if !expiry.IsZero() {
+		cfg += "token_expiry = " + expiry.Format(time.RFC3339) + "\n"
+	}
+	if sessionCookie != "" {
+		cfg += "[auth_cookies]\ncf_session = \"" + sessionCookie + "\"\n"
+	}
+	if err := os.WriteFile(cfgPath, []byte(cfg), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	root := RootCmd()
+	var out bytes.Buffer
+	root.SetOut(&out)
+	root.SetErr(&out)
+	root.SetArgs([]string{"--config", cfgPath, "--json", "--no-cache",
+		"subscriptions", "get-content", "--urn", "content_api:///programming/affiliate/daily-class-plan/20260810"})
+	err := root.Execute()
+	return out.String(), cfgPath, err
+}
+
+// The everyday case on today's server: the grant is refused, the cookie route
+// renews, the original request is replayed, and the fresh pair is persisted.
+func TestSilentAuthorizeRenewsWhenTheGrantIsRefused(t *testing.T) {
+	replay := &silentReplay{}
+	srv := replay.start(t)
+
+	out, cfgPath, err := runCapWithSession(t, srv.URL,
+		"stale-tok", "ref-1", "sess-1", time.Now().Add(-time.Hour))
+	if err != nil {
+		t.Fatalf("command failed: %v\n%s", err, out)
+	}
+	if replay.grantAttempts != 1 {
+		t.Errorf("grant attempts = %d, want 1 (tried first, cheaper)", replay.grantAttempts)
+	}
+	if replay.authorizeCalls != 1 {
+		t.Errorf("authorize calls = %d, want 1", replay.authorizeCalls)
+	}
+	if len(replay.exchanged) != 1 || replay.exchanged[0] != "renewed-code-9" {
+		t.Errorf("exchanged codes = %v, want the renewed one", replay.exchanged)
+	}
+	access, refresh := savedTokens(t, cfgPath)
+	if access != "fresh-tok" || refresh != "ref-next" {
+		t.Errorf("persisted pair = %q / %q", access, refresh)
+	}
+}
+
+// Today's stored state on real installs: no refresh token at all, only the
+// identity cookies. The cookie route must carry the renewal alone.
+func TestCookiesAloneRenewTheSession(t *testing.T) {
+	replay := &silentReplay{}
+	srv := replay.start(t)
+
+	out, _, err := runCapWithSession(t, srv.URL,
+		"stale-tok", "", "sess-1", time.Now().Add(-time.Hour))
+	if err != nil {
+		t.Fatalf("command failed: %v\n%s", err, out)
+	}
+	if replay.grantAttempts != 0 {
+		t.Errorf("grant attempts = %d, want 0 (nothing to send)", replay.grantAttempts)
+	}
+	if replay.authorizeCalls != 1 {
+		t.Errorf("authorize calls = %d, want 1", replay.authorizeCalls)
+	}
+	if !strings.Contains(out, "ok") {
+		t.Errorf("renewed request's answer missing:\n%s", out)
+	}
+}
+
+// A dead identity session bounces the authorize to the login page. That must
+// read as "sign in again", not as a mystery.
+func TestDeadIdentitySessionSaysSignInAgain(t *testing.T) {
+	replay := &silentReplay{}
+	srv := replay.start(t)
+
+	out, _, err := runCapWithSession(t, srv.URL,
+		"stale-tok", "", "sess-DEAD", time.Now().Add(-time.Hour))
+	if err == nil {
+		t.Fatalf("a dead session was reported as success:\n%s", out)
+	}
+	if code := ExitCode(err); code != 4 {
+		t.Errorf("exit code = %d, want 4 (auth)", code)
+	}
+	if !strings.Contains(err.Error(), "auth login") {
+		t.Errorf("error = %q, want the fix named", err)
+	}
+}
+
+// Sign-in must keep the identity cookies it is handed - they are the renewal.
+func TestSignInKeepsTheIdentityCookies(t *testing.T) {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/users/v2/auth/signin", func(w http.ResponseWriter, req *http.Request) {
+		http.SetCookie(w, &http.Cookie{Name: "cf_session", Value: "sess-77"})
+		w.Header().Set("Location",
+			"https://affiliate.crossfit.com/tools/redirect?code=auth-code-123")
+		w.WriteHeader(http.StatusFound)
+	})
+	mux.HandleFunc("/users/v2/auth/token", func(w http.ResponseWriter, req *http.Request) {
+		w.Write([]byte(`{"access_token":"tok-abc","expires_in":3600}`))
+	})
+	srv := httptest.NewServer(mux)
+	t.Cleanup(srv.Close)
+	withAPI(t, srv.URL)
+
+	_, _, _, cookies, err := crossfitSignIn("me@example.com", "correct", 5*time.Second)
+	if err != nil {
+		t.Fatalf("sign-in failed: %v", err)
+	}
+	if cookies["cf_session"] != "sess-77" {
+		t.Errorf("cookies = %v, want the identity session kept", cookies)
+	}
+}
+
+// A token supplied by the environment belongs to its caller: the CLI must not
+// spend the stored session renewing what it does not own, nor overwrite the
+// stored pair while an env token is doing the talking. (Codex's catch.)
+func TestEnvTokenIsNeverRenewed(t *testing.T) {
+	replay := &silentReplay{}
+	srv := replay.start(t)
+
+	t.Setenv("CROSSFIT_AFFILIATE_PROGRAMMING_BEARER_AUTH", "env-owned-token")
+	out, _, err := runCapWithSession(t, srv.URL,
+		"stale-tok", "", "sess-1", time.Now().Add(-time.Hour))
+	// The env token is not "fresh-tok", so the content endpoint answers 401 -
+	// and that 401 must surface untouched.
+	if err == nil {
+		t.Fatalf("expected the env token's own 401 to surface:\n%s", out)
+	}
+	if replay.authorizeCalls != 0 || replay.grantAttempts != 0 {
+		t.Errorf("renewal ran for an env-owned token: authorize=%d grant=%d",
+			replay.authorizeCalls, replay.grantAttempts)
+	}
+}

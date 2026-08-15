@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"time"
 
@@ -14,17 +15,18 @@ import (
 )
 
 type Config struct {
-	BaseURL        string `toml:"base_url"`
-	AuthHeaderVal  string `toml:"auth_header"`
-	Headers        map[string]string `toml:"headers,omitempty"`
-	AuthSource     string `toml:"-"`
-	AccessToken    string `toml:"access_token"`
-	RefreshToken   string `toml:"refresh_token"`
-	TokenExpiry    time.Time `toml:"token_expiry"`
-	ClientID       string `toml:"client_id"`
-	ClientSecret   string `toml:"client_secret"`
-	Path           string `toml:"-"`
-	BtwbSessionCookie string `toml:"session_cookie"`
+	BaseURL            string            `toml:"base_url"`
+	AuthHeaderVal      string            `toml:"auth_header"`
+	Headers            map[string]string `toml:"headers,omitempty"`
+	AuthSource         string            `toml:"-"`
+	AccessToken        string            `toml:"access_token"`
+	RefreshToken       string            `toml:"refresh_token"`
+	TokenExpiry        time.Time         `toml:"token_expiry"`
+	ClientID           string            `toml:"client_id"`
+	ClientSecret       string            `toml:"client_secret"`
+	Path               string            `toml:"-"`
+	BtwbSessionCookie  string            `toml:"session_cookie"`
+	BtwbSessionCookies map[string]string `toml:"session_cookies,omitempty"`
 
 	// Hand-authored: btwb has two credentials. The session cookie above
 	// authenticates the member's own whiteboard; WidgetKey authenticates the
@@ -91,10 +93,22 @@ func (c *Config) AuthHeader() string {
 		return c.AuthHeaderVal
 	}
 	token := c.BtwbSessionCookie
-	if token == "" {
+	if token != "" {
+		return token
+	}
+	// A remembered browser session can recreate its short Rails session on the
+	// next request. Treat it as configured auth so status and cache identity do
+	// not incorrectly report a signed-out CLI in that narrow transition state.
+	cookies := c.SessionCookies()
+	names := make([]string, 0, len(cookies))
+	for name := range cookies {
+		names = append(names, name)
+	}
+	sort.Strings(names)
+	if len(names) == 0 {
 		return ""
 	}
-	return token
+	return cookies[names[0]]
 }
 
 func applyAuthFormat(format string, replacements map[string]string) string {
@@ -138,6 +152,11 @@ func (c *Config) ClearTokens() error {
 	c.AccessToken = ""
 	c.RefreshToken = ""
 	c.TokenExpiry = time.Time{}
+	// The member session is the credential this CLI actually uses. Clear both
+	// the legacy single-cookie field and the complete browser session so auth
+	// logout really signs the CLI out after the long-lived-session upgrade.
+	c.BtwbSessionCookie = ""
+	c.BtwbSessionCookies = nil
 	return c.save()
 }
 

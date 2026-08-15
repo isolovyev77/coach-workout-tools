@@ -55,7 +55,7 @@ func ParseDay(body []byte) (*Day, error) {
 		Date:     normaliseDate(a.Date),
 		Name:     cleanText(a.Name),
 		Title:    cleanText(title),
-		Tracks:   a.ProgrammingTrack,
+		Tracks:   []string(a.ProgrammingTrack),
 		Load:     atoi(a.Load),
 		Volume:   atoi(a.Volume),
 		Skill:    atoi(a.Skill),
@@ -171,11 +171,33 @@ type dayACF struct {
 	Volume           string          `json:"volume"`
 	Skill            string          `json:"skill"`
 	Duration         string          `json:"duration"`
-	ProgrammingTrack []string        `json:"programming_track"`
+	ProgrammingTrack stringSlice     `json:"programming_track"`
 	Workouts         []workoutACF    `json:"workouts"`
 	AboutTheWorkout  aboutACF        `json:"about_the_workout"`
 	Scaling          scalingACF      `json:"scaling"`
 	ClassPlan        []classPlanACF  `json:"class_plan"`
+}
+
+// stringSlice accepts both the current array form and the legacy string form
+// that CAP returned in older daily class-plan cards.
+type stringSlice []string
+
+func (s *stringSlice) UnmarshalJSON(raw []byte) error {
+	var list []string
+	if err := json.Unmarshal(raw, &list); err == nil {
+		*s = list
+		return nil
+	}
+	var single string
+	if err := json.Unmarshal(raw, &single); err != nil {
+		return err
+	}
+	if strings.TrimSpace(single) == "" {
+		*s = nil
+		return nil
+	}
+	*s = []string{single}
+	return nil
 }
 
 type workoutACF struct {

@@ -5,6 +5,8 @@ package client
 
 import (
 	"bytes"
+	"cap-pp-cli/internal/cliutil"
+	"cap-pp-cli/internal/config"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
@@ -17,8 +19,6 @@ import (
 	"sort"
 	"strings"
 	"time"
-	"cap-pp-cli/internal/cliutil"
-	"cap-pp-cli/internal/config"
 )
 
 type Client struct {
@@ -30,8 +30,6 @@ type Client struct {
 	cacheDir   string
 	limiter    *cliutil.AdaptiveLimiter
 }
-
-
 
 // APIError carries HTTP status information for structured exit codes.
 type APIError struct {
@@ -286,7 +284,8 @@ func (c *Client) do(method, path string, params map[string]string, body any, hea
 		// truth, so this path matters even when the clock says the token is
 		// fine. If the refresh itself is declined, its error names the fix
 		// (sign in again) better than a bare 401 would.
-		if resp.StatusCode == 401 && !refreshed && c.Config != nil && c.Config.RefreshToken != "" {
+		if resp.StatusCode == 401 && !refreshed && c.canRenew() &&
+			c.Config.AuthHeaderVal == "" && c.Config.CrossfitAffiliateProgrammingBearerAuth == "" {
 			refreshed = true
 			if rerr := c.refreshAccessToken(); rerr != nil {
 				return nil, resp.StatusCode, rerr
@@ -375,9 +374,12 @@ func (c *Client) authHeader() (string, error) {
 	}
 	// Proactive half of the renewal: a token known to be expired is refreshed
 	// before the request goes out. Dry-run must stay offline, so it previews
-	// with the cached token as-is.
-	if !c.DryRun && c.Config.AccessToken != "" && !c.Config.TokenExpiry.IsZero() &&
-		time.Now().After(c.Config.TokenExpiry) && c.Config.RefreshToken != "" {
+	// with the cached token as-is. A manually supplied header or environment
+	// token is owned by its caller - only the pair this CLI obtained itself is
+	// renewable (Codex's catch).
+	if !c.DryRun && c.Config.AuthHeaderVal == "" && c.Config.CrossfitAffiliateProgrammingBearerAuth == "" &&
+		c.Config.AccessToken != "" && !c.Config.TokenExpiry.IsZero() &&
+		time.Now().After(c.Config.TokenExpiry) && c.canRenew() {
 		if err := c.refreshAccessToken(); err != nil {
 			return "", err
 		}
@@ -409,7 +411,6 @@ func sanitizeJSONResponse(body []byte) []byte {
 	}
 	return body
 }
-
 
 // maskToken redacts all but the last 4 characters of a token for safe display.
 func maskToken(token string) string {

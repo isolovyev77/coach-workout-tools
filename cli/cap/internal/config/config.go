@@ -13,18 +13,41 @@ import (
 	"github.com/pelletier/go-toml/v2"
 )
 
+// CrossFitAffiliateToolkitClientID identifies the public OAuth client used by
+// the PKCE sign-in and every later renewal. It is a public identifier, not a
+// secret. (Extracted by Codex's review of this CLI.)
+const CrossFitAffiliateToolkitClientID = "react_affiliate_toolkit_hBwg8A"
+
 type Config struct {
-	BaseURL        string `toml:"base_url"`
-	AuthHeaderVal  string `toml:"auth_header"`
-	Headers        map[string]string `toml:"headers,omitempty"`
-	AuthSource     string `toml:"-"`
-	AccessToken    string `toml:"access_token"`
-	RefreshToken   string `toml:"refresh_token"`
-	TokenExpiry    time.Time `toml:"token_expiry"`
-	ClientID       string `toml:"client_id"`
-	ClientSecret   string `toml:"client_secret"`
-	Path           string `toml:"-"`
-	CrossfitAffiliateProgrammingBearerAuth string `toml:"affiliate_programming_bearer_auth"`
+	BaseURL                                string            `toml:"base_url"`
+	AuthHeaderVal                          string            `toml:"auth_header"`
+	Headers                                map[string]string `toml:"headers,omitempty"`
+	AuthSource                             string            `toml:"-"`
+	AccessToken                            string            `toml:"access_token"`
+	RefreshToken                           string            `toml:"refresh_token"`
+	TokenExpiry                            time.Time         `toml:"token_expiry"`
+	ClientID                               string            `toml:"client_id"`
+	ClientSecret                           string            `toml:"client_secret"`
+	Path                                   string            `toml:"-"`
+	CrossfitAffiliateProgrammingBearerAuth string            `toml:"affiliate_programming_bearer_auth"`
+	// AuthCookies is the identity session the sign-in endpoint sets. It is what
+	// actually keeps a CrossFit session renewable: the server issues fresh
+	// tokens to whoever holds it, the way the toolkit's own frontend renews.
+	AuthCookies map[string]string `toml:"auth_cookies,omitempty"`
+}
+
+// SaveAuthCookies persists the identity session cookies alongside the tokens.
+func (c *Config) SaveAuthCookies(cookies map[string]string) error {
+	if len(cookies) == 0 {
+		return nil
+	}
+	if c.AuthCookies == nil {
+		c.AuthCookies = map[string]string{}
+	}
+	for k, v := range cookies {
+		c.AuthCookies[k] = v
+	}
+	return c.save()
 }
 
 func Load(configPath string) (*Config, error) {

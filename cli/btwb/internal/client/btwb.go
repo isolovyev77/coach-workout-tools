@@ -13,6 +13,7 @@ import (
 	"net/http"
 	"net/url"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -70,18 +71,38 @@ func applyBtwbAuth(req *http.Request, cfg *config.Config, targetURL string) erro
 		return nil
 	}
 
-	session := cfg.SessionValue()
-	if session == "" {
+	cookies := cfg.SessionCookies()
+	if len(cookies) == 0 {
 		return &ErrNeedsLogin{}
 	}
-	// Preserve any cookie the caller already set.
-	if existing := req.Header.Get("Cookie"); existing != "" &&
-		!strings.Contains(existing, sessionCookieName+"=") {
-		req.Header.Set("Cookie", existing+"; "+sessionCookieName+"="+session)
-	} else {
-		req.Header.Set("Cookie", sessionCookieName+"="+session)
+	// Preserve any cookie the caller already set while adding the complete
+	// browser session saved by auth login and by response-cookie rotation.
+	names := make([]string, 0, len(cookies))
+	for name := range cookies {
+		names = append(names, name)
 	}
+	sort.Strings(names)
+	parts := []string{}
+	if existing := req.Header.Get("Cookie"); existing != "" {
+		parts = append(parts, existing)
+	}
+	for _, name := range names {
+		if requestHasCookie(req.Header.Get("Cookie"), name) {
+			continue
+		}
+		parts = append(parts, name+"="+cookies[name])
+	}
+	req.Header.Set("Cookie", strings.Join(parts, "; "))
 	return nil
+}
+
+func requestHasCookie(header, name string) bool {
+	for _, part := range strings.Split(header, ";") {
+		if strings.HasPrefix(strings.TrimSpace(part), name+"=") {
+			return true
+		}
+	}
+	return false
 }
 
 // widgetDateLayout is the shape the Web Widgets API expects in `date`: a

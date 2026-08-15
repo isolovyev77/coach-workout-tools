@@ -6,9 +6,13 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"net/http/httptest"
+	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"testing"
+	"time"
 
 	"btwb-pp-cli/internal/config"
 )
@@ -210,5 +214,63 @@ func TestApplyBtwbAuthReportsMissingCredentials(t *testing.T) {
 	err := applyBtwbAuth(wreq, empty, wreq.URL.String())
 	if err == nil || !strings.Contains(err.Error(), "widget key") {
 		t.Errorf("err = %v, want a message naming the widget key", err)
+	}
+}
+
+func TestApplyBtwbAuthSendsAllCookiesSavedByLogin(t *testing.T) {
+	clearBtwbEnv(t)
+	path := filepath.Join(t.TempDir(), "config.toml")
+	if err := os.WriteFile(path, []byte(`session_cookie = "short-session"
+
+[session_cookies]
+_btwb_session_id = "short-session"
+remember_user_token = "long-session"
+`), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	cfg, err := config.Load(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	req, _ := http.NewRequest(http.MethodGet, "https://btwb.com/members/1/tracks", nil)
+	if err := applyBtwbAuth(req, cfg, req.URL.String()); err != nil {
+		t.Fatal(err)
+	}
+	if got := req.Header.Get("Cookie"); !strings.Contains(got, "_btwb_session_id=short-session") ||
+		!strings.Contains(got, "remember_user_token=long-session") {
+		t.Errorf("Cookie = %q, want the whole saved browser session", got)
+	}
+}
+
+func TestClientPersistsRotatedBtwbCookies(t *testing.T) {
+	clearBtwbEnv(t)
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if got := r.Header.Get("Cookie"); got != "_btwb_session_id=stale-session" {
+			t.Errorf("Cookie = %q, want initial stored session", got)
+		}
+		http.SetCookie(w, &http.Cookie{Name: "_btwb_session_id", Value: "fresh-session", Path: "/", HttpOnly: true})
+		http.SetCookie(w, &http.Cookie{Name: "remember_user_token", Value: "long-session", Path: "/", HttpOnly: true})
+		_, _ = w.Write([]byte(`{"ok":true}`))
+	}))
+	t.Cleanup(server.Close)
+
+	path := filepath.Join(t.TempDir(), "config.toml")
+	cfg := &config.Config{BaseURL: server.URL, Path: path}
+	if err := cfg.SaveSession("stale-session", 100001); err != nil {
+		t.Fatal(err)
+	}
+	c := New(cfg, time.Second, 0)
+	c.NoCache = true
+	if _, err := c.Get("/unmodelled", nil); err != nil {
+		t.Fatalf("request carrying a rotating session failed: %v", err)
+	}
+
+	saved, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(saved), "fresh-session") || !strings.Contains(string(saved), "remember_user_token") {
+		t.Errorf("rotated browser cookies were not persisted for the next CLI process")
 	}
 }

@@ -113,3 +113,16 @@ func TestParseDayNoContent(t *testing.T) {
 		t.Errorf("err = %v, want ErrNoContent", err)
 	}
 }
+
+// Older CAP cards stored programming_track as one string, whereas current
+// cards use a list. Historical reads must support both formats.
+func TestParseDayAcceptsLegacyStringProgrammingTrack(t *testing.T) {
+	body := []byte(`{"count":1,"tiles":[{"title":"Legacy","acf":{"date":"20240812","name":"Legacy day","load":"1","volume":"1","skill":"1","duration":"","programming_track":"affiliate","workouts":[{"level":"rx","description":"Row, 500 m","score":"time"}]}}]}`)
+	day, err := ParseDay(body)
+	if err != nil {
+		t.Fatalf("ParseDay legacy track: %v", err)
+	}
+	if got, want := day.Tracks, []string{"affiliate"}; len(got) != 1 || got[0] != want[0] {
+		t.Errorf("tracks = %v, want %v", got, want)
+	}
+}

@@ -6,8 +6,10 @@ Two channels:
 
 1. **Whiteboard (member session)** - the athlete's own whiteboard: planned
    workouts (WODs) per gym track, logged results, subscribed tracks.
-   Authenticated with a session cookie obtained by a form login at
-   `POST /session`. The upstream serves HTML; this client extracts the
+   Authenticated with the browser cookie session obtained by a form login at
+   `POST /session`. The CLI retains the full cookie set, including any
+   remember-me cookie, and persists `Set-Cookie` rotations from successful
+   member requests. The upstream serves HTML; this client extracts the
    structured workout data and emits the JSON documented here. The CLI can
    also plan a workout onto tracks that BTWB permits the signed-in account to
    edit.

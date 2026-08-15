@@ -94,7 +94,7 @@ func TestCrossFitSignInReturnsTokens(t *testing.T) {
 	replay := &crossfitReplay{codeIn: "location"}
 	withAPI(t, replay.start(t))
 
-	token, refresh, expiry, err := crossfitSignIn("me@example.com", "correct", 5*time.Second)
+	token, refresh, expiry, _, err := crossfitSignIn("me@example.com", "correct", 5*time.Second)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -113,7 +113,7 @@ func TestSignInSendsWhatTheAPIRequires(t *testing.T) {
 	replay := &crossfitReplay{codeIn: "location"}
 	withAPI(t, replay.start(t))
 
-	if _, _, _, err := crossfitSignIn("me@example.com", "correct", 5*time.Second); err != nil {
+	if _, _, _, _, err := crossfitSignIn("me@example.com", "correct", 5*time.Second); err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 
@@ -142,7 +142,7 @@ func TestSignInUsesAMatchingPKCEPair(t *testing.T) {
 	replay := &crossfitReplay{codeIn: "location"}
 	withAPI(t, replay.start(t))
 
-	if _, _, _, err := crossfitSignIn("me@example.com", "correct", 5*time.Second); err != nil {
+	if _, _, _, _, err := crossfitSignIn("me@example.com", "correct", 5*time.Second); err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	verifier := replay.tokenGrant["code_verifier"]
@@ -165,7 +165,7 @@ func TestSignInRejectsBadCredentialsCleanly(t *testing.T) {
 	replay := &crossfitReplay{codeIn: "location"}
 	withAPI(t, replay.start(t))
 
-	_, _, _, err := crossfitSignIn("me@example.com", "wrong", 5*time.Second)
+	_, _, _, _, err := crossfitSignIn("me@example.com", "wrong", 5*time.Second)
 	if err == nil {
 		t.Fatal("a wrong password was accepted")
 	}
@@ -186,7 +186,7 @@ func TestSignInReadsTheCodeFromEitherPlace(t *testing.T) {
 	for _, where := range []string{"location", "body"} {
 		replay := &crossfitReplay{codeIn: where}
 		withAPI(t, replay.start(t))
-		token, _, _, err := crossfitSignIn("me@example.com", "correct", 5*time.Second)
+		token, _, _, _, err := crossfitSignIn("me@example.com", "correct", 5*time.Second)
 		if err != nil {
 			t.Fatalf("code in %s: %v", where, err)
 		}
@@ -220,7 +220,7 @@ func TestSignInDoesNotFollowTheRedirect(t *testing.T) {
 	t.Cleanup(srv.Close)
 	withAPI(t, srv.URL)
 
-	if _, _, _, err := crossfitSignIn("me@example.com", "correct", 5*time.Second); err != nil {
+	if _, _, _, _, err := crossfitSignIn("me@example.com", "correct", 5*time.Second); err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	if redirectFollowed {

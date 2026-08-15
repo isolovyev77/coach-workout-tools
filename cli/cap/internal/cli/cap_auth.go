@@ -49,7 +49,7 @@ var crossfitAPI = "https://c3po.crossfit.com/api"
 const (
 	// The affiliate toolkit's public client. A public client holds no secret,
 	// which is why PKCE is required.
-	toolkitClientID    = "react_affiliate_toolkit_hBwg8A"
+	toolkitClientID    = config.CrossFitAffiliateToolkitClientID
 	toolkitRedirectURI = "https://affiliate.crossfit.com/tools/redirect"
 	toolkitScope       = "user:full:read"
 
@@ -111,15 +111,18 @@ this again. The movement and benchmark commands need no token at all.`,
 				return usageErr(fmt.Errorf("password is required"))
 			}
 
-			token, refresh, expiry, err := crossfitSignIn(email, password, flags.timeout)
+			token, refresh, expiry, cookies, err := crossfitSignIn(email, password, flags.timeout)
 			password = "" // done with it
 			if err != nil {
 				return err
 			}
 
 			cfg.AuthHeaderVal = "" // see auth set-token: a stale header would shadow the token
-			if err := cfg.SaveTokens("", "", token, refresh, expiry); err != nil {
+			if err := cfg.SaveTokens(toolkitClientID, "", token, refresh, expiry); err != nil {
 				return configErr(fmt.Errorf("saving token: %w", err))
+			}
+			if err := cfg.SaveAuthCookies(cookies); err != nil {
+				return configErr(fmt.Errorf("saving the session: %w", err))
 			}
 
 			out := map[string]any{"signed_in": true, "config_path": cfg.Path}
@@ -132,6 +135,12 @@ this again. The movement and benchmark commands need no token at all.`,
 			fmt.Fprintf(cmd.OutOrStdout(), "Signed in. Token stored in %s\n", cfg.Path)
 			if !expiry.IsZero() {
 				fmt.Fprintf(cmd.OutOrStdout(), "Valid until %s\n", expiry.Format("2006-01-02 15:04"))
+			}
+			if len(cookies) > 0 {
+				fmt.Fprintln(cmd.OutOrStdout(), "The session will renew itself from here.")
+			} else {
+				fmt.Fprintln(cmd.OutOrStdout(),
+					"CrossFit set no session cookie, so the token cannot renew itself; sign in again when it expires.")
 			}
 			return nil
 		},
@@ -173,13 +182,17 @@ func readCrossFitPassword(cmd *cobra.Command, fromStdin, noInput bool) (string, 
 	return string(raw), nil
 }
 
-// crossfitSignIn performs the whole PKCE exchange and returns the tokens.
+// crossfitSignIn performs the whole PKCE exchange and returns the tokens, plus
+// whatever identity cookies the sign-in set. The cookies are the part that
+// makes the session renewable: CrossFit's refresh grant is disabled server-side
+// (unauthorized_client, even for the toolkit frontend's own tokens), and the
+// only working renewal is a silent authorize signed by this session.
 func crossfitSignIn(email, password string, timeout time.Duration) (
-	accessToken, refreshToken string, expiry time.Time, err error) {
+	accessToken, refreshToken string, expiry time.Time, cookies map[string]string, err error) {
 
 	verifier, challenge, err := newPKCEPair()
 	if err != nil {
-		return "", "", time.Time{}, err
+		return "", "", time.Time{}, nil, err
 	}
 	client := &http.Client{
 		Timeout: timeout,
@@ -190,11 +203,12 @@ func crossfitSignIn(email, password string, timeout time.Duration) (
 		},
 	}
 
-	code, err := requestAuthCode(client, email, password, challenge)
+	code, cookies, err := requestAuthCode(client, email, password, challenge)
 	if err != nil {
-		return "", "", time.Time{}, err
+		return "", "", time.Time{}, nil, err
 	}
-	return exchangeCode(client, code, verifier)
+	accessToken, refreshToken, expiry, err = exchangeCode(client, code, verifier)
+	return accessToken, refreshToken, expiry, cookies, err
 }
 
 // newPKCEPair generates the verifier kept secret by this process and the
@@ -224,8 +238,9 @@ func oauthQuery(challenge string) string {
 }
 
 // requestAuthCode posts the credentials and digs the authorization code out of
-// whichever place the server puts it.
-func requestAuthCode(client *http.Client, email, password, challenge string) (string, error) {
+// whichever place the server puts it, along with the identity cookies the
+// response set.
+func requestAuthCode(client *http.Client, email, password, challenge string) (string, map[string]string, error) {
 	body, err := json.Marshal(map[string]string{
 		"email":    email,
 		"password": password,
@@ -233,13 +248,13 @@ func requestAuthCode(client *http.Client, email, password, challenge string) (st
 		"language": signinLanguage,
 	})
 	if err != nil {
-		return "", fmt.Errorf("building the sign-in request: %w", err)
+		return "", nil, fmt.Errorf("building the sign-in request: %w", err)
 	}
 	req, err := http.NewRequest(http.MethodPost,
 		crossfitAPI+"/users/v2/auth/signin?"+oauthQuery(challenge),
 		strings.NewReader(string(body)))
 	if err != nil {
-		return "", fmt.Errorf("building the sign-in request: %w", err)
+		return "", nil, fmt.Errorf("building the sign-in request: %w", err)
 	}
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Accept", "application/json")
@@ -247,21 +262,28 @@ func requestAuthCode(client *http.Client, email, password, challenge string) (st
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return "", apiErr(fmt.Errorf("signing in: %w", err))
+		return "", nil, apiErr(fmt.Errorf("signing in: %w", err))
 	}
 	defer resp.Body.Close()
 	data, _ := io.ReadAll(io.LimitReader(resp.Body, 1<<20))
 
+	cookies := map[string]string{}
+	for _, ck := range resp.Cookies() {
+		if ck.Name != "" && ck.Value != "" {
+			cookies[ck.Name] = ck.Value
+		}
+	}
+
 	if resp.StatusCode >= 400 {
-		return "", signInError(resp.StatusCode, data)
+		return "", nil, signInError(resp.StatusCode, data)
 	}
 	if code := codeFromLocation(resp.Header.Get("Location")); code != "" {
-		return code, nil
+		return code, cookies, nil
 	}
 	if code := codeFromBody(data); code != "" {
-		return code, nil
+		return code, cookies, nil
 	}
-	return "", apiErr(fmt.Errorf(
+	return "", nil, apiErr(fmt.Errorf(
 		"signed in but CrossFit returned no authorization code (HTTP %d); "+
 			"the sign-in API may have changed", resp.StatusCode))
 }

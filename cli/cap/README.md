@@ -1,7 +1,7 @@
 # Cap CLI
 
 Read the CrossFit Affiliate Programming (CAP) daily class plans and weekly overviews. The affiliate toolkit at affiliate.crossfit.com is a React app over a plain JSON content API on c3po.crossfit.com; there is no HTML to scrape. A single content endpoint takes a URN naming the programming document (a daily class plan for a date, or a weekly overview) and returns the workout, its intended stimulus, the load/volume/skill vectors, the class plan timing, scaling, and warm-up material.
-Auth is OAuth2 with PKCE: the toolkit is a public client (react_affiliate_toolkit_hBwg8A, scope user:full:read) and holds a short lived Bearer access token. This CLI carries that token; obtaining it is documented in the CLI, not the spec.
+Auth is OAuth2 with PKCE: the toolkit is a public client (react_affiliate_toolkit_hBwg8A, scope user:full:read) and holds a short lived Bearer access token. `auth login` also keeps the identity session cookies, and when the saved access token expires the next programming command silently reauthorizes with them - the same way the toolkit site stays signed in, its refresh grant being disabled server-side - and saves the replacement pair. A manually supplied bearer token remains caller-managed and cannot be renewed by the CLI.
 
 ## Install
 
