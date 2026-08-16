@@ -488,3 +488,58 @@ func TestEnvTokenIsNeverRenewed(t *testing.T) {
 			replay.authorizeCalls, replay.grantAttempts)
 	}
 }
+
+// The server hands back a rotated identity cookie with each authorize, and a
+// frozen copy dies in hours - the browser survives because it keeps the
+// rotation. So must the CLI: the next renewal has to present the cookie the
+// server handed back, not the one from sign-in day.
+func TestRenewalKeepsTheRotatedIdentityCookie(t *testing.T) {
+	var authorizeCookies []string
+	mux := http.NewServeMux()
+	mux.HandleFunc("/subscriptions/v1/content", func(w http.ResponseWriter, req *http.Request) {
+		if req.Header.Get("Authorization") != "Bearer fresh-tok" {
+			w.WriteHeader(http.StatusUnauthorized)
+			return
+		}
+		w.Write([]byte(`{"count":1,"tiles":[{"title":"ok"}]}`))
+	})
+	mux.HandleFunc("/authorize", func(w http.ResponseWriter, req *http.Request) {
+		cookie, _ := req.Cookie("cf_session")
+		if cookie != nil {
+			authorizeCookies = append(authorizeCookies, cookie.Value)
+		}
+		if cookie == nil || cookie.Value != "sess-1" {
+			w.Header().Set("Location", "https://affiliate.crossfit.com/tools/login")
+			w.WriteHeader(http.StatusFound)
+			return
+		}
+		// Answer with a rotated session alongside the code.
+		http.SetCookie(w, &http.Cookie{Name: "cf_session", Value: "sess-2"})
+		w.Header().Set("Location",
+			"https://affiliate.crossfit.com/tools/redirect?code=renewed-code-9")
+		w.WriteHeader(http.StatusFound)
+	})
+	mux.HandleFunc("/token", func(w http.ResponseWriter, req *http.Request) {
+		_ = json.NewEncoder(w).Encode(map[string]any{
+			"access_token": "fresh-tok", "expires_in": 3600})
+	})
+	srv := httptest.NewServer(mux)
+	t.Cleanup(srv.Close)
+	oldTok, oldAuth := client.TokenURL, client.AuthorizeURL
+	client.TokenURL = srv.URL + "/token"
+	client.AuthorizeURL = srv.URL + "/authorize"
+	t.Cleanup(func() { client.TokenURL, client.AuthorizeURL = oldTok, oldAuth })
+
+	out, cfgPath, err := runCapWithSession(t, srv.URL,
+		"stale-tok", "", "sess-1", time.Now().Add(-time.Hour))
+	if err != nil {
+		t.Fatalf("renewal failed: %v\n%s", err, out)
+	}
+	saved, err := os.ReadFile(cfgPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(saved), "sess-2") {
+		t.Errorf("the rotated cookie was dropped; the stored session is frozen on sign-in day")
+	}
+}

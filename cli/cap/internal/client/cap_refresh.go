@@ -147,6 +147,23 @@ func (c *Client) renewBySilentAuthorize() error {
 	defer resp.Body.Close()
 	io.Copy(io.Discard, io.LimitReader(resp.Body, 1<<20))
 
+	// The identity session is a moving target: the server hands back a rotated
+	// or extended cookie with the answer, and the browser keeping it is why a
+	// browser session lives for weeks while a frozen copy dies in hours. Keep
+	// whatever it hands back, on failure too - a bounce to the login page can
+	// still carry a replacement.
+	rotated := map[string]string{}
+	for _, ck := range resp.Cookies() {
+		if ck.Name != "" && ck.Value != "" {
+			rotated[ck.Name] = ck.Value
+		}
+	}
+	if len(rotated) > 0 {
+		if err := c.Config.SaveAuthCookies(rotated); err != nil {
+			return fmt.Errorf("keeping the rotated identity session: %w", err)
+		}
+	}
+
 	location := resp.Header.Get("Location")
 	code := codeFromRedirect(location)
 	if code == "" {
