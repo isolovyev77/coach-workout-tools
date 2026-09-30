@@ -66,7 +66,7 @@ The password is read from the terminal without echo. For unattended use, pass
 		Example: `  btwb-pp-cli auth login
   btwb-pp-cli auth login --email me@example.com
   pass btwb | btwb-pp-cli auth login --email me@example.com --password-stdin`,
-		Annotations: map[string]string{"mcp:exclude": "true"},
+		Annotations: map[string]string{"mcp:hidden": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cfg, err := config.Load(flags.configPath)
 			if err != nil {
@@ -310,7 +310,7 @@ finds the key under the gym menu -> Website Integration.
 Members without admin rights cannot mint this key; the wod commands work
 without it.`,
 		Args:        cobra.ExactArgs(1),
-		Annotations: map[string]string{"mcp:exclude": "true"},
+		Annotations: map[string]string{"mcp:hidden": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cfg, err := config.Load(flags.configPath)
 			if err != nil {
